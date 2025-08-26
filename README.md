@@ -2,4 +2,4 @@
 
 Algorithm Design and Analysis
 
-# rhis is just an update
+# This is just an update
