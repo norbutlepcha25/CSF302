@@ -17,18 +17,48 @@ theme:
     - content.code.copy
   language: en
   palette:
-    - scheme: default
+    - scheme: youtube
       toggle:
         icon: material/toggle-switch-off-outline
         name: Switch to dark mode
-      primary: teal
-      accent: purple
+      primary: #26667F
+      accent: indigo
     - scheme: slate
       toggle:
         icon: material/toggle-switch
         name: Switch to light mode
       primary: teal
       accent: lime
-
+    - font:
+        text: Roboto
+extra_css:
+  - stylesheets/color.css
+  - https://unpkg.com/katex@0/dist/katex.min.css
 copyright: |
-  &copy; 2023 <a href="https://github.com/james-willett"  target="_blank" rel="noopener">James Willett</a>
+  &copy; 2025 <a href="https://github.com/norbutlepcha25"  target="_blank" rel="noopener">Norbu Tshering Lepcha</a>
+
+extra:
+  generator: false
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - pymdownx.blocks.caption
+  - pymdownx.tilde
+  - pymdownx.caret
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - javascripts/katex.js
+  - https://unpkg.com/katex@0/dist/katex.min.js
+  - https://unpkg.com/katex@0/dist/contrib/auto-render.min.js
