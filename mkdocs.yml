@@ -1,5 +1,5 @@
 site_name: CSF302 - Algorithm Design and Analysis
-site: https://norbutlepcha25.github.io/CSF302/
+site_url: https://norbutlepcha25.github.io/CSF302
 
 use_directory_urls: false
 
@@ -13,24 +13,13 @@ theme:
     - search.suggest
     - search.highlight
     - content.tabs.link
-    - content.code.annotation
     - content.code.copy
   language: en
   palette:
-    - scheme: youtube
-      toggle:
-        icon: material/toggle-switch-off-outline
-        name: Switch to dark mode
-      primary: #26667F
-      accent: indigo
-    - scheme: slate
-      toggle:
-        icon: material/toggle-switch
-        name: Switch to light mode
-      primary: teal
-      accent: lime
-    - font:
-        text: Roboto
+    scheme: slate
+
+  font:
+    text: Roboto
 extra_css:
   - stylesheets/color.css
   - https://unpkg.com/katex@0/dist/katex.min.css
@@ -62,3 +51,8 @@ extra_javascript:
   - javascripts/katex.js
   - https://unpkg.com/katex@0/dist/katex.min.js
   - https://unpkg.com/katex@0/dist/contrib/auto-render.min.js
+
+nav:
+  - Home: index.md
+  - unit 3: unit3.md
+  - Questions: questions.md

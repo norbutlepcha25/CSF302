@@ -72,6 +72,82 @@ When we analyze algorithms, we often need to use various mathematical tools. Thu
 
 ### 1. Summations
 
+1. For a given sequence _a~1~_,_a~2~_,_a~3~_, ... _a~n~_, where _n_ is a non negative integer we can write the finite sum _a~1~_+_a~2~_+_a~3~_+ ... +_a~n~_ as
+
 $$
-\cos x=\sum_{k=0}^{\infty}\frac{(-1)^k}{(2k)!}x^{2k}
+\sum_{k=1} ^{n} n_k
 $$
+
+#### 1. Arithmetic Series
+
+$$
+\sum_{i=1}^{n} i = \frac{n(n+1)}{2} = \Theta(n^2)
+$$
+
+$$
+\sum_{i=1}^{n} (a + (i-1)d) = \frac{n}{2} \big(2a + (n-1)d\big)
+$$
+
+---
+
+## 2. Square and Higher Powers
+
+$$
+\sum_{i=1}^{n} i^2 = \frac{n(n+1)(2n+1)}{6} = \Theta(n^3)
+$$
+
+$$
+\sum_{i=1}^{n} i^3 = \left(\frac{n(n+1)}{2}\right)^2 = \Theta(n^4)
+$$
+
+---
+
+## 3. Geometric Series
+
+$$
+\sum_{i=0}^{n} r^i = \frac{r^{n+1} - 1}{r - 1}, \quad r \neq 1
+$$
+
+$$
+\sum_{i=0}^{\infty} r^i = \frac{1}{1-r}, \quad |r| < 1
+$$
+
+---
+
+## 4. Harmonic Series
+
+$$
+H_n = \sum_{i=1}^{n} \frac{1}{i} \approx \ln n + \gamma
+$$
+
+where $\gamma \approx 0.577$ is the Euler–Mascheroni constant.
+
+$$
+\sum_{i=1}^{n} \frac{1}{i} = \Theta(\log n)
+$$
+
+---
+
+## 5. Logarithmic Summations
+
+$$
+\sum_{i=1}^{n} \log i = \log(n!) \approx n \log n - n
+$$
+
+$$
+\sum_{i=1}^{n} \log n = n \log n
+$$
+
+$$
+\sum_{i=0}^{\log n} 2^i = 2^{\log n + 1} - 1 = 2n - 1
+$$
+
+---
+
+## 6. Useful Asymptotics
+
+- $\sum_{i=1}^{n} c = cn = \Theta(n)$
+- $\sum_{i=1}^{n} i^k = \Theta(n^{k+1})$
+- $\sum_{i=1}^{\log n} n = n \log n$
+
+---
