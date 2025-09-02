@@ -18,7 +18,21 @@ theme:
 
   language: en
   palette:
-    scheme: slate
+    # Palette toggle for light mode
+    - scheme: default
+      primary: black
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      accent: blue
+      primary: blue grey
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
 
   font:
     text: Roboto
@@ -30,9 +44,6 @@ copyright: |
 
 extra:
   generator: false
-  social:
-    - icon: fontawesome/brands/mastodon
-      link: https://fosstodon.org/@squidfunk
 
 markdown_extensions:
   - pymdownx.highlight:
