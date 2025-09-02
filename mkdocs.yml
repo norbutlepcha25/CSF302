@@ -36,6 +36,8 @@ theme:
 
   font:
     text: Roboto
+  icon:
+    logo: material/code-json
 extra_css:
   - stylesheets/color.css
   - https://unpkg.com/katex@0/dist/katex.min.css
