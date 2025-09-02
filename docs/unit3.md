@@ -54,7 +54,7 @@ Where:
 
 ---
 
-### 3.2 METHODS OF SOLVING RECURRENCE RELATIONS
+## 3.2 METHODS OF SOLVING RECURRENCE RELATIONS
 
 When analyzing recursive algorithms, we use different techniques to solve **recurrence relations** and find their closed-form or asymptotic complexity.  
 Here are the main methods:
@@ -67,7 +67,7 @@ Here are the main methods:
 
 ---
 
-### 1. Iterative Method (Expansion Method)
+### 3.2.1. Iterative Method (Expansion Method)
 
 - Expand the recurrence step by step until a clear pattern emerges.
 - Replace the recurrence with successive substitutions.
@@ -129,7 +129,7 @@ Here are the main methods:
 
 ---
 
-### Try this Question
+#### Try this Question
 
 ??? question " Q1. $ \quad T(n) = T(n-1)+n, \quad T(1) = 1 $ "
 
@@ -184,57 +184,180 @@ Here are the main methods:
       \boxed{T(n) = \Theta(n^2)}
       $$
 
-<!-- Seecond Question -->
+<!-- Second Question -->
 
 ??? question " Q2. $ \quad T(n) = T(n/2)+1, \quad T(1) = 1 $ "
 
-      $$ T(n) = T(n-1)+n, \quad T(1) = 1 $$
+      $$ T(n) = T(n/2)+1, \quad T(1) = 1 $$
 
       **Step 1. Unroll the Recurrence**
 
       Start expanding:
 
-      $$ T(n) = T(n-1) + n $$
+      $$ T(n) = T(n/2) + 1 $$
 
-      $$ T(n-1) = T(n-1-1) + n-1  \quad\implies\quad T(n) = (T(n-2) + n-1) + n $$
+      $$ T(n/2) = T(n/4) + 1  \quad\implies\quad T(n) = T(n/4) +  2 $$
 
-      $$ T(n-2) = T(n-2-1) + n-2 \quad\implies\quad T(n) = ((T(n-3)+ n-2) + n-1) + n $$
+      $$ T(n/4) = T(n/8) + 2 \quad\implies\quad T(n) = T(n/8)+ 3 $$
 
-      $$ T(n-3) = T(n-3-1) + n-3  \quad\implies\quad T(n) = ((T(n-4)+n-3)+n-2)+n-1+n $$
+      $$ T(n/8) = T(n/16) + 3  \quad\implies\quad T(n) = T(n/16) + 4 $$
 
       After \(k\) steps, the pattern is:
 
-      $$      T(n) = T(n-k) + (n-k+1) + (n-k+2) + (n-k+3) ... n $$
+      $$      T(n) = T(n/2^k) + k $$
 
       **Step 2. Stop at the Base Case**
 
-      Pick \(k\) so that \(n - k\) hits the base index 1:
+      Pick \(k\) so that \(n/2^k\) hits the base index 1:
 
 
-      $$ n - k = 1 \quad\Rightarrow\quad k = n - 1 $$
+      $$ n/2^k = 1 \quad\Rightarrow\quad k = c . log n $$
 
-      Now substitute \(k = n - 1\) into the pattern:
+      Now substitute \(k = clog n\) into the pattern:
 
       $$
-      T(n) = T(1) + 2 +3 + 4 +...+n
+      T(n) = T(1) + c.log n
       $$
 
       **Step 3. Plug In Your Base**
 
       $$
-      T(n) = T(1) + 2 + 3 + 4 + ... + (n-1) + n \newline
-            = 1 + 2 + 3 + 4 + ... + n
+      T(n) = T(1) + c.log n \newline
+            = 1 + c.logn
       $$
 
-     Since we can observe that the algorithm tends to behave as a sum of first \(n\) integers
-
-     $$ 1 + 2 + 3 + 4 + ... + n = \frac{n(n+1)}{2} $$
-
-     So,
-     $$ T(n) = \frac{n(n+1)}{2} $$
 
      **step 4. Final Result (Asymptotics)**
 
       $$
-      \boxed{T(n) = \Theta(n^2)}
+      \boxed{T(n) = \Theta (logn)}
+      $$
+
+#### Practice set 1 of [Practice Questions](questions.md):
+
+### 3.2.2 Recursion Tree Method
+
+In a recursion tree, each node represents the cost of a **_single subproblem_** somewhere in the set of recursive function invocations.
+We sum the costs within each level of the tree to obtain a set of per-level costs, and then we sum all the per-level costs to determine the total cost of all levels of the recursion
+
+Steps
+
+1.  Write the recurrence $ \quad T(n)=aT(n/b)+f(n) $
+
+2.  Expand the recurrence (first few levels)
+
+                1. Root: cost = 𝑓(𝑛)
+                2. Level 1: 𝑎 subproblems, each of size (𝑛/𝑏)
+                3. cost per node = 𝑓(𝑛/𝑏)
+                4. Total cost at level 1 = 𝑎⋅𝑓(𝑛/𝑏)
+
+3.  Generalize the cost at level 𝑖
+
+    $$ Level cost = 𝑎^𝑖⋅𝑓(𝑛/𝑏^𝑖) $$
+
+4.  Find the depth of the tree
+
+            Stop when subproblem size = 1
+
+5.  Add up costs across levels
+
+$$
+T(n) = \sum_{i=0} ^ {\log_b n} a^i \cdot f\!\left(\frac{n}{b^i}\right)
+$$
+
+Evaluate the sum Simplify the expression to get asymptotic complexity (Θ, O, etc.).
+
+!!! example "Example 1:"
+
+      1. for a given recurrence relation $\quad T(n)=2T(n/2)+n $
+      2. Level 0 : root node
+
+      <div class="center-mermaid">
+
+      ```mermaid
+            flowchart TD
+            A@{shape : rect, label: "n"}
+
+
+      ```
+      </div>
+
+      3. Level 1
+
+    !!! info inline end "Cost of Level 1"
+        Level cost = 𝑎^𝑖⋅𝑓(𝑛/𝑏^𝑖)
+
+        cost = (n/2)+(n/2) = 2(n/2) = cn
+
+    !!! info inline start "At Level 1"
+        The problem will be subdivided into ***a*** numbers with a cost of ***(n/b)***
+        in this case 2 subproblems with a cost of n/2 each
+        It will continue till it reaches the base case.
+
+       <div class="center-mermaid">
+      ```mermaid
+            flowchart TD
+            A["n"] --> B1["n/2"]
+            A --> B2["n/2"]
+
+      ```
+      </div>
+
+      4. Level 2
+
+    !!! info inline end "Cost of Level 2"
+        Level cost = 𝑎^𝑖⋅𝑓(𝑛/𝑏^𝑖)
+
+        cost = (n/4)+(n/4)+(n/4)+n/4 = 4(n/4) = cn
+
+      ```mermaid
+            flowchart TD
+            A["n"] --> B1["n/2"]
+            A --> B2["n/2"]
+
+            B1 --> C1["n/4"]
+            B1 --> C2["n/4"]
+
+            B2 --> C3["n/4"]
+            B2 --> C4["n/4"]
+
+      ```
+
+
+      5. Until i level
+
+
+      ```mermaid
+            flowchart TD
+            A["n"] --> B1["n/2"]
+            A --> B2["n/2"]
+
+            B1 --> C1["n/4"]
+            B1 --> C2["n/4"]
+
+            B2 --> C3["n/4"]
+            B2 --> C4["n/4"]
+
+            C1 --> D1["T(1)"]
+            C2 --> D2["T(1)"]
+            C3 --> D3["T(1)"]
+            C4 --> D4["T(1)"]
+
+      ```
+
+      6. Total Cost
+      From the tree we observe that the sum at each level of "cn", thus we can conclude for depth till "i" , the sum will be i * n or as per the formula
+
+      $$
+      T(n) = \sum_{i=0} ^ {\log_2 n} cn \implies T(n) = cn \sum_{i=0} ^ {\log_2 n} 1
+      $$
+
+      $$
+      T(n) = cn . {\log n} \implies \Theta (nlogn)
+      $$
+
+      **Final Result (Asymptotics)**
+
+      $$
+      \boxed{T(n) = \Theta (nlogn)}
       $$
