@@ -14,6 +14,8 @@ theme:
     - search.highlight
     - content.tabs.link
     - content.code.copy
+    - content.tooltips
+
   language: en
   palette:
     scheme: slate
@@ -28,6 +30,9 @@ copyright: |
 
 extra:
   generator: false
+  social:
+    - icon: fontawesome/brands/mastodon
+      link: https://fosstodon.org/@squidfunk
 
 markdown_extensions:
   - pymdownx.highlight:
@@ -39,6 +44,7 @@ markdown_extensions:
   - pymdownx.superfences
   - admonition
   - pymdownx.details
+  - abbr
   - attr_list
   - md_in_html
   - pymdownx.blocks.caption

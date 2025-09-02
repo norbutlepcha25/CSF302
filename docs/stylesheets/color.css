@@ -8,3 +8,21 @@
   display: flex;
   justify-content: center;
 }
+
+/* Increase font size inside all callouts (admonitions) */
+.md-typeset .admonition,
+.md-typeset details {
+  font-size: 0.8rem;
+  line-height: 1.7rem;
+}
+
+/* make the title of the callout larger */
+.md-typeset .admonition-title {
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+/* Larger text only in warnings */
+.md-typeset .admonition.warning {
+  font-size: 1.15rem;
+}
