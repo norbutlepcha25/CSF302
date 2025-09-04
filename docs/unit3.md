@@ -500,7 +500,7 @@ Evaluate the sum Simplify the expression to get asymptotic complexity (Θ, O, et
 
 
       ```
-      ```
+
 
       Total Cost = $ \sum $ cost of each level
 
@@ -700,3 +700,180 @@ The substitution method for solving recurrences comprises two steps:
          $$ n(1-2c)+c ≤  0 $$
 
          If we choose $ 𝑐 ≥ 1 $ then $ n(1-2c) ≤ -1 $ so the inequality holds for all sufficiently large values
+
+### 3.2.4 Master Theorem
+
+#### 1. Master Theorem (Classic)
+
+**Definition:**  
+The Master Theorem provides a method to determine the asymptotic time complexity of divide-and-conquer recurrences of the form:
+
+$$
+T(n) = a \, T\left(\frac{n}{b}\right) + f(n)
+$$
+
+Where:
+
+- \(a \ge 1\) → number of subproblems
+- \(b > 1\) → factor by which the problem size is divided
+- \(f(n)\) → non-recursive work done per call
+
+**Cases:**
+
+!!! success "Case 1: **Recursion dominates:**"
+
+    $$
+    if \quad f(n) = O(n^{\log_b a - \epsilon}) \; for \; some \; constant \; \epsilon > 0  \quad Result: T(n) = \Theta(n^{\log_b a})
+    $$
+
+!!! success "Case 2: **Balanced:**"
+
+    $$
+    f(n) = \Theta(n^{\log_b a}) \quad Result:T(n) = \Theta(n^{\log_b a} \log n)
+    $$
+
+!!! success "case 3: **Outside work dominates:**"
+
+    $$
+    f(n) = \Omega(n^{\log_b a + \epsilon}) \; for \; some \; constant \; \epsilon > 0  \quad \text{(with regularity condition)} \quad Result:T(n) = \Theta(f(n))
+    $$
+
+    regualarity Condition:
+    $$ af(\frac{n}{b}) \le cf(n) $$
+    for some constant c < 1 and all sufficiently large n, then
+    $$ Result : T(n) = \Theta (f(n)) $$
+
+---
+
+**Steps for Master Theorem**
+
+- From the equation note the values of a, b and $ f(n)$
+- calculate the thershold function $ n^{\log_b a} $, let be denoted as $ g(n) $
+- compare $f(n)$ with $g(n)$ and check which category it falls into
+- Note down the final result
+
+!!! example "Example 1"
+
+     **Q1. $ T(n) = 4T(\frac{n}{2}) + n $**
+
+      step 1: from the given equation noting the required value : $ a = 4, b = 2, f(n) = n$
+
+      step 2: Calcuating Threshold function : $ g(n) = n^{\log_b n} \implies g(n) = n^{\log_2 4} \implies g(n) = n^2$
+
+      step 3: compare the $f(n)$ and $ g(n)$
+
+      $$ f(n) \le g(n) $$
+      $$ n \le n^2 $$
+
+      step 4: Case 1 condition satisfied $f(n) = O (n^{log_b a- \epsilon}) $ where $\epsilon > 0$ i.e, $\epsilon = 1$
+
+      step 5: Result : $ T(n) = \Theta (n^ {log_b a} )$
+      $$
+      \boxed{T(n) = \Theta (n^ 2)}
+      $$
+
+      **Q2. $ T(n) = T(\frac{n}{2}) + 1$**
+
+      step 1: from the given equation noting the required value : $ a = 1, b = 2, f(n) = 1$
+
+      step 2: Calcuating Threshold function : $ g(n) = n^{\log_b n} \implies g(n) = n^{\log_2 1} \implies g(n) = n^0 = 1$
+
+      step 3: compare the $f(n)$ and $ g(n)$
+
+      $$ f(n) = g(n) $$
+      $$ 1 = 1 $$
+
+      step 4: Case 2 condition satisfied $f(n) = \theta (n^{log_b a}) $
+
+      step 5: Result : $ T(n) = \Theta (n^ {log_b a} \log n)$
+      $$
+      \boxed{T(n) = \Theta (log n)}
+      $$
+
+## 2. Extended Master Theorem
+
+**Definition:**  
+The Extended Master Theorem generalizes the Master Theorem to handle recurrences where \(f(n)\) has **logarithmic factors**, i.e.,
+
+\[
+f(n) = \Theta(n^{\log_b a} \cdot \log^k n), \quad k \ge 0
+\]
+
+**Cases:**
+
+1. **Recursion dominates:**  
+   Result:  
+   \[
+   T(n) = \Theta(n^{\log_b a})
+   \]
+
+2. **Balanced:**  
+   Result:  
+   \[
+   T(n) = \Theta(n^{\log_b a} \cdot \log^{k+1} n)
+   \]
+
+3. **Outside work dominates:**  
+   Result:  
+   \[
+   T(n) = \Theta(f(n))
+   \]
+
+**Meaning:**
+
+- Handles recurrences like \(T(n) = 2T(n/2) + n \log n\), which classic Master Theorem cannot solve directly.
+
+---
+
+## 3. CLRS Master Theorem (Extended Form)
+
+**Definition:**  
+CLRS expresses the Master Theorem using:
+
+\[
+f(n) = \Theta(n^k \log^p n)
+\]  
+and compares constants \(a\) and \(b^k\):
+
+- \(a < b^k\) → outside work dominates → \(T(n) = \Theta(n^k \log^p n)\)
+- \(a = b^k\) → balanced → \(T(n) = \Theta(n^k \log^{p+1} n)\)
+- \(a > b^k\) → recursion dominates → \(T(n) = \Theta(n^{\log_b a})\)
+
+**Meaning:**
+
+- CLRS version is basically the **Extended Master Theorem**.
+- \(p\) accounts for logarithmic factors in \(f(n)\).
+- Makes comparison easier by comparing **constants** instead of functions.
+
+---
+
+## 4. Related Concepts
+
+### 4.1 Big-O, Big-Theta, Big-Omega
+
+- **Big-O (O)** → Upper bound: algorithm grows **at most** this fast
+- **Big-Theta (Θ)** → Tight bound: algorithm grows **exactly** this fast
+- **Big-Omega (Ω)** → Lower bound: algorithm grows **at least** this fast
+
+### 4.2 Floor and Ceiling
+
+- **Floor ⌊x⌋** → largest integer ≤ x
+- **Ceiling ⌈x⌉** → smallest integer ≥ x
+- Used in recurrences to ensure **integer subproblem sizes**
+
+### 4.3 Why Multiple Methods?
+
+- Master Theorem works for \(T(n) = aT(n/b) + f(n)\) with nice \(f(n)\)
+- **Other methods** (Recursion Tree, Substitution, Iteration, Akra-Bazzi) are needed when:
+  - Non-polynomial \(f(n)\)
+  - Non-uniform splits (e.g., \(T(n/2) + T(n/3) + n\))
+  - Linear reductions (e.g., \(T(n-1) + n\))
+
+---
+
+**Summary:**
+
+- **Classic Master Theorem:** simple polynomial \(f(n)\)
+- **Extended / CLRS Master Theorem:** handles \(f(n) = n^k \log^p n\)
+- Use **Big-O / Θ / Ω** to compare recursive vs non-recursive work
+- Use **floor/ceiling** to handle integer sizes
