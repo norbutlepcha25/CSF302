@@ -51,3 +51,93 @@
 - **Substitution Method** → Guess and prove with induction.
 - **Telescoping** → Cancel terms to simplify.
 - **Master Theorem** → Direct formula for divide & conquer recurrences.
+
+<!-- Need to add in the master theorem part -->
+
+## 2. Extended Master Theorem
+
+**Definition:**  
+The Extended Master Theorem generalizes the Master Theorem to handle recurrences where \(f(n)\) has **logarithmic factors**, i.e.,
+
+\[
+f(n) = \Theta(n^{\log_b a} \cdot \log^k n), \quad k \ge 0
+\]
+
+**Cases:**
+
+1. **Recursion dominates:**  
+   Result:  
+   \[
+   T(n) = \Theta(n^{\log_b a})
+   \]
+
+2. **Balanced:**  
+   Result:  
+   \[
+   T(n) = \Theta(n^{\log_b a} \cdot \log^{k+1} n)
+   \]
+
+3. **Outside work dominates:**  
+   Result:  
+   \[
+   T(n) = \Theta(f(n))
+   \]
+
+**Meaning:**
+
+- Handles recurrences like \(T(n) = 2T(n/2) + n \log n\), which classic Master Theorem cannot solve directly.
+
+---
+
+## 3. CLRS Master Theorem (Extended Form)
+
+**Definition:**  
+CLRS expresses the Master Theorem using:
+
+\[
+f(n) = \Theta(n^k \log^p n)
+\]  
+and compares constants \(a\) and \(b^k\):
+
+- \(a < b^k\) → outside work dominates → \(T(n) = \Theta(n^k \log^p n)\)
+- \(a = b^k\) → balanced → \(T(n) = \Theta(n^k \log^{p+1} n)\)
+- \(a > b^k\) → recursion dominates → \(T(n) = \Theta(n^{\log_b a})\)
+
+**Meaning:**
+
+- CLRS version is basically the **Extended Master Theorem**.
+- \(p\) accounts for logarithmic factors in \(f(n)\).
+- Makes comparison easier by comparing **constants** instead of functions.
+
+---
+
+## 4. Related Concepts
+
+### 4.1 Big-O, Big-Theta, Big-Omega
+
+- **Big-O (O)** → Upper bound: algorithm grows **at most** this fast
+- **Big-Theta (Θ)** → Tight bound: algorithm grows **exactly** this fast
+- **Big-Omega (Ω)** → Lower bound: algorithm grows **at least** this fast
+
+### 4.2 Floor and Ceiling
+
+- **Floor ⌊x⌋** → largest integer ≤ x
+- **Ceiling ⌈x⌉** → smallest integer ≥ x
+- Used in recurrences to ensure **integer subproblem sizes**
+
+### 4.3 Why Multiple Methods?
+
+- Master Theorem works for \(T(n) = aT(n/b) + f(n)\) with nice \(f(n)\)
+- **Other methods** (Recursion Tree, Substitution, Iteration, Akra-Bazzi) are needed when:
+  - Non-polynomial \(f(n)\)
+  - Non-uniform splits (e.g., \(T(n/2) + T(n/3) + n\))
+  - Linear reductions (e.g., \(T(n-1) + n\))
+
+---
+
+**Summary:**
+
+- **Classic Master Theorem:** simple polynomial \(f(n)\)
+- **Extended / CLRS Master Theorem:** handles \(f(n) = n^k \log^p n\)
+- Use **Big-O / Θ / Ω** to compare recursive vs non-recursive work
+- Use **floor/ceiling** to handle integer sizes
