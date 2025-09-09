@@ -789,3 +789,93 @@ Where:
       $$
       \boxed{T(n) = \Theta (log n)}
       $$
+
+---
+
+#### 2. Generalized Master Theorem
+
+**Definition:**  
+The Extended Master Theorem generalizes the Master Theorem to handle recurrences where \(f(n)\) has **logarithmic factors**, i.e.,
+
+$$
+T(n) = a \, T\left(\frac{n}{b}\right) + f(n)
+$$
+
+where
+
+$$
+f(n) = \Theta(n^{\log_b a} \cdot \log^k n), \quad k \ge 0
+$$
+
+!!! success "Case 1: **k > -1**"
+
+    $$
+    T(n) = \Theta(n^{\log_b a} \log^{k+1} n)
+    $$
+
+!!! success "Case 2: **k = -1**"
+
+    $$
+    T(n) = \Theta(n^{\log_b a} \log \log n)
+    $$
+
+!!! success "Case 3: **k < 1**"
+
+    $$
+    T(n) = \Theta(n^{\log_b a} )
+    $$
+
+**Meaning:**
+
+- Handles recurrences like \(T(n) = 2T(n/2) + n \log n\), which classic Master Theorem cannot solve directly.
+
+#### 3. Extended Master Theorem
+
+**Definition:**
+
+$$
+T(n) = a \, T\left(\frac{n}{b}\right) + f(n)
+$$
+
+where
+
+$$
+f(n) = \Theta(n^k \cdot \log^p n), \quad k \ge 0
+$$
+
+**Steps for Master Theorem**
+
+- From the equation note the values of a, b , k and p
+- calculate the $ b^k $
+- compare $a$ with $b^k$ and check which category it falls into and the value of p
+- Note down the final result
+
+!!! success "Case 1: **$ a > b^k $** "
+
+    $$
+    T(n) = \Theta(n^{\log_b a})
+    $$
+
+!!! success "Case 2: **$ a = b^k $**"
+
+      Then check the value of p
+
+    $$ p > -1 \: then \: result \:  T(n) = \Theta(n^{k} \log^{p+1} n) $$
+
+    $$
+    p = -1 \: then \: result \:  T(n) = \Theta(n^{k} \log \log n)
+    $$
+
+    $$
+    p < -1 \: then \: result \:  T(n) = \Theta(n^{k} )
+    $$
+
+!!! success "Case 3: **$ a < b^k $**"
+
+    Then check the value of p
+
+    $$ p \ge 0 \: then \: result \:  T(n) = \Theta(n^{k} \log^{p} n) $$
+
+    $$
+    p < 0 \: then \: result \:  T(n) = \Theta(n^{k})
+    $$

@@ -54,39 +54,6 @@
 
 <!-- Need to add in the master theorem part -->
 
-## 2. Extended Master Theorem
-
-**Definition:**  
-The Extended Master Theorem generalizes the Master Theorem to handle recurrences where \(f(n)\) has **logarithmic factors**, i.e.,
-
-\[
-f(n) = \Theta(n^{\log_b a} \cdot \log^k n), \quad k \ge 0
-\]
-
-**Cases:**
-
-1. **Recursion dominates:**  
-   Result:  
-   \[
-   T(n) = \Theta(n^{\log_b a})
-   \]
-
-2. **Balanced:**  
-   Result:  
-   \[
-   T(n) = \Theta(n^{\log_b a} \cdot \log^{k+1} n)
-   \]
-
-3. **Outside work dominates:**  
-   Result:  
-   \[
-   T(n) = \Theta(f(n))
-   \]
-
-**Meaning:**
-
-- Handles recurrences like \(T(n) = 2T(n/2) + n \log n\), which classic Master Theorem cannot solve directly.
-
 ---
 
 ## 3. CLRS Master Theorem (Extended Form)

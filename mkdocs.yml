@@ -77,5 +77,6 @@ extra_javascript:
 
 nav:
   - Home: index.md
+  - unit 2: unit2.md
   - unit 3: unit3.md
   - Questions: questions.md
