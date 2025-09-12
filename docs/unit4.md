@@ -1,4 +1,4 @@
-# Divide and Conquer Algorithms
+# Unit 4: Divide and Conquer Algorithms
 
 ## 4.1 Fundamentals Divide & Conquer Algorithm Design
 

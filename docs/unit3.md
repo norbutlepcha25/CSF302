@@ -1,6 +1,4 @@
-# Unit 3
-
-## RECURRENCE RELATIONS AND ANALYSIS OF ALGORITHMS
+# Unit 3: Recurrence Relations and Master Theorem
 
 !!! info "Learning outome"
 
@@ -8,27 +6,26 @@
 
 ## **3.1 Recurrences**
 
-### 3.1.1 INTRODUCTION TO RECURRENCE RELATIONS
+### 3.1.1 Introduction
 
 What is **Recurrence**?
 
+<unit3:Recurrence>
 A recurrence is an equation (or inequality) that defines a function in terms of its value(s) at smaller input(s).
-In simple terms: it’s a way of expressing a problem’s solution in terms of **_smaller subproblems_** of the same type.
+it’s a way of expressing a problem’s solution in terms of **_smaller subproblems_** of the same type. In simple terms, we can say that when a function calls itself within that function, only the parameter are different, which is usally the smaller sub problem.
 
 What is a **recurrence relations**?
 
-A **recurrence relation** is an equation that defines a sequence based on its previous terms. A recurrence relation is the actual formula that shows how the current value depends on previous values.
+A **recurrence relation** is an {== equation that defines a sequence based on its previous terms ==}. A recurrence relation is the actual formula that shows how the current value depends on previous values.
 
 For example:
 
 Factorial recurrence:
-T(𝑛)=𝑛.T(𝑛-1),T(0)=1
+$ T(𝑛)=𝑛.T(𝑛-1), T(0)=1 $
 
 This means factorial of 𝑛 is defined in terms of factorial of 𝑛−1.
 
----
-
-### 3.1.2 GENERAL FORM OF RECURRENCE RELATIONS
+### 3.1.2 General Form
 
 \[
 T(n) = a \cdot T\!\left(\frac{n}{b}\right) + f(n)
@@ -43,20 +40,21 @@ Where:
 
 ---
 
-### 3.1.3 TYPES OF RECURRENCE RELATIONS
+### 3.1.3 Types of Recurrence Relations
 
-1. **Linear Recurrence** – depends linearly on smaller subproblems.
-   Example: `T(n) = T(n-1) + O(1)`
-2. **Divide-and-Conquer Recurrence** – splits into multiple subproblems.
-   Example: `T(n) = aT(n/b) + f(n)`
-   - Homogeneous: depends only on subproblems (`T(n) = 2T(n/2)`).
-   - Non-Homogeneous: includes an additional function (`T(n) = 2T(n/2) + n`).
+1.  **Linear Recurrence** – depends linearly on smaller subproblems.
+    Example: $T(n) = T(n-1) + O(1)$
+2.  **Divide-and-Conquer Recurrence** – splits into multiple subproblems.
+    Example: $T(n) = aT(\frac{n}{b}) + f(n)$
+
+    - Homogeneous: depends only on subproblems ($T(n) = 2T(\frac{n}{2})$).
+    - Non-Homogeneous: includes an additional function ($T(n) = 2T(\frac{n}{2}) + n$).
 
 ---
 
-## 3.2 METHODS OF SOLVING RECURRENCE RELATIONS
+## 3.2 Methods of Solving Recurrence Relations
 
-When analyzing recursive algorithms, we use different techniques to solve **recurrence relations** and find their closed-form or asymptotic complexity.  
+When analyzing recursive algorithms, we use different techniques to solve **recurrence relations** and find their {==closed-form or asymptotic complexity==}.  
 Here are the main methods:
 
 1. Iterative Method
@@ -797,6 +795,10 @@ Where:
 **Definition:**  
 The Extended Master Theorem generalizes the Master Theorem to handle recurrences where \(f(n)\) has **logarithmic factors**, i.e.,
 
+!!! tip ""
+
+     Use this formula if there is no polynomial growth or directly when you use log function in the addtional cost for other function
+
 $$
 T(n) = a \, T\left(\frac{n}{b}\right) + f(n)
 $$
@@ -879,3 +881,5 @@ $$
     $$
     p < 0 \: then \: result \:  T(n) = \Theta(n^{k})
     $$
+
+### References

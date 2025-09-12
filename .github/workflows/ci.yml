@@ -26,6 +26,9 @@ jobs:
       - name: Install MkDocs with Material theme
         run: pip install mkdocs-material
 
+      - name: install mkdocs-ezglossary-plugin
+        run: pip install mkdocs-ezglossary-plugin
+
       - name: Build MkDocs site
         run: mkdocs build
 
