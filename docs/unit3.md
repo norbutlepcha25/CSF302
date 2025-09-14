@@ -85,7 +85,7 @@ Here are the main methods:
 
       $$ T(n-2) = T(n-2-1) + 1 + 1 \quad\implies\quad T(n) = T(n-3) + 3 $$
 
-      $$ T(n-3) = T(n-3-1) + 1 + 1 + 1  \quad\implies\quad T(n) = T(n-3) + 3 $$
+      $$ T(n-3) = T(n-3-1) + 1 + 1 + 1 + 1 \quad\implies\quad T(n) = T(n-4) + 4 $$
 
       After \(k\) steps, the pattern is:
 
