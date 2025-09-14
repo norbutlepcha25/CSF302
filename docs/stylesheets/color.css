@@ -35,3 +35,39 @@ pre,
 code {
   font-size: 1rem; /* Adjust this value as needed */
 }
+
+/* Only apply KaTeX style in recurrences.md */
+body[data-md-name="unit1"] .katex {
+  font-size: 20rem;
+  color: rgb(255, 0, 0);
+}
+
+/* Targeting KaTeX math symbols
+.md-typeset .katex .mord, 
+.md-typeset .katex .mbin, 
+.md-typeset .katex .mop {
+  font-family: 'Times New Roman', serif; 
+  font-size: 1.1em;
+} */
+
+/* Display equations only
+.md-typeset .katex-display {
+  font-size: 0.9rem;
+  text-align: center;
+} */
+
+/* Apply to inline and block KaTeX math
+.md-typeset .katex {
+  font-size: 1rem; 
+  font-family: ;
+  color: #0077cc; 
+} */
+
+.md-typeset .special-math .katex {
+  font-size: 1.3rem;
+  font-family: "Fira Code", monospace;
+  color: #006600;
+}
+html {
+  font-size: 21px; /* affects everything site-wide */
+}

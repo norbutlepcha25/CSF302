@@ -1,24 +1,26 @@
 # Unit 2
 
+!!! info "Learning Outcome"
+
+    Explain the principles of asymptotic analysis and the role of algorithms in computing.
+
 ## 2.1 Fundamentals
 
-!!! note "Defination of Algorithms"
-
-    Algorithms are a set of finite rules or instructions to be followed in calculations or other problem-solving operations
+<unit2:Algorithms> are a set of finite rules or instructions to be followed in calculations or other problem-solving operations
 
 ### 2.1.1 Features of Algorithm
 
-1. Every algorithm must satisfy the following Criteria:
+Every algorithm must satisfy the following Criteria:
 
-2. Input: there are zero or more quantities, which are externally supplied;
+1. **Input:** there are zero or more quantities, which are externally supplied;
 
-3. Output: at least one quantity is produced;
+2. **Output:** at least one quantity is produced;
 
-4. Definiteness: each instruction must be clear and unambiguous;
+3. **Definiteness:** each instruction must be clear and unambiguous;
 
-5. Finiteness: if we trace out the instructions of an algorithm, then for all cases the algorithm will terminate after a finite number of steps;
+4. **Finiteness** if we trace out the instructions of an algorithm, then for all cases the algorithm will terminate after a finite number of steps;
 
-6. Effectiveness: every instruction must be sufficiently basic that it can in
+5. **Effectiveness:** every instruction must be sufficiently basic that it can in
    principle be carried out by a person using only pencil and paper. It is not enough that each operation be definite, but it must also be feasible.
 
 ## **2.2 Asymptotic Analysis**

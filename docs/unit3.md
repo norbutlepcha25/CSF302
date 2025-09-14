@@ -8,11 +8,9 @@
 
 ### 3.1.1 Introduction
 
-What is **Recurrence**?
+What is **<unit3:Recurrence>?**
 
-<unit3:Recurrence>
-A recurrence is an equation (or inequality) that defines a function in terms of its value(s) at smaller input(s).
-it’s a way of expressing a problem’s solution in terms of **_smaller subproblems_** of the same type. In simple terms, we can say that when a function calls itself within that function, only the parameter are different, which is usally the smaller sub problem.
+A recurrence is an equation (or inequality) that defines a function in terms of its value(s) at smaller input(s).It’s a way of expressing a problem’s solution in terms of **_smaller subproblems_** of the same type. In simple terms, we can say that when a function calls itself within that function, only the parameter are different, which is usally the smaller sub problem.
 
 What is a **recurrence relations**?
 
@@ -787,17 +785,44 @@ Where:
       $$
       \boxed{T(n) = \Theta (log n)}
       $$
+       **Q3. $ T(n) = 2T(\frac{n}{2}) + n^4$**
+
+      step 1: from the given equation noting the required value : $ a = 2, b = 2, f(n) = n^4$
+
+      step 2: Calcuating Threshold function : $ g(n) = n^{\log_b n} \implies g(n) = n^{\log_2 2} \implies g(n) = n^1 = n$
+
+      step 3: compare the $f(n)$ and $ g(n)$
+
+      $$ f(n) > g(n) $$
+      $$ n^4 = n $$
+
+      step 4: Case 3 : thus, go for regularity condition check
+      condition satisfied i.e, $af(\frac{n}{b}) \le cf(n) $
+
+     $$af(\frac{n}{b}) \le cf(n) $$
+
+      $$
+      2 \cdot (n^{4} /2^{4}) \le c \cdot n^{4}
+      $$
+      $$
+       (\frac{1}{8}) \le c \cdot 1
+      $$
+
+      $\therefore $ condition holds for the regularity check
+
+
+      step 5: Result : $ T(n) = \Theta (n^ {4} )$
+
+      $$
+      \boxed{T(n) = \Theta (n^4)}
+      $$
 
 ---
 
 #### 2. Generalized Master Theorem
 
 **Definition:**  
-The Extended Master Theorem generalizes the Master Theorem to handle recurrences where \(f(n)\) has **logarithmic factors**, i.e.,
-
-!!! tip ""
-
-     Use this formula if there is no polynomial growth or directly when you use log function in the addtional cost for other function
+The Generalized Master Theorem generalizes the Master Theorem to handle recurrences where \(f(n)\) has **logarithmic factors**, i.e.,
 
 $$
 T(n) = a \, T\left(\frac{n}{b}\right) + f(n)
@@ -808,6 +833,23 @@ where
 $$
 f(n) = \Theta(n^{\log_b a} \cdot \log^k n), \quad k \ge 0
 $$
+
+!!! tip ""
+
+     Use this formula if there is no <unit3:polynomial growth> or directly when you use log function in the addtional cost for other function
+
+!!! note "Intution behind the Generalized Master Theorem"
+
+      Lets say for example a recurrence relation is represented by $T(n) = 2T(\frac{n}{2})+nlogn$
+
+      if we used the Classic Master theorem than
+      $$ a= 2, b=2, f(n) = n \log n$$
+
+      - calculating the $g(n)$, we get $g(n)= n$
+
+      - comparing $f(n)$ and $g(n)$, we can see that $f(n)$ is greater than $g(n)$ and we might say that CASE 3 applies and proceed to check the regularity condition. However, that would be an **{==Error==}** as the function $f(n)$ is growing logrithmically with respect to $g(n)$ and not polynomially. (see <unit3:polynomial Growth>). Thus classic master theorem cannot be applied to this recurrence relation.
+
+      - for such recurrence relations we use the generalized master theorem which takes into account the logarithmic factors
 
 !!! success "Case 1: **k > -1**"
 
@@ -827,9 +869,21 @@ $$
     T(n) = \Theta(n^{\log_b a} )
     $$
 
-**Meaning:**
+!!! example "Example"
 
-- Handles recurrences like \(T(n) = 2T(n/2) + n \log n\), which classic Master Theorem cannot solve directly.
+     **Q1. $ (T(n) = 2T(n/2) + n \log n\) $**
+
+      $$ a=2, b=2, f(n)= n \log n k=1$$
+
+      Classic Master theorem cannot be applied here thus, using the generalized Master theorem for $k=1$
+
+      Result: $T(n) = \Theta(n^{\log_b a} \log^{k+1} n)$
+
+      Thus final Answer:
+
+      $$
+      \boxed{T(n) = \Theta(n \log^2 n)}
+      $$
 
 #### 3. Extended Master Theorem
 
