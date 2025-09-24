@@ -714,22 +714,19 @@ Where:
 - \(b > 1\) → factor by which the problem size is divided
 - \(f(n)\) → non-recursive work done per call
 
-**Cases:**
+!!! success " Cases"
 
-!!! success "Case 1: **Recursion dominates:**"
-
+    Case 1: **Recursion dominates:**
     $$
     if \quad f(n) = O(n^{\log_b a - \epsilon}) \; for \; some \; constant \; \epsilon > 0  \quad Result: T(n) = \Theta(n^{\log_b a})
     $$
 
-!!! success "Case 2: **Balanced:**"
-
+    Case 2: **Balanced:**
     $$
     f(n) = \Theta(n^{\log_b a}) \quad Result:T(n) = \Theta(n^{\log_b a} \log n)
     $$
 
-!!! success "case 3: **Outside work dominates:**"
-
+    case 3: **Outside work dominates:**
     $$
     f(n) = \Omega(n^{\log_b a + \epsilon}) \; for \; some \; constant \; \epsilon > 0  \quad \text{(with regularity condition)} \quad Result:T(n) = \Theta(f(n))
     $$
@@ -851,20 +848,19 @@ $$
 
       - for such recurrence relations we use the generalized master theorem which takes into account the logarithmic factors
 
-!!! success "Case 1: **k > -1**"
+!!! success "Cases"
 
+    Case 1: **k > -1**
     $$
     T(n) = \Theta(n^{\log_b a} \log^{k+1} n)
     $$
 
-!!! success "Case 2: **k = -1**"
-
+    Case 2: **k = -1**
     $$
     T(n) = \Theta(n^{\log_b a} \log \log n)
     $$
 
-!!! success "Case 3: **k < 1**"
-
+    Case 3: **k < 1**
     $$
     T(n) = \Theta(n^{\log_b a} )
     $$
@@ -935,5 +931,135 @@ $$
     $$
     p < 0 \: then \: result \:  T(n) = \Theta(n^{k})
     $$
+
+#### 4. Change of variable Method
+
+There are cases where the given recurrence relation does not conform to the general form of recurrence relations, in such cases we can apply the change of variable method in order to solve it using the methods for solving recurrence relation.
+
+You can apply the change of variable method (also called variable substitution) in solving recurrence relations when:
+
+- Non-standard form – The recurrence doesn’t fit directly into the Master Theorem or standard forms Example:$ T(n)=T(n−1)+n. $
+
+- Divide-and-conquer recurrences with unusual terms – When the recurrence has logarithmic or polynomial distortions that prevent direct comparison.Example: $𝑇(𝑛)=2𝑇(\sqrt 𝑛)+𝑛 $ Here, substitution like $𝑛 = 2^𝑚 $ converts it into 𝑇(2𝑚) = 2𝑇(2𝑚/2), which is easier to handle.
+
+- When the variable appears in a non-linear way – Such as square roots, logarithms, or powers. Example: 𝑇(𝑛) =𝑇(𝑛/2)+ log 𝑛. Substitution like $𝑛  =  2^𝑚$, simplifies it to $𝑇(2^𝑚) = 𝑇(2^{𝑚−1})+ 𝑚$
+
+- When recurrence is expressed in terms of functions of 𝑛,like 𝑇(log⁡ 𝑛),$𝑇(𝑛^2)$, etc.
+
+!!! example "Example"
+
+    Say $T(n) = 2T(\sqrt n) + log n $
+
+    let $$ n = 2^m \tag{1} $$
+
+    now = $T(2^m) = 2T(\sqrt {2^m}) + log 2^m $
+
+    $$ \implies T(2^m) = 2T(2^{\frac{m}{2}}) + log 2^m $$
+
+    let $ T(2^m) = S(m) $ then
+
+    $$ \implies S(\frac{m}{2}) = T(2^{\frac{m}{2}}) $$
+
+    $$ \implies S(m) = 2S(\frac{m}{2}) +m \tag{2}$$
+
+    as Seen equation (2) is in a general form of recurrence relation, so we can solve this using master theorem
+     where $a=2, b=2$ and $f(m) =m$. on solving it falls in case 2, thus solution is $f(m) = \Theta (m \log m)$
+     substituting back in eq(1)
+
+    $$n=2^m$$
+
+    $$\implies m= \log n$$
+
+    therefore
+    $$
+      \boxed{
+            f(n) =\Theta(log log  logn)
+      }
+    $$
+
+## 3.3 Merge sort analysis
+
+- The sort was developed by the American computer scientist John von Neumann in 1945.
+- It is a comparison-based sort.
+- It uses divide-&-conquer approach. There are three steps in this approach.
+
+      - ***Divide*** the problem into a number of subproblems that are smaller instances of the
+            same problem.
+      - ***Conquer*** the subproblems by solving them recursively. If the subproblem sizes are
+            small enough, however, just solve the subproblems in a straightforward manner.
+      - ***Combine*** the solutions to the subproblems into the solution for the original problem.
+
+Example :
+
+1. Given an array of unsorted numbers : Array = $ \begin{bmatrix} 2 & 6 & 8 & 2 & 3 & 9 & 1 & 4 & 9 \end{bmatrix}$
+2. From the given array, **divide** the array in half i.e., This initial step separates the overall list into two smalle halves.
+3. Then, the lists are broken down further until they can no longer be divided, leaving only one element item in each halved list as in image 1.
+
+   <img src="img/MergeSortExplain_1.png" alt="Logo" width="100%">
+
+4. In the conquer step, try to sort both the subarrays
+5. When the conquer step reaches the base step and we get two sorted subarrays, we combine the results by creating a sorted array from two sorted subarrays as in image 2.
+
+   <img src="img/MergeSortExplained_2.png" alt="Logo" width="100%">
+
+Image : [Image Source](https://developer.nvidia.com/blog/merge-sort-explained-a-data-scientists-algorithm-guide/)
+
+Pseudo Code for Merge Sort
+!!! note ""
+
+    ```text
+    MergeSort(Array[],low, high)
+    if low < high
+    int mid <- (low + high)/2
+    MergeSort(Array[], low, mid)
+    MergeSort(Array[], mid+1, high)
+    Merge(Array[],low, mid, mid+1, high)
+
+    Merge Function
+    Merge(Array[],low, mid, mid+1, high)
+    k =low; i =low; j =mid+ 1;
+    while ((k < mid) and (j < high)) do
+      {
+            if (a[k] < a[j])then
+                  b[i] :=a[k];k:=k + 1;
+            else
+                  b[i]-=a[j]; j :=j+ l;
+            i=i + 1;
+      }
+
+      if (i > mid) then
+      for k :=j to high do
+      {
+      b[i]:=a[k];i :=i + 1;
+      else}
+      for k :=k to middo
+      {
+      b[i] :=a[k];i :=i + 1;
+      }
+      for k :=low to high doa[k] :=b[k];
+    ```
+
+!!! note "Unit 3 Summary"
+
+    1. A recurrence is an equation (or inequality) that defines a function in terms of its value(s) at smaller input(s)
+    2. A recurrence relation is an equation that defines a sequence based on its previous terms
+    3. General form of Recurrence Relation:
+            $$
+            T(n) = a \cdot T\left(\frac{n}{b}\right) + f(n)
+            $$
+
+      Where:
+
+      - $T(n)$ → **the time/space complexity of the problem of size n**
+
+      - $a$ → **number of subproblems in the recursion**
+
+      - $(n/b)$ → **size of each subproblem**
+
+      - $f(n)$ → **the cost of dividing the problem and combining the results**
+
+    4. Method of solving Reucurrence relations : ***Iterative Method, Recursion tree, Substitution Method, Telescoping, Master theorem***
+    5. **Iterative Method** : expand step by step and replace the recurrence with successive substitutions until a clear pattern emerges, stop once the base case is reached, then simplify.
+    6. **recurrsion Tree Method** : expand step by step and replace the recurrence with successive substitutions until a clear pattern emerges, stop once the base case is reached, then simplify.
 
 ### References

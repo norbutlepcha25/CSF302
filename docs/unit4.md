@@ -1,5 +1,9 @@
 # Unit 4: Divide and Conquer Algorithms
 
+!!! note "Learning Outcome"
+
+    Implement divide-and-conquer algorithms such as Strassen's algorithm for matrix multiplication and the Fast Fourier Transform.
+
 ## 4.1 Fundamentals Divide & Conquer Algorithm Design
 
 ### 4.1.1 Principles and structure of divide and conquer algorithms
@@ -36,7 +40,7 @@ flowchart TD
 | **Reusability** – Same principle applies across many domains (sorting, searching, matrix multiplication).    | **Divide evenly issue** – Problems may not split evenly (e.g., quicksort with bad pivots).                         |
 | **Reduces complexity in proofs** – Recursive definitions simplify correctness proofs.                        | **Implementation complexity** – Code can be harder to implement/debug compared to iterative methods.               |
 
-## 4.2 Strassen’s Algorithm for Matrix Multiplication
+## 4.2 Matrix Multiplication
 
 ### 4.2.1 Standard Matrix Multiplication
 
@@ -225,16 +229,15 @@ From a standard matrix multiplication, for every element in the resultant matrix
 
         ```
 
+The time complexicity of Standard Matrxi multiplication is $\Theta (n^3)$
+
 ### 4.2.2 Divide and conqure method for Matrix Multiplication
 
-when we use a divide-and-conquer algorithm to compute the matrix product C = A.B, we **_assume that n is an exact power of 2_** in each of the nxn matrices. We make this assumption because in each divide step, we will
-divide nxn matrices into four n/2 x n/2 matrices, and by assuming that n is an
-exact power of 2, we are guaranteed that as long as $n \ge 2$, the dimension n=2 is an
-integer.
+when we use a divide-and-conquer algorithm to compute the matrix product C = A.B, we **_assume that n is an exact power of 2_** in each of the nxn matrices. We make this assumption because in each divide step, we will divide nxn matrices into four n/2 x n/2 matrices, and by assuming that n is an exact power of 2, we are guaranteed that as long as $n \ge 2$, the dimension n=2 is an integer.[^1]
 
 Steps:
 
-    1.Break down two 𝑛 × 𝑛 matrices into 4 submatrices of size 𝑛/2 × 𝑛/ 2.
+    1.Decompose two 𝑛 × 𝑛 matrices into 4 submatrices of size 𝑛/2 × 𝑛/ 2.
     2.Multiply the submatrices recursively.
     3.Combine results to form the final product.
 
@@ -249,18 +252,18 @@ SQUARE-MATRIX-MULTIPLY-RECURSIVE (A, B)
 4 C[1][1] = A[1][1].B[1][1]
 5 else partition A, B, and C
 6 C[1][1] = SQUARE-MATRIX-MULTIPLY-RECURSIVE(A[1][1].B[1][1]) +
-SQUARE-MATRIX-MULTIPLY-RECURSIVE(A[1][2].B[2][1])
+    SQUARE-MATRIX-MULTIPLY-RECURSIVE(A[1][2].B[2][1])
 7 C[1][2] = SQUARE-MATRIX-MULTIPLY-RECURSIVE(A[1][1].B[1][2]) +
-SQUARE-MATRIX-MULTIPLY-RECURSIVE(A[1][2].B[2][2])
+    SQUARE-MATRIX-MULTIPLY-RECURSIVE(A[1][2].B[2][2])
 8 C[2][1] = SQUARE-MATRIX-MULTIPLY-RECURSIVE(A[2][1].B[1][1]) +
-SQUARE-MATRIX-MULTIPLY-RECURSIVE(A[2][2].B[2][1])
+    SQUARE-MATRIX-MULTIPLY-RECURSIVE(A[2][2].B[2][1])
 9 C[2][2] = SQUARE-MATRIX-MULTIPLY-RECURSIVE(A[2][1].B[1][2]) +
-SQUARE-MATRIX-MULTIPLY-RECURSIVE(A[2][2].B[2][2])
+    SQUARE-MATRIX-MULTIPLY-RECURSIVE(A[2][2].B[2][2])
 10 return C
 
 ```
 
-## Steps
+Steps
 
 Let:
 
@@ -275,7 +278,7 @@ B =
 \begin{bmatrix}
 B_{11} & B_{12} \\
 B_{21} & B_{22}
-\end{bmatrix}
+\end{bmatrix} \tag{4.1}
 $$
 
 Then the product is:
@@ -285,7 +288,7 @@ C = A \times B =
 \begin{bmatrix}
 C_{11} & C_{12} \\
 C_{21} & C_{22}
-\end{bmatrix}
+\end{bmatrix} \tag{4.2}
 $$
 
 where:
@@ -294,14 +297,14 @@ $$
 \begin{aligned}
 C_{11} &= A_{11}B_{11} + A_{12}B_{21} \\
 C_{12} &= A_{11}B_{12} + A_{12}B_{22} \\
-C_{21} &= A_{21}B_{11} + A_{22}B_{21} \\
+C_{21} &= A_{21}B_{11} + A_{22}B_{21}  \\
 C_{22} &= A_{21}B_{12} + A_{22}B_{22}
-\end{aligned}
+\end{aligned} \tag{4.3}
 $$
 
 ---
 
-## Recurrence Relation
+Recurrence Relation
 
 - Each step requires **8 multiplications** of size \((n/2) \times (n/2)\), plus some additions.
 
@@ -309,18 +312,362 @@ $$
 T(n) = 8T\left(\frac{n}{2}\right) + O(n^2)
 \]
 
----
+- Time Complexity
 
-## Complexity (Master Theorem)
-
-\[
-T(n) = O(n^3)
-\]
+  $$
+  T(n) = O(n^3)
+  $$
 
 (same as classical matrix multiplication).
 
 ---
 
-```
+### 4.2.3 Strassen’s Algorithm
+
+It has four steps[^2]:
+
+1.  Divide the input matrices A and B and output matrix C into $\frac{n}{2}$ x $\frac{n}{2}$ submatrices, as in equation (4.1) above. This step takes $\Theta(1)$ time by index calculation.
+
+    $$
+    A =
+    \begin{bmatrix}
+    A_{11} & A_{12} \\
+    A_{21} & A_{22}
+    \end{bmatrix},
+    \quad
+    B =
+    \begin{bmatrix}
+    B_{11} & B_{12} \\
+    B_{21} & B_{22}
+    \end{bmatrix}
+    $$
+
+    and resultant matrix "C" :
+
+    $$
+    C = A \times B =
+    \begin{bmatrix}
+    C_{11} & C_{12} \\
+    C_{21} & C_{22}
+    \end{bmatrix}
+    $$
+
+2.  The values of the resultant matrix C is as follows
+
+    $$
+    C =
+    \begin{bmatrix}
+    m_1+m_4-m_5+m_7 & m_3+m_5 \\
+    m_2+m_4 & m_1+m_3-m_2+m_6
+    \end{bmatrix}
+    $$
+
+    Where
+
+    $$
+    \begin{align*}
+    m_{1} &= (A_{11} + A_{22}) \times (B_{11} + B_{22}) \implies A_{11} \cdotp B_{11} + A_{11} \cdotp B_{22} + A_{22} \cdotp B_{11} + A_{22} \cdotp B_{22} \\
+    m_{2} &= B_{11} \times  (A_{21} + A_{22}) \implies A_{21} \cdotp B_{11} + A_{22} \cdotp B_{11} \\
+    m_{3} &= A_{11} \times (B_{12} - B_{22}) \implies A_{11} \cdotp B_{12} -  A_{11} \cdotp  B_{22} \\
+    m_{4} &= A_{22} \times (B_{21} - B_{11}) \implies A_{22} \cdotp B_{21} - A_{22} \cdotp B_{11} \\
+    m_{5} &= B_{22} \times (A_{11} + A_{12}) \implies A_{11} \cdotp B_{22} + A_{12} \cdotp B_{22} \\
+    m_{6} &= (A_{21} - A_{11})\times (B_{11} + B_{12}) \implies A_{21} \cdotp B_{11} + A_{21} \cdotp  B_{12} - A_{11} \cdotp B_{11} - A_{11} \cdotp B_{12}   \\
+    m_{7} &= (A_{12} - A_{22})\times (B_{21} + B_{22}) \implies A_{12} \cdotp B_{21} + A_{12} \cdotp B_{22} - A_{22} \cdotp B_{21} - A_{22} \cdotp B_{22}
+    \end{align*}
+    $$
+
+    **_On solving this, it would give the same result as in eq 4.3_**
+
+Recurrence Relation
+
+- Each step requires **7 multiplications** of size \((n/2) \times (n/2)\), plus a number additions and subtractions.
+
+$$
+T(n) = 7T\left(\frac{n}{2}\right) + O(n^2)
+$$
+
+- Time Complexity
+
+  $$
+  T(n) = O(n^{2.80})
+  $$
+
+---
+
+!!! example "Example 1"
+
+    $$
+    A =
+    \begin{bmatrix}
+    1 & 3 \\
+    7 & 5
+    \end{bmatrix},
+    \quad
+    B =
+    \begin{bmatrix}
+    6 & 8 \\
+    4 & 2
+    \end{bmatrix}
+    $$
+
+    $$
+    \begin{align*}
+    m_{1} &= (1 + 5) \times (6 + 2) = 48 \\
+    m_{2} &= 6 \times  (7 + 5) = 72 \\
+    m_{3} &= 1 \times (8 - 2) =  6 \\
+    m_{4} &= 5 \times (4 - 6) = -10 \\
+    m_{5} &= 2 \times (1 + 3) = 8 \\
+    m_{6} &= (7 - 1)\times (6 + 8) = 84   \\
+    m_{7} &= (3- 5)\times (4 + 2) = -12
+    \end{align*}
+    $$
+
+    Now :
+
+    $$
+    C =
+    \begin{bmatrix}
+    m_1+m_4-m_5+m_7 & m_3+m_5 \\
+    m_2+m_4 & m_1+m_3-m_2+m_6
+    \end{bmatrix}
+    $$
+
+    $$
+    \implies C =
+    \begin{bmatrix}
+    48+(-10)-8+(-12) & 6+8 \\
+    72+(-10) & 48+6-72+84
+    \end{bmatrix}
+    $$
+
+    $$
+    \implies C =
+    \begin{bmatrix}
+    18 & 14 \\
+    62 & 66
+    \end{bmatrix}
+    $$
+
+## 4.3 Integer Multiplication
+
+Integer multiplication is one of the fundamental operations in computer science and mathematics. While multiplying small numbers is not complex, multiplying large integers efficiently is critical in applications such as:
+
+1. Cryptography (RSA, ECC, etc.) : modern cryptography, require manipulation of integers that are over 100 decimal digits long.
+
+2. Computer Algebra Systems
+
+3. High-precision scientific computing
+
+4. Complexity theory and algorithm research
+
+### 4.3.1 Naive Approch to Integer multiplication
+
+The Naive approch of integer multiplication involves multiplying digit by digit, carrying over and adding partial products to arrive at the final answer. If the two numbers have `n` digits each, you perform `n * n` single-digit multiplications.
+
+Example: $456 \times 123 $
+
+Solution : $(456 \times 1)+(456 \times 2)+(456 \times 3) = 56,088$
+
+Example 2:
+
+Multiply 123 × 45 (in base 10):
+
+- 123 × 5 = 615
+- 123 × 40 = 4920
+- Sum = 5535
+
+This corresponds to digit-by-digit partial products and shifts.
+
+Time complexity = $O(n^2)$
+
+**_Pseudocode_**
 
 ```
+function naiveMultiply(A[0..n-1], B[0..n-1]):  // digits little-endian (least significant first)
+    // result array length up to 2n
+    R = array of zeros length 2n
+    for i from 0 to n-1:
+        carry = 0
+        for j from 0 to n-1:
+            temp = R[i + j] + A[i] * B[j] + carry
+            R[i + j] = temp mod BASE
+            carry = floor(temp / BASE)
+        R[i + n] += carry
+    return normalize(R)  // remove leading zeros
+```
+
+### 4.3.2 Karatsuba Algorithm for integer multiplication
+
+Karatsuba’s algorithm reduces the number of multiplications by using divide and conquer. Split each `n`-digit number into two halves (high and low):
+
+Let $m = floor(\frac{n}{2})$. Write
+
+$ X = X_1 \times 10^m + X_0 $
+
+$Y = Y_1 \times 10^m + Y_0$
+
+The straightforward expansion gives four products:
+
+$$
+\fcolorbox{black}{red}{$X \times Y = (X_1 \cdot Y_1) \cdot 10^{2m} + (X_1 \cdot Y_0 + X_0 \cdot Y_1) \cdot 10^m + X_0 \cdot Y_0$}
+$$
+
+Naively, that needs 4 multiplications of size \~n/2. Karatsuba avoids computing $X_1*Y_0$ and $X_0*Y_1$ separately by computing:
+
+\[
+\begin{align*}
+P_1 &= X_1 \cdot Y_1 \\
+P_2 &= X_0 \cdot Y_0 \\
+P_3 &= (X_1 + X_0)(Y_1 + Y_0) - P_1 - P_2 \quad \text{(equals $X_1Y_0 + X_0Y_1$)} \\
+\end{align*}
+\]
+
+$$\boxed{X \cdot Y = P_1 \cdot 10^{2m} + P_3\cdot 10^m + P_2}$$
+
+Thus only **3** multiplications of half-size numbers are needed.
+
+```
+function karatsubaMultiply(X, Y):
+    m = floor(n / 2)
+    X1, X0 = split(X, m)
+    Y1, Y0 = split(Y, m)
+
+    P1 = karatsubaMultiply(X1, Y1)
+    P2 = karatsubaMultiply(X0, Y0)
+    P3 = karatsubaMultiply(X1 + X0, Y1 + Y0)
+
+    cross = P3 - P1 - P2
+    return P1 * 10^(2m) + cross * 10^m + P2
+```
+
+Example:
+Multiply $X = 1234$, $Y = 5678$ in base 10:
+
+1.  Split with $m = 2$ (two-digit halves):
+
+    - $X_1 = 12$, $X_0 = 34$ ; $Y_1 = 56$, $Y_0 = 78$
+
+2.  Compute three products (recursively or directly):
+
+    - $P_1 = 12 * 56 = 672$
+    - $P_2 = 34 * 78 = 2652$
+    - $P_3 = (12 + 34) * (56 + 78) = 46 * 134 = 6164$
+
+3.  $cross = P_3 - P_1 - P_2 = 6164 - 672 - 2652 = 2840$
+4.  Recombine:
+
+    - $P_1 * 10^{2m} = 672 * 10^4 = 6,720,000$
+    - $cross * 10^m = 2840 * 10^2 = 284,000$
+    - $P_2 = 2,652$
+    - Sum = $6,720,000 + 284,000 + 2,652 = 7,006,652$
+
+Check: $1234 * 5678 = 7,006,652$
+
+Karatsuba recurrence:
+
+$$
+T(n) = 3 T(n/2) + O(n)
+$$
+
+Apply the Master Theorem :
+
+- $a = 3$, $b = 2$ → exponent $log_b(a) = log_2 3  ≈ 1.585$.
+- Therefore: $T(n) = Θ(n^{log_2 3}) ≈ Θ(n^{1.585})$.
+
+This is asymptotically faster than $Θ(n^2)$ for large $n$.
+
+**Comparison & When to Use Which **
+
+| Aspect                    |         Naïve (schoolbook) |                                           Karatsuba |
+| ------------------------- | -------------------------: | --------------------------------------------------: |
+| Asymptotic time           |                   $Θ(n^2)$ |                     $Θ(n^{log_2 3}) ≈ Θ(n^{1.585})$ |
+| Best for                  | Small to moderate integers |                                      Large integers |
+| Implementation complexity |                     Simple | Moderate (careful splitting, carries, thresholding) |
+
+**Rule of thumb:** For very large integers (hundreds to thousands of machine-word limbs), Karatsuba gives measurable speedups. For small sizes, the simple naive algorithm is often faster.
+
+### 4.3.3 Recent algorithms in integer multiplication
+
+#### 1. Motivation
+
+- Modern applications like **cryptography, scientific computing, and number theory** require multiplication of integers with millions of digits.
+- Even Karatsuba (**O(n^1.585)**) becomes too slow.
+- Goal: reduce complexity closer to **O(n log n)**.
+
+---
+
+#### 2. Major Recent Algorithms
+
+##### (a) Schoolbook Multiplication
+
+- Traditional method taught in schools.
+- Complexity: **O(n²)**.
+- Still used for very small n.
+
+---
+
+##### (b) Karatsuba Multiplication (1960)
+
+- Divide-and-conquer, split numbers into 2 halves.
+- Complexity: **O(n^1.585)**.
+- Breakthrough: first sub-quadratic algorithm.
+
+---
+
+##### (c) Toom–Cook Multiplication (1963)
+
+- Generalization of Karatsuba: split into more than 2 parts.
+- Example: **Toom-3** gives **O(n^1.465)**.
+- Used in libraries (GMP) for medium-sized numbers.
+
+---
+
+##### (d) Schönhage–Strassen Algorithm (1971)
+
+- Uses **Fast Fourier Transform (FFT)** in modular arithmetic.
+- Complexity: **O(n log n log log n)**.
+- Practical for very large integers.
+- Standard in big integer libraries for decades.
+
+---
+
+##### (e) Fürer’s Algorithm (2007)
+
+- Improved Schönhage–Strassen with refined complex FFT usage.
+- Complexity: **O(n log n · 2^O(log\* n))**.
+- Very close to O(n log n) in practice.
+
+---
+
+##### (f) Harvey–van der Hoeven Algorithm (2019)
+
+- First algorithm with **true O(n log n)** time complexity.
+- Solved a long-standing open problem in computational complexity.
+- Still mostly theoretical but groundbreaking.
+
+---
+
+#### 3. Complexity Comparison
+
+| Algorithm                  | Year | Complexity                  |
+| -------------------------- | ---- | --------------------------- |
+| Schoolbook (Naïve)         | –    | O(n²)                       |
+| Karatsuba                  | 1960 | O(n^1.585)                  |
+| Toom–Cook (Toom-3, Toom-k) | 1963 | O(n^1.465), improves with k |
+| Schönhage–Strassen         | 1971 | O(n log n log log n)        |
+| Fürer                      | 2007 | O(n log n · 2^O(log\* n))   |
+| Harvey–van der Hoeven      | 2019 | O(n log n)                  |
+
+```mermaid
+        graph LR
+            A["Schoolbook O(n^2)"] --> B["Karatsuba O(n^1.585)"]
+            B --> C["Toom-Cook O(n^1.465)"]
+            C --> D["Schoenhage-Strassen O(n log n log log n)"]
+            D --> E["Furer O(n log n * log* n)"]
+            E --> F["Harvey-van der Hoeven O(n log n)"]
+```
+
+## Reference
+
+[^1]: Cormen, T., Leiserson, C., Rivest, R., & Stein, C. (2009). **_Introduction to Algorithms (Third)_**. Mit Press.
+[^2]: Levitin, A. (2019). **_Introduction to the design and analysis of algorithms._** Pearson.

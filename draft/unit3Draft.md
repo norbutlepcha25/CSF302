@@ -108,3 +108,9 @@ and compares constants \(a\) and \(b^k\):
 - **Extended / CLRS Master Theorem:** handles \(f(n) = n^k \log^p n\)
 - Use **Big-O / Θ / Ω** to compare recursive vs non-recursive work
 - Use **floor/ceiling** to handle integer sizes
+
+## Additional Resources
+
+1. Strassen's Algorithm
+
+   -[Youtube Video 1](https://www.youtube.com/watch?v=OSelhO6Qnlc){:target="\_blank"}
