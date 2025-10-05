@@ -23,3 +23,8 @@ _End of document._
 
 $$
 $$
+
+## Additional Reading
+
+[The Most Important Algorithm Of All Time](https://www.youtube.com/watch?v=nmgFG7PUHfo) by Veritasium
+[But what is the Fourier Transform? A visual introduction.](https://www.youtube.com/watch?v=spUNpyF58BY) by 3blue1brown
