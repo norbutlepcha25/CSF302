@@ -4,6 +4,22 @@
   --md-primary-fg-color--dark: #90030c;
 }
 
+html {
+  font-size: 20px; /* affects everything site-wide */
+}
+
+blockquote {
+  font-size: larger;
+  border-left: 4px solid #0077cc; /* Change the color as needed */
+  padding-left: 1em; /* Space between border and text */
+  margin-left: 0; /* Remove default margin */
+  color: #555; /* Optional: Change text color */
+  font-style: italic; /* Optional: Italicize the text */
+  padding: 0.5em 1em; /* Optional: Padding for better appearance */
+  border-radius: 4px; /* Optional: Rounded corners */
+  text-align: justify;
+}
+
 .center-mermaid {
   display: flex;
   justify-content: center;
@@ -29,13 +45,26 @@
 
 .md-typeset table td,
 .md-typeset table th {
-  font-size: 14px; /* Adjust the desired font size */
+  font-size: 16px; /* Adjust the desired font size */
 }
 pre,
 code {
   font-size: 1rem; /* Adjust this value as needed */
 }
 
+.md-typeset h1 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  text-align: center;
+}
+.md-typeset h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.md-typeset h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
 /* Targeting KaTeX math symbols
 .md-typeset .katex .mord, 
 .md-typeset .katex .mbin, 
@@ -61,9 +90,6 @@ code {
   font-size: 1.3rem;
   font-family: "Fira Code", monospace;
   color: #006600;
-}
-html {
-  font-size: 21px; /* affects everything site-wide */
 }
 
 /* Increase spacing between KaTeX block equations */

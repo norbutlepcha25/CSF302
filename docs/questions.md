@@ -82,6 +82,8 @@ For each of the following recurrences, determine the asymptotic runtime ğ‘‡(ğ‘
 
 21) $T(n) = 4T\left(\tfrac{n}{2}\right) + \log n$
 
+## Unit 4: Practice Questions
+
 ### Answers
 
 [Answers](answers.md)

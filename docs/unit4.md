@@ -8,16 +8,13 @@
 
 ### 4.1.1 Principles and structure of divide and conquer algorithms
 
-Definition:
-Divide and Conquer is a problem-solving strategy that breaks a problem into smaller subproblems, solves them independently, and then combines their solutions to form the final answer.
+> Divide and Conquer is a problem-solving strategy that **breaks a problem into smaller subproblems**, solves them independently, and then combines their solutions to form the final answer.
 
-General Steps:
+**General Steps:**
 
-Divide – Break the main problem into smaller subproblems of the same type.
-
-Conquer – Solve the subproblems recursively. If the subproblem is small enough, solve it directly (base case).
-
-Combine – Merge the solutions of the subproblems into a solution for the original problem.
+- Divide – Break the main problem into smaller subproblems of the same type.
+- Conquer – Solve the subproblems recursively. If the subproblem is small enough, solve it directly (base case).
+- Combine – Merge the solutions of the subproblems into a solution for the original problem.
 
 ```mermaid
 flowchart TD
@@ -44,28 +41,37 @@ flowchart TD
 
 ### 4.2.1 Standard Matrix Multiplication
 
-Before going into Standard Matrix Multiplication, analyse the ways the sqare matrices are multiplies. The standard way of multiplying any sqaure matrix is is as follow.
+Given a square matrix, the standard way of multiplying any sqaure matrix is as follow.
 
-Given two 𝑛 × 𝑛 matrices(square matrix) 𝐴 and 𝐵, the product 𝐶 = 𝐴×𝐵 is also an 𝑛×𝑛 matrix where
+Given two 𝑛 × 𝑛 matrices(square matrix) 𝐴 and 𝐵, the product $𝐶 = 𝐴×𝐵$ is also an $𝑛×𝑛$ matrix where
 
 $$
- 𝐶_{𝑖𝑗}=∑_{𝑘=1}^𝑛𝐴_{𝑖𝑘}⋅𝐵_{𝑘𝑗}
+\boxed{
+ 𝐶_{𝑖𝑗}=∑_{𝑘=1}^𝑛𝐴_{𝑖𝑘}⋅𝐵_{𝑘𝑗}}
 $$
 
-Pseudocode for Square Matrix Multiplication
+Lets understand the above formula with a pseudocode for Square Matrix Multiplication
 
-!!! note ""
+(**Note**: _Try to analyse the code first and then check the explanation for reference._)
+
+!!! note "Pseudocode for standard Matrix Multiplication"
 
     ```text
-    SQUARE MATRIX MULTIPLY(A, B)
-        n = A.rows
-        let C be a new n x n matrix
-        for i = 1 to n
-            for j = 1 to n
-                C[i][j] = 0
-                for k = 1 to n
-                    C[i][j] = C[i][j] + A[i][k] * B[k][j]
+    1 SQUARE MATRIX MULTIPLY(A, B)
+    2    n = A.rows
+    3    let C be a new n x n matrix
+    4    for i = 1 to n
+    5        for j = 1 to n
+    6            C[i][j] = 0
+    7            for k = 1 to n
+    8                C[i][j] = C[i][j] + A[i][k] * B[k][j]
     ```
+
+    ??? note "Explanation:"
+
+         1. Intializing a function called **SQUARE MATRIX MULTIPLY** that takes two input parameter A and B, which are both square matix
+         2. initialize n= A.rows, will store the size of the row, alternately col can also be used as it is a square matrix
+         3. Initializing a new matrix $C$ of size $n \times n$
 
 From a standard matrix multiplication, for every element in the resultant matrix C has to perform **$n$** multiplication and **$(n-1)$** addition i.e, for example 2x2 matrix A multiplied with 2x2 matrix B, so to get the first element $C[i][j]$ it will take 2 multiplication and 1 addition.
 
@@ -598,7 +604,7 @@ This is asymptotically faster than $Θ(n^2)$ for large $n$.
 
 #### 2. Major Recent Algorithms
 
-##### (a) Schoolbook Multiplication
+**(a) Schoolbook Multiplication**
 
 - Traditional method taught in schools.
 - Complexity: **O(n²)**.
@@ -606,7 +612,7 @@ This is asymptotically faster than $Θ(n^2)$ for large $n$.
 
 ---
 
-##### (b) Karatsuba Multiplication (1960)
+**(b) Karatsuba Multiplication (1960)**
 
 - Divide-and-conquer, split numbers into 2 halves.
 - Complexity: **O(n^1.585)**.
@@ -614,7 +620,7 @@ This is asymptotically faster than $Θ(n^2)$ for large $n$.
 
 ---
 
-##### (c) Toom–Cook Multiplication (1963)
+**(c) Toom–Cook Multiplication (1963)**
 
 - Generalization of Karatsuba: split into more than 2 parts.
 - Example: **Toom-3** gives **O(n^1.465)**.
@@ -622,7 +628,7 @@ This is asymptotically faster than $Θ(n^2)$ for large $n$.
 
 ---
 
-##### (d) Schönhage–Strassen Algorithm (1971)
+**(d) Schönhage–Strassen Algorithm (1971)**
 
 - Uses **Fast Fourier Transform (FFT)** in modular arithmetic.
 - Complexity: **O(n log n log log n)**.
@@ -631,7 +637,7 @@ This is asymptotically faster than $Θ(n^2)$ for large $n$.
 
 ---
 
-##### (e) Fürer’s Algorithm (2007)
+**(e) Fürer’s Algorithm (2007)**
 
 - Improved Schönhage–Strassen with refined complex FFT usage.
 - Complexity: **O(n log n · 2^O(log\* n))**.
@@ -639,7 +645,7 @@ This is asymptotically faster than $Θ(n^2)$ for large $n$.
 
 ---
 
-##### (f) Harvey–van der Hoeven Algorithm (2019)
+**(f) Harvey–van der Hoeven Algorithm (2019)**
 
 - First algorithm with **true O(n log n)** time complexity.
 - Solved a long-standing open problem in computational complexity.
@@ -665,6 +671,484 @@ This is asymptotically faster than $Θ(n^2)$ for large $n$.
             C --> D["Schoenhage-Strassen O(n log n log log n)"]
             D --> E["Furer O(n log n * log* n)"]
             E --> F["Harvey-van der Hoeven O(n log n)"]
+```
+
+## 4.4 Convolutiona and Fast Fourier Transform
+
+Convolution is a mathematical operation that combines two functions to produce a third function. It expresses how the shape of one function is modified by another. In discrete form, the convolution of two sequences $a[0...n-1]$and $b[0...m-1]$ produces a sequence $c[0...n+m-2]$.
+
+<figure markdown="span">
+    ![RBS](img/unit4DivideandConquer/convolutionImage.png){width="80%"}
+    <figcaption>Convolution of two functions A (red) and B (blue) produce a third function describing the overlap (green).</figcaption>
+    <p align='right' style="font-size:0.8em"><i>Image Source: <a href="https://www.statisticshowto.com/convolution-integral-simple-definition/"> Statistics How to</a ></i></p>
+</figure>
+
+### 4.4.1 Discrete Time convolution
+
+<figure markdown="span">
+    ![RBS](img/unit4DivideandConquer/convolution.gif){width="100%"}
+    <figcaption>Convolution of two functions f and g</figcaption>
+    <p align='right' style="font-size:0.8em"><i>Image Source: <a href="https://quincyaflint.weebly.com/academic-material/discrete-convolution"> Quincy's Website</a ></i></p>
+</figure>
+
+Discrete time convolution is an operation on two discrete time signals is given by:
+
+$$(f * g)[n]=\sum_{i=-\infty}^{\infty} f[i] g[n-i] $$
+
+where:
+
+- $f[i]$ : input signal
+- $g[n-i]$: kernel/filter function shifted by n
+- The result (𝑓∗𝑔)[𝑛] is a new sequence that depends on both
+
+!!! example "Example"
+
+    Let
+    \( f = [1, 2, 3] \) and \( g = [0, 1, 0.5] \)
+
+    Then,
+
+    $$
+    (f * g)[n] = \begin{cases}
+    1 \cdot 0 = 0 & (n=0)\\
+    1 \cdot 1 + 2 \cdot 0 = 1 & (n=1)\\
+    1 \cdot 0.5 + 2 \cdot 1 + 3 \cdot 0 = 2.5 & (n=2)\\
+    2 \cdot 0.5 + 3 \cdot 1 = 4 & (n=3)\\
+    3 \cdot 0.5 = 1.5 & (n=4)
+    \end{cases}
+    $$
+
+    **Result:**
+    $$
+    (f \* g) = [0, 1, 2.5, 4, 1.5]
+    $$
+
+---
+
+**Key Applications**
+
+1.  Signal Processing
+    - Audio filtering and enhancement
+    - Noise reduction
+    - Echo and reverb effects
+
+Image Processing
+
+Edge detection
+Blurring and sharpening
+Feature extraction in CNNs
+
+<figure markdown="span">
+    ![Convolution](img/unit4DivideandConquer/2D_Convolution_Animation.gif){width="100%"}
+    <figcaption>Convolution with kernel in modification of image example</figcaption>
+    <p align='right' style="font-size:0.8em"><i>Image Source: <a href="https://commons.wikimedia.org/wiki/File:2D_Convolution_Animation.gif"> Wiki Media</a ></i></p>
+</figure>
+
+<figure markdown="span">
+    ![RBS](img/unit4DivideandConquer/blurringconvolution.gif){width="100%"}
+    <figcaption>Convolution example of blurring an image</figcaption>
+    <p align='right' style="font-size:0.8em"><i>Image Source: <a href="https://www.bitcoininsider.org/article/70964/computer-vision-busy-developers-convolutions"> Bitcoin Insider</a ></i></p>
+</figure>
+
+### 4.4.2 Naive Approch to convolution
+
+In the **naive method**, we directly apply the convolution formula using nested loops.
+
+For sequences of length \( N \) : $ (f \* g)[n] = \sum\_{i=0}^{N-1} f[i] \cdot g[n - i]$
+
+We compute this for each output index \( n \).
+
+**Time Complexity**
+
+- There are \( N \) possible output positions
+- Each position requires summing up to \( M \) terms  
+  **O(N × M)** operations $\approx$ **O(N^2)**
+
+```
+ConvolutionNaive(a[0...n-1], b[0...m-1]):
+result_size = n + m - 1
+c[0...result_size-1] = all zeros
+
+    for k = 0 to result_size-1:
+        for i = 0 to n-1:
+            j = k - i
+            if 0 ≤ j < m:
+                c[k] = c[k] + a[i] × b[j]
+
+    return c
+
+```
+
+### 4.4.3 Fast Fourier Transform
+
+FFT (Fast Fourier Transform) is an **efficient algorithm** to compute the **Discrete Fourier Transform (DFT)** of a sequence in **O(N log N)** time instead of **O(N²)**.
+
+The DFT converts a signal from the **time domain** to the **frequency domain**.
+
+**Mathematical Idea**
+
+The DFT of a sequence \( x[n] \) of length \( N \) is:
+
+$$
+X[k] = \sum_{n=0}^{N-1} x[n] \cdot e^{-i2\pi kn/N}
+$$
+
+Where :
+
+- N = number of time samples we have
+- n = current sample we're considering (0 .. N-1)
+- x[n] = value of the signal at time n
+- k = current frequency we're considering (0 Hertz up to N-1 Hertz)
+- X[k] = amount of frequency k in the signal (amplitude and phase, a complex number)
+
+This tells us how much of each frequency \( k \) is present in the signal.
+
+**Intution Of DFT**
+The Fourier Transform takes a specific viewpoint: **_What if any signal could be filtered into a bunch of circular paths?_**
+
+The Fourier Transform is about circular paths and Euler's formula is a clever way to generate one
+
+<figure markdown="span">
+    ![RBS](img/unit4DivideandConquer/eulerformula.webp){width="100%"}
+    <figcaption>Representation of Euler Formula</figcaption>
+    <p align='right' style="font-size:0.8em"><i>Image Source: <a href="https://betterexplained.com/articles/an-interactive-guide-to-the-fourier-transform/"> Better Explained</a ></i></p>
+</figure>
+
+<figure markdown="span">
+    ![RBS](img/unit4DivideandConquer/circularPath.webp){width="50%"}
+    <figcaption>Representation in a circle</figcaption>
+    <p align='right' style="font-size:0.8em"><i>Image Source: <a href="https://betterexplained.com/articles/an-interactive-guide-to-the-fourier-transform/"> Better Explained</a ></i></p>
+</figure>
+<figure markdown="span">
+    ![RBS](img/unit4DivideandConquer/eulerFormula.gif){width="100%"}
+    <figcaption>Euler Formula</figcaption>
+    <p align='right' style="font-size:0.8em"><i>Image Source: <a href="http://engredu.com/2022/12/09/euler-formula/"> Engr Edu </a ></i></p>
+</figure>
+
+**Information from the Circle**
+
+- Amplitutde : How big is the circle? (Radius)
+- Frequency: How fast do we draw it? (Frequency. 1 circle/second is a frequency of 1 Hertz (Hz) or 2\*pi radians/sec)
+- Where do we start? (Phase angle, where 0 degrees is the x-axis)
+
+### 4.4.4 Divide-and-Conquer in FFT (Cooley–Tukey Algorithm)
+
+1. **Split the signal** into even and odd indexed parts:
+
+   $$ x\_{even}[n] = x[2n], \quad x\_{odd}[n] = x[2n + 1]$$
+
+2. **Recursively compute** DFTs of each half.
+
+3. **Combine** results using the formula:  
+   $$ X[k] = E[k] + e^{-i2\pi k/N} O[k] $$  
+   $$ X[k + N/2] = E[k] - e^{-i2\pi k/N} O[k] $$
+
+This reduces computations from **N² → N log₂N**, a massive improvement.
+
+---
+
+    Algorithm FFT(x)
+    Input: Sequence x of length N (where N is a power of 2)
+    Output: DFT of x
+
+    1.  if N == 1 then
+    2.      return x
+    3.  end if
+
+    4.  Split x into two sequences:
+        even = [x[0], x[2], x[4], ..., x[N-2]]
+        odd = [x[1], x[3], x[5], ..., x[N-1]]
+
+    5.  E = FFT(even) // Recursive call for even indices
+    6.  O = FFT(odd) // Recursive call for odd indices
+
+    7.  Initialize X as an array of size N
+
+    8.  for k = 0 to N/2 - 1 do
+    9.      t = exp(-2πi * k / N) * O[k]
+    10. X[k] = E[k] + t
+    11. X[k + N/2] = E[k] - t
+    12. end for
+
+    13. return X
+
+---
+
+## 4.5 Binary Search and Ternary Search
+
+### 4.5.1 Binary Search
+
+Binary search is an efficient **divide-and-conquer** algorithm used to find the position of a target element in a **sorted array**.  
+Instead of checking each element sequentially (as in linear search), it repeatedly divides the search space in half, drastically reducing the number of comparisons.
+
+Algorithm:
+
+1. Compare the target element `x` with the middle element of the array.
+2. If `x` equals the middle element, return its index.
+3. If `x` is smaller, search the left half.
+4. If `x` is larger, search the right half.
+5. Repeat until the element is found or the range is empty.
+
+!!! example "Example"
+
+    Consider the sorted array: 2 6 8 12 25 56 89 99 and Target = 99
+
+    1. mid = 25 Compare with mid, 25 < 99, Move right
+    2. mid = 89, Compare with mid, 89 <99, Move right
+    3. Mid = 99, return as 99 = 99
+
+```
+BINARY_SEARCH(A, n, x):
+    low ← 0
+    high ← n - 1
+    while low ≤ high:
+        mid ← (low + high) / 2
+        if A[mid] == x:
+            return mid
+        else if A[mid] < x:
+            low ← mid + 1
+        else:
+            high ← mid - 1
+return -1 // Element not found
+```
+
+Time Complexity : O(logn)
+
+### 4.5.2 Ternary Search
+
+Ternary search is another divide-and-conquer technique, similar to binary search.
+Instead of dividing the array into two halves, it divides the search space into three parts using two midpoints.
+
+**Algorithm**
+
+- Compute two midpoints:
+
+      - mid1 = low + (high - low) / 3
+      - mid2 = high - (high - low) / 3
+
+- Compare the target element x with A[mid1] and A[mid2].
+- If x == A[mid1] or x == A[mid2], return that index.
+- If x < A[mid1], search the first third.
+- If x > A[mid2], search the last third.
+- Otherwise, search the middle third.
+
+```
+TERNARY_SEARCH(A, low, high, x):
+    while low ≤ high:
+        mid1 ← low + (high - low) / 3
+        mid2 ← high - (high - low) / 3
+
+        if A[mid1] == x:
+            return mid1
+        if A[mid2] == x:
+            return mid2
+
+        if x < A[mid1]:
+            high ← mid1 - 1
+        else if x > A[mid2]:
+            low ← mid2 + 1
+        else:
+            low ← mid1 + 1
+            high ← mid2 - 1
+    return -1  // Element not found
+
+```
+
+!!! example "Example"
+
+    A = [1, 3, 5, 7, 9, 11, 13, 15, 17]
+    x = 11
+
+    1. low= 1, high = 17
+
+        m1 index =2 value =5, m2 index = 6 value = 13
+
+        compare with m1 and m2, m1 < x < m2
+
+    2. low = 3, high = 5
+
+        m1 index = 3 value = 7, m2 index =5 value = 11, Found
+
+Time Complexity : $O(log_3 n)$
+
+## 4.6 Efficient Modular Exponentiation
+
+Modular exponentiation is a technique to compute: $(a^b) \mod m$ efficiently
+
+It’s widely used in **cryptography**, **number theory**, and **computer algorithms**, especially when the exponent \( b \) is very large.
+
+---
+
+### 4.6.1 Naive Approach to Modular Exponentiation
+
+**Idea:**
+
+The naive method directly computes \( a^b \) and then takes modulo \( m \).
+
+\[
+result = (a^b) \mod m
+\]
+
+**Algorithm:**
+
+1. Initialize `result = 1`
+2. Multiply `result` by `a`, `b` times
+3. Take modulo \( m \) at the end.
+
+**Pseudocode:**
+
+```python
+def naive_modular_pow(a, b, m):
+    result = 1
+    for i in range(b):
+        result = result * a
+    return result % m
+```
+
+Time Complexity: **O(b)** multiplications
+Impractical for large exponents: If b = $2^{1000}$, we'd need $2^{1000}$ multiplications
+Example: Computing $5^{100} \mod 13$ would require 100 multiplications
+Even with modular reduction at each step, still too slow for cryptographic purposes
+
+### 4.6.2 Square-and-multiply algorithm
+
+Write the exponent \(b\) in binary and use its bits to decide when to multiply. This reduces the number of multiplications to about the number of bits in \(b\) (i.e., \(O(\log b)\)).
+
+**Step**
+
+To compute $a^b \mod m$
+
+1.  Convert the Exponent "b" to Binary
+2.  Start from the most significant bit (MSB).
+3.  initialize result = 1
+4.  For each bit in the binary representation (from left to right):
+
+    - Square the current result
+    - If the current bit is 1, multiply by the base a
+    - Take modulo 𝑚 after each step.
+
+!!! example "Example"
+
+    Question : $10^{25} \mod 58$
+
+    - **step 1**: convert 25 to binary : $25_{10} = (11001)_2$
+    - **step 2**: result = 1
+    - **step 3**:
+        - checking first bit is equal  to 1, therefore sqaure the result and multiply with base "a" and find the modulo
+        - $1^2 \times 10 \mod 58$ = 10
+        - update the table
+
+    |Bits → | 1 | 1 | 0 | 0 | 1 |
+    |-------|---|---|---|---|---|
+    |result →| 10|   |   |   |   |
+
+    - **step 4**:
+        - checking second bit is equal  to 1, therefore sqaure the result and multiply with base "a" and find the modulo
+        - $10^2 \times 10 \mod 58$ = 14
+        - update the table
+
+    |Bits → | 1 | 1 | 0 | 0 | 1 |
+    |-------|---|---|---|---|---|
+    |result → | 10| 14  |   |   |   |
+
+    - **step 5**:
+        - checking second bit is equal  to 0, therefore sqaure the result and find the modulo
+        - $14^2 \mod 58$ = 22
+        - update the table
+
+    |Bits → | 1 | 1 | 0 | 0 | 1 |
+    |-------|---|---|---|---|---|
+    |result → | 10| 14  | 22  |   |   |
+
+    - **step 6**:
+        - checking second bit is equal  to 0, therefore sqaure the result and multiply with base "a" and find the modulo
+        - $22^2 \mod 58$ = 20
+        - update the table
+
+    |Bits → | 1 | 1 | 0 | 0 | 1 |
+    |----|---|---|---|---|---|
+    |result → | 10| 14  | 22  | 20 |   |
+
+    - step 7:
+        - checking second bit is equal  to 1, therefore sqaure the result and multiply with base "a" and find the modulo
+        - $00^2 \times 10 \mod 58$ = 56
+        - update the table
+
+    |Bits → | 1 | 1 | 0 | 0 | 1 |
+    |----|---|---|---|---|---|
+    |result → | 10| 14  |  22 | 20  | 56  |
+
+    ** final result** : $10^{25} \mod 58$ = 56
+
+```
+function modular_exponentiation(base, exponent, modulus):
+    result = 1
+    base = base mod modulus
+
+    while exponent > 0:
+        if exponent is odd:
+            result = (result × base) mod modulus
+        base = (base × base) mod modulus
+        exponent = exponent >> 1  // right shift (divide by 2)
+
+    return result
+```
+
+**Time Complexity**
+
+- Bit length of exponent: $k = ⌈log₂(b)⌉$
+- Number of squarings: $k - 1$ (one for each bit except the first)
+- Number of multiplications: Approximately $k/2$ on average (for half the bits being 1) i.e, Each iteration halves the exponent.
+- Total operations: O(k) = $O(log b)$ modular multiplications
+- Modulo at every step keeps numbers manageable.
+- Comparison: Naive O(b) vs Efficient O(log b)
+
+### 4.6.3 Applications in Cryptography
+
+1.  RSA Cryptosystem
+
+    - Encryption: $c = m^e \mod n$
+    - Decryption: $m = c^d \mod n$
+
+    Where e (public exponent) and d (private exponent) are large numbers
+    Efficient modular exponentiation is essential for practical RSA
+
+2.  Diffie-Hellman Key Exchange
+
+    - Key computation: $K = g^{(ab)} \mod p$
+    - Both parties compute shared secret using large exponents
+    - Security relies on difficulty of discrete logarithm problem
+
+3.  Digital Signatures (DSA, ECDSA)
+
+    - Signature verification involves modular exponentiation
+    - Must verify signatures efficiently in real-time applications
+
+## 4.7 Efficient Matrix Modular Exponentiation
+
+> Matrix modular exponentiation is an extension of modular exponentiation from scalar numbers to matrices. It is a powerful technique used in various computational problems, especially where recurrence relations or transitions between states can be modeled using matrices.
+
+In standard modular exponentiation, we compute $a^b \mod m$ whereas in **matrix modular exponentiation**, we instead compute:
+
+$$
+\boxed{A^k \mod m}
+$$
+
+where **A** is a square matrix, **k** is a non-negative integer (the exponent), and **m** is the modulus.
+
+```py
+def matrix_power_mod(A, k, m):
+    # A is a square matrix, k is exponent, m is modulus
+    n = len(A)
+    result = identity_matrix(n)
+
+    while k > 0:
+        if k % 2 == 1:
+            result = (result * A) % m
+        A = (A * A) % m
+        k //= 2
+
+    return result
 ```
 
 ## Reference
