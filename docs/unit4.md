@@ -1131,25 +1131,165 @@ function modular_exponentiation(base, exponent, modulus):
 In standard modular exponentiation, we compute $a^b \mod m$ whereas in **matrix modular exponentiation**, we instead compute:
 
 $$
-\boxed{A^k \mod m}
+\boxed{A^n \mod m}
 $$
 
-where **A** is a square matrix, **k** is a non-negative integer (the exponent), and **m** is the modulus.
+where **A** is a square matrix, **n** is a non-negative integer (the exponent), and **m** is the modulus.
 
-```py
-def matrix_power_mod(A, k, m):
-    # A is a square matrix, k is exponent, m is modulus
-    n = len(A)
-    result = identity_matrix(n)
+**Steps in Left-to-Right Matrix Modular Exponentiation**
 
-    while k > 0:
-        if k % 2 == 1:
-            result = (result * A) % m
-        A = (A * A) % m
-        k //= 2
+- Step 1: Convert the Exponent to Binary
 
-    return result
-```
+       - Write `n` in binary form.
+
+- Step 2: Initialize result
+
+       - `result = I` (identity matrix)
+       - `base = A`
+
+- Step 3: Process Each Bit (Left → Right)
+
+For each bit **b** in the binary representation of `n` (starting from the **leftmost bit**):
+
+1. **Square the current result**  
+   $
+   result = (result × result) \mod m
+   $
+
+2. **If the current bit is 1**, multiply by the base matrix:
+   $
+   result = (result × A) \mod m
+   $
+
+---
+
+$$
+A^{10} \mod 1000
+$$
+
+where
+
+$$
+A =
+\begin{bmatrix}
+1 & 1 \\
+1 & 0
+\end{bmatrix}
+$$
+
+---
+
+#### Step 1: Convert the Exponent to Binary
+
+$$
+10_{10} = 1010_2
+$$
+
+- Bit 1 (MSB = 1)
+- result = result² = I
+- multiply by A:
+- result = $I^2 \times A = A$
+
+$$
+\begin{bmatrix}
+1 & 0 \\
+0 & 1
+\end{bmatrix}
+\times
+\begin{bmatrix}
+1 & 1 \\
+1 & 0
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 1 \\
+1 & 0
+\end{bmatrix}
+$$
+
+- Bit 2 (next = 0)
+- Square the result : $A^2$
+- Bit = 0 → don’t multiply
+
+$$
+\begin{bmatrix}
+1 & 1 \\
+1 & 0
+\end{bmatrix}
+\times
+\begin{bmatrix}
+1 & 1 \\
+1 & 0
+\end{bmatrix}
+=
+\begin{bmatrix}
+2 & 1 \\
+1 & 1
+\end{bmatrix}
+$$
+
+- Bit 3 (next = 1)
+- Square the result : $(A^2)^2 = A^4$
+
+$$
+\begin{bmatrix}
+2 & 1 \\
+1 & 1
+\end{bmatrix}
+\times
+\begin{bmatrix}
+2 & 1 \\
+1 & 1
+\end{bmatrix}
+=
+\begin{bmatrix}
+5 & 3 \\
+3 & 2
+\end{bmatrix}
+$$
+
+- Bit = 1 → multiply by A i.e, $A^4 \times A$
+
+$$
+\begin{bmatrix}
+5 & 3 \\
+3 & 2
+\end{bmatrix}
+\times
+\begin{bmatrix}
+1 & 1 \\
+1 & 0
+\end{bmatrix}
+=
+\begin{bmatrix}
+8 & 5 \\
+5 & 3
+\end{bmatrix}
+$$
+
+- Bit 4 (last = 0)
+- Square result = $(A⁵)² = A¹⁰$:
+  $$
+  $$
+
+$$
+\begin{bmatrix}
+8 & 5 \\
+5 & 3
+\end{bmatrix}
+\times
+\begin{bmatrix}
+8 & 5 \\
+5 & 3
+\end{bmatrix}
+=
+\begin{bmatrix}
+88 & 55 \\
+55 & 34
+\end{bmatrix}
+$$
+
+- Bit = 0 → no multiply.
 
 ## Reference
 

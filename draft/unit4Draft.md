@@ -28,3 +28,18 @@ $$
 
 [The Most Important Algorithm Of All Time](https://www.youtube.com/watch?v=nmgFG7PUHfo) by Veritasium
 [But what is the Fourier Transform? A visual introduction.](https://www.youtube.com/watch?v=spUNpyF58BY) by 3blue1brown
+
+```py
+def matrix_power_mod(A, n, m):
+    # A is a square matrix, k is exponent, m is modulus
+    n = len(A)
+    result = identity_matrix(n)
+
+    while n > 0:
+        if n % 2 == 1:
+            result = (result * A) % m
+        A = (A * A) % m
+        n //= 2
+
+    return result
+```
