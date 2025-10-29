@@ -5,15 +5,15 @@
 }
 
 html {
-  font-size: 20px; /* affects everything site-wide */
+  font-size: 22px; /* affects everything site-wide */
 }
 
 blockquote {
-  font-size: larger;
+  font-size: large;
   border-left: 4px solid #0077cc; /* Change the color as needed */
   padding-left: 1em; /* Space between border and text */
   margin-left: 0; /* Remove default margin */
-  color: #555; /* Optional: Change text color */
+  color: #000000; /* Optional: Change text color */
   font-style: italic; /* Optional: Italicize the text */
   padding: 0.5em 1em; /* Optional: Padding for better appearance */
   border-radius: 4px; /* Optional: Rounded corners */
