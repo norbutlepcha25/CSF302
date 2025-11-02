@@ -1,0 +1,14 @@
+# project: "A temporary endeavor undertaken to create a unique product, service, or result."
+# stakeholder: "An individual, group, or organization that may affect or be affected by a project."
+# deliverable: "Any unique and verifiable product, result, or capability required to complete a process, phase, or project."
+# milestone: "A significant point or event in a project timeline."
+# scope: "The defined boundaries of what a project will and will not include."
+# risk: "An uncertain event or condition that, if it occurs, has a positive or negative effect on project objectives."
+# budget: "The total estimated cost allocated for a project or specific phase."
+# quality: "The degree to which a set of inherent characteristics fulfills requirements."
+# schedule: "A timetable that identifies planned start and finish dates for project activities."
+glossary_list:
+  - term: Scope
+    definition: The boundaries of a project.
+  - term: Milestone
+    definition: Key point in project timeline.

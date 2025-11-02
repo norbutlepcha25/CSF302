@@ -102,3 +102,115 @@ code {
   text-align: left !important;
   margin-left: 0 !important;
 }
+
+/* === Base Table Styling === */
+.custom-table-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem auto;
+  padding: 1.5rem;
+}
+
+.custom-table {
+  width: 90%;
+  max-width: 900px;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* Caption */
+.custom-table caption {
+  caption-side: top;
+  text-align: center;
+  font-size: 1.4em;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+/* Header row */
+.custom-table thead {
+  background-color: var(--header-bg);
+  color: var(--header-text);
+  font-weight: bold;
+}
+
+.custom-table th {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 14px 18px;
+  border-bottom: 2px solid var(--header-border);
+}
+
+/* Body cells */
+.custom-table td {
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Hover effect */
+.custom-table tbody tr:hover {
+  background-color: var(--hover-bg);
+  transition: background-color 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .custom-table {
+    width: 100%;
+    font-size: 0.9em;
+  }
+}
+
+/* === LIGHT MODE === */
+:root {
+  --header-bg: #0066cc;
+  --header-text: #ffffff;
+  --header-border: #0055aa;
+  --border-color: #e5e5e5;
+  --hover-bg: #f1f8ff;
+  --table-bg: #ffffff;
+  --text-color: #222222;
+}
+
+/* === DARK MODE === */
+/* Material for MkDocs automatically adds this attribute on dark mode */
+[data-md-color-scheme="slate"] {
+  --header-bg: #2980b9;
+  --header-text: #ffffff;
+  --header-border: #1f6391;
+  --border-color: #444;
+  --hover-bg: #2d3e50;
+  --table-bg: #222;
+  --text-color: #eaeaea;
+}
+
+/* Apply dark/light background & text */
+.custom-table {
+  background-color: var(--table-bg);
+  color: var(--text-color);
+}
+
+figure {
+  display: block;
+  margin: 2rem auto;
+  text-align: center;
+}
+
+figure img {
+  border-radius: 10px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
+}
+
+figure figcaption {
+  margin-top: 0.5rem;
+  font-style: italic;
+  color: var(--md-default-fg-color--light);
+}
+
+/* Dark mode adaptation */
+[data-md-color-scheme="slate"] figure figcaption {
+  color: var(--md-default-fg-color--lighter);
+}

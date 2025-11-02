@@ -1,0 +1,104 @@
+[data-md-color-scheme="youtube"] {
+  --md-primary-fg-color: #26667f;
+  --md-primary-fg-color--light: #ecb7b7;
+  --md-primary-fg-color--dark: #90030c;
+}
+
+html {
+  font-size: 22px; /* affects everything site-wide */
+}
+
+blockquote {
+  font-size: large;
+  border-left: 4px solid #0077cc; /* Change the color as needed */
+  padding-left: 1em; /* Space between border and text */
+  margin-left: 0; /* Remove default margin */
+  color: #000000; /* Optional: Change text color */
+  font-style: italic; /* Optional: Italicize the text */
+  padding: 0.5em 1em; /* Optional: Padding for better appearance */
+  border-radius: 4px; /* Optional: Rounded corners */
+  text-align: justify;
+}
+
+.center-mermaid {
+  display: flex;
+  justify-content: center;
+}
+
+/* Increase font size inside all callouts (admonitions) */
+.md-typeset .admonition,
+.md-typeset details {
+  font-size: 0.8rem;
+  line-height: 1.7rem;
+}
+
+/* make the title of the callout larger */
+.md-typeset .admonition-title {
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+/* Larger text only in warnings */
+.md-typeset .admonition.warning {
+  font-size: 0.8rem;
+}
+
+.md-typeset table td,
+.md-typeset table th {
+  font-size: 16px; /* Adjust the desired font size */
+}
+pre,
+code {
+  font-size: 1rem; /* Adjust this value as needed */
+}
+
+.md-typeset h1 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  text-align: center;
+}
+.md-typeset h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.md-typeset h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+/* Targeting KaTeX math symbols
+.md-typeset .katex .mord, 
+.md-typeset .katex .mbin, 
+.md-typeset .katex .mop {
+  font-family: 'Times New Roman', serif; 
+  font-size: 1.1em;
+} */
+
+/* Display equations only
+.md-typeset .katex-display {
+  font-size: 0.9rem;
+  text-align: center;
+} */
+
+/* Apply to inline and block KaTeX math
+.md-typeset .katex {
+  font-size: 1rem; 
+  font-family: ;
+  color: #0077cc; 
+} */
+
+.md-typeset .special-math .katex {
+  font-size: 1.3rem;
+  font-family: "Fira Code", monospace;
+  color: #006600;
+}
+
+/* Increase spacing between KaTeX block equations */
+.katex-display {
+  margin-top: 0em; /* space above */
+  margin-bottom: 0em; /* space below */
+}
+
+.katex-display-left {
+  text-align: left !important;
+  margin-left: 0 !important;
+}
