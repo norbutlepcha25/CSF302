@@ -1,7 +1,7 @@
-## Learning Outcomes
+# Divide and Conquer Algorithms
 
 !!! success "Learning Outcome"
 
-     {% for lo in unit6 %}
+     {% for lo in unit4 %}
      🎯 {{ lo }}
      {% endfor %}

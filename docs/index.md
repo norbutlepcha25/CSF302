@@ -105,3 +105,8 @@ Assignments 4 60
 Pre-requisites: CSF101 Programming Methodology
 
 [Unit 1](unit1.md)
+
+<!-- {{ youtube_embed("https://www.youtube.com/watch?v=dQw4w9WgXcQ", title="Never Gonna Give You Up") }}
+{{ youtube_embed("dQw4w9WgXcQ", title="Wider Video", width="90%") }}
+{{ youtube_embed("https://www.youtube.com/watch?v=dQw4w9WgXcQ", align="left", width="100%", title="Left aligned") }}
+{{ youtube_embed("https://www.youtube.com/watch?v=IZbN_nmxAGk&list=RDIZbN_nmxAGk&start_radio=1", width="700px", title="Fixed width example") }} -->

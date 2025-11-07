@@ -2,24 +2,23 @@ unit1:
   - Define key concepts in number theory, combinatorics, and probability theory as they relate to algorithmic design.
 
 unit2:
-  - "Develop a project plan including scope and schedule."
-  - "Perform risk assessment and management."
-  - "Allocate budget and resources efficiently."
+  - Explain the principles of asymptotic analysis and the role of algorithms in computing.
 
 unit3:
-  - "Create project schedules with milestones."
-  - "Use project tracking tools to monitor progress."
-  - "Ensure quality standards and deliverables are met."
+  - Assess the efficiency of different approaches to solving recurrence relations, including the substitution method, recursion-tree method, and master method.
+
+unit4:
+  - Implement divide-and-conquer algorithms such as Strassen's algorithm for matrix multiplication and the Fast Fourier Transform.
+  - Critique the effectiveness of different algorithm design paradigms (divide-and-conquer, dynamic programming, greedy) for various problem types.
 
 unit5:
-  - "Create project schedules with milestones."
-  - "Use project tracking tools to monitor progress."
-  - "Ensure quality standards and deliverables are met."
+  - Compare and contrast various sorting algorithms, evaluating their time complexity and performance characteristics.
+
 unit6:
-  - "Create project schedules with milestones."
-  - "Use project tracking tools to monitor progress."
-  - "Ensure quality standards and deliverables are met."
+  - Design dynamic programming solutions for complex problems such as the rod cutting problem and optimal binary search trees.
+  - Critique the effectiveness of different algorithm design paradigms (divide-and-conquer, dynamic programming, greedy) for various problem types.
+
 unit7:
-  - "Create project schedules with milestones."
-  - "Use project tracking tools to monitor progress."
-  - "Ensure quality standards and deliverables are met."
+  - Develop greedy algorithms for optimization problems, such as the fractional knapsack problem and activity selection.
+  - Examine the principles and applications of randomised algorithms in problem-solving.
+  - Critique the effectiveness of different algorithm design paradigms (divide-and-conquer, dynamic programming, greedy) for various problem types.

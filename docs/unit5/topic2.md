@@ -7,7 +7,7 @@ All comparison-based sorting algorithms (like Merge Sort, Quick Sort, Heap Sort,
 ## 5.2.1 Decision tree model for comparison-based sorting
 
 <figure markdown="span">
-    ![DT](img/unit5Sorting/decisionTree.png){width="60%"}
+    ![DT](../img/unit5Sorting/decisionTree.png){width="60%"}
     <figcaption>Example of a decision Tree</figcaption>
     <p align='right' style="font-size:0.8em"><i>Image Source: <a href="https://www.comp.nus.edu.sg/~stevenha/cs3230/lectures/lec04a.pdf" target="_blank"> NUS Notes</a ></i></p>
 </figure>
@@ -26,7 +26,7 @@ Similarly any comparison-based algorithm can be modeled using a decision tree:
 - Leaves: Represent one of the possible n! permutations of the input. A correct sorting algorithm must have a unique leaf for each permutation.
 
 <figure markdown="span">
-    ![DT](img/unit5Sorting/exampleDTSA.png){width="80%"}
+    ![DT](../img/unit5Sorting/exampleDTSA.png){width="80%"}
     <figcaption>Example of a decision Tree</figcaption>
     <p align='right' style="font-size:0.8em"><i>Image Source: <a href="https://www.comp.nus.edu.sg/~stevenha/cs3230/lectures/lec04a.pdf" target="_blank"> NUS Notes</a ></i></p>
 </figure>

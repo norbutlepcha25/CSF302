@@ -1,4 +1,4 @@
-## Learning Outcomes
+# Mathematical Foundations
 
 !!! success "Learning Outcome"
 

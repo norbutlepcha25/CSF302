@@ -104,45 +104,54 @@ plugins:
 nav:
   - Home: index.md
 
-  # - Unit 1:
-  #     - Overview: unit1/overview.md
+  - Unit 1:
+      - Overview: unit1/overview.md
   #     - 1.1 Number Theory: unit1/topic1.md
   #     - 1.2 Combinatorics: unit1/topic2.md
   #     - 1.3 Combinatorics: unit1/topic3.md
   #     - 1.4 Basics of Game Theory: unit1/topic4.md
   #     - Summary: unit1/summary.md
 
-  # - Unit 2:
-  #     - Overview: unit2/overview.md
-  #     - 2.1 Asymptotic Analysis: unit2/topic1.md
-  #     - 2.2 Model of Computation (Word-RAM): unit2/topic2.md
+  - Unit 2:
+      - Overview: unit2/overview.md
+      - 2.1 Asymptotic Analysis: unit2/topic1.md
+      # - 2.2 Model of Computation (Word-RAM): unit2/topic2.md
   #     - 2.3 Role of Algorithms in Computing: unit2/topic3.md
   #     - 2.4 Analysing and Designing Algorithms: unit2/topic4.md
   #     - 2.5 O-notation, Ω-notation, and Θ-notation: unit2/topic5.md
   #     - 2.6 Standard Notation & Common Functions: unit2/topic6.md
   #     - Summary: unit2/summary.md
 
-  # - Unit 3:
-  #     - Overview: unit3/overview.md
-  #     - 3.1 Recurrences & Master Theorem (Analysis): unit3/topic1.md
-  #     - 3.2 Merge Sort Analysis: unit3/topic2.md
-  #     - 3.3 Recursion Trees: unit3/topic3.md
-  #     - 3.4 Telescoping Method: unit3/topic4.md
-  #     - 3.5 Solving Recurrences (Substitution Method): unit3/topic5.md
-  #     - 3.6 Solving Recurrences (Recursion-Tree Method): unit3/topic6.md
-  #     - 3.7 Solving Recurrences (Master Method): unit3/topic7.md
+  - Unit 3:
+      - Overview: unit3/overview.md
+      - 3.1 Recurrences & Master Theorem (Analysis): unit3/topic1.md
+      - 3.2 Iterative Method: unit3/topic2.md
+      - 3.3 Recursion Trees: unit3/topic3.md
+      - 3.4 Solving Recurrences (Substitution Method): unit3/topic4.md
+      - 3.5 Solving Recurrences (Master Method): unit3/topic5.md
+      - 3.6 Merge Sort Analysis: unit3/topic6.md
   #     - Summary: unit3/summary.md
+  - Unit 4:
+      - Overview: unit4/overview.md
+      - 4.1 Divide & Conquer Algorithm Design: unit4/topic1.md
+      - 4.2 Strassen's Algorithm for Matrix Multiplication: unit4/topic2.md
+      - 4.3 Integer Multiplication: unit4/topic3.md
+      - 4.4 Convolution & Fast Fourier Transform (FFT): unit4/topic4.md
+      - 4.5 Binary Search and Ternary Search: unit4/topic5.md
+      - 4.6 Efficient Modular Power (Exponentiation): unit4/topic6.md
+      - 4.7 Efficient Matrix Modular Power (Exponentiation): unit4/topic7.md
+  #     - Summary: unit4/summary.md
 
-  # - Unit 5:
-  #     - Overview: unit5/overview.md
-  #     - 5.1 Comparison-based Sorting Analysis: unit5/topic1.md
-  #     - 5.2 Lower Bound for Sortings: unit5/topic2.md
-  #     - 5.3 Quicksort Analysis and Performance: unit5/topic3.md
-  #     - 5.4 Randomised Quicksort and Analysis: unit5/topic4.md
-  #     - 5.5 Linear-Time Sorting( Counting Sort): unit5/topic5.md
-  #     - 5.6 Linear-Time Sorting( Radix Sort): unit5/topic6.md
-  #     - Special Sorting Problems - Inversion Index: unit5/topic4.md
-  #     - Summary: unit5/summary.md
+  - Unit 5:
+      - Overview: unit5/overview.md
+      - 5.1 Comparison-based Sorting Analysis: unit5/topic1.md
+      - 5.2 Lower Bound for Sortings: unit5/topic2.md
+      - 5.3 Quicksort Analysis and Performance: unit5/topic3.md
+      - 5.4 Randomised Quicksort and Analysis: unit5/topic4.md
+      - 5.5 Linear-Time Sorting( Counting Sort): unit5/topic5.md
+      - 5.6 Linear-Time Sorting( Radix Sort): unit5/topic6.md
+      - 5.7 Special Sorting Problems - Inversion Index: unit5/topic7.md
+      - Summary: unit5/summary.md
 
   # - Unit 6:
   #     - Overview: unit6/overview.md
