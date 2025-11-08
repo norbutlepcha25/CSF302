@@ -75,7 +75,7 @@ we arrange for each subproblem to be solved only once, saving its solution. If w
     - We solve each subproblem only once, and when we first see it, we have already solved all of its prerequisite subproblems
 
 <figure markdown="span">
-    <img src="img/unit6_dp/rodcutting-bttomup.png" alt="RBS" width="80%" />
+    <img src="../img/unit6_dp/rodcutting-bttomup.png" alt="RBS" width="80%" />
     <figcaption>Pseudocode for Rod cutting Algorithm Buttom Up approach</figcaption>
     <p align='right' style="font-size:0.8em"><i>Image Source: Introduction to Algorithms, Chapter 15</i></p>
 </figure>
@@ -154,5 +154,9 @@ we arrange for each subproblem to be solved only once, saving its solution. If w
     - The last cell at the bottom right corner gives the maximum profit that can be earned for the given length of rod
 
 ## 6.2.4 Time and space complexity analysis
+
+naive recursive approach is exponential time (\(O(n^{n})\)) and \(O(n)\) space for the call stack
+
+dynamic programming, including memoization or tabulation, the time complexity is typically \(O(n^{2})\) and the space complexity is \(O(n)\) to store the results.
 
 [^2]: Cormen, T., Leiserson, C., Rivest, R., & Stein, C. (2009). Introduction to Algorithms (Third). Mit Press.

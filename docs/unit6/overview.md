@@ -1,4 +1,4 @@
-## Learning Outcomes
+# Dynamic Programing
 
 !!! success "Learning Outcome"
 

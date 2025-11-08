@@ -12,14 +12,21 @@ This module aims to provide a comprehensive understanding of <strong>algorithmic
 
 On completion of the module, students will be able to:
 
-1.  Define key concepts in number theory, combinatorics, and probability theory as they relate to algorithmic design.
-2.  Explain the principles of asymptotic analysis and the role of algorithms in computing.
-3.  Assess the efficiency of different approaches to solving recurrence relations, including the substitution method, recursion-tree method, and master method.
-4.  Implement divide-and-conquer algorithms such as Strassen's algorithm for matrix multiplication and the Fast Fourier Transform.
-5.  Compare and contrast various sorting algorithms, evaluating their time complexity and performance characteristics.
-6.  Design dynamic programming solutions for complex problems such as the rod cutting problem and optimal binary search trees.
-7.  Develop greedy algorithms for optimization problems, such as the fractional knapsack problem and activity selection.
-8.  Examine the principles and applications of randomised algorithms in problem-solving. - Critique the effectiveness of different algorithm design paradigms (divide-and-conquer, dynamic programming, greedy) for various problem types.
+🎯 Define key concepts in number theory, combinatorics, and probability theory as they relate to algorithmic design.
+
+🎯 Explain the principles of asymptotic analysis and the role of algorithms in computing.
+
+🎯 Assess the efficiency of different approaches to solving recurrence relations, including the substitution method, recursion-tree method, and master method.
+
+🎯 Implement divide-and-conquer algorithms such as Strassen's algorithm for matrix multiplication and the Fast Fourier Transform.
+
+🎯 Compare and contrast various sorting algorithms, evaluating their time complexity and performance characteristics.
+
+🎯 Design dynamic programming solutions for complex problems such as the rod cutting problem and optimal binary search trees.
+
+🎯 Develop greedy algorithms for optimization problems, such as the fractional knapsack problem and activity selection.
+
+🎯 Examine the principles and applications of randomised algorithms in problem-solving. - Critique the effectiveness of different algorithm design paradigms (divide-and-conquer, dynamic programming, greedy) for various problem types.
 
 ## Learning and Teaching Approach
 
@@ -90,21 +97,7 @@ Each assignment shall be assessed out of 15 marks as follows:\
 - **3 marks:** Presentation and explanation of solutions\
 - **2 marks:** Timely submission and correctness
 
-### Overview of the assessment approaches and weighting
-
-Areas of Assessment Quantity Weighting (%)
-
----
-
-Mid Term Test 1 15
-Class Test 1 15
-Quiz 1 10
-Assignments 4 60
-**Total** 100
-
 Pre-requisites: CSF101 Programming Methodology
-
-[Unit 1](unit1.md)
 
 <!-- {{ youtube_embed("https://www.youtube.com/watch?v=dQw4w9WgXcQ", title="Never Gonna Give You Up") }}
 {{ youtube_embed("dQw4w9WgXcQ", title="Wider Video", width="90%") }}

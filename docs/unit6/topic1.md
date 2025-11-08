@@ -13,7 +13,7 @@ A problem exhibits overlapping subproblems if the same subproblems recur multipl
 Example:
 
 <figure markdown="span">
-    ![FST](../img/images.png){width="100%"}
+    ![FST](../img/unit6_dp/fibtree.png){width="100%"}
     <figcaption>Fibonacci Sequence Tree</figcaption>
     <p align='right' style="font-size:0.8em"><i>Image Source: <a href="https://mathematica.stackexchange.com/questions/116344/how-do-i-create-a-recursive-tree-plot-for-the-fibonacci-sequence"> Stack Exchnage</a ></i></p>
 </figure>
@@ -27,8 +27,6 @@ Using DP, we compute each Fibonacci number once and store it.
 
 **Tabulation Approch(Bottom-up approch)**: Stores the results of subproblems in a table
 Iterative implementation. Entries are filled in a bottom-up manner from the smallest size to the final size.
-
-## Test Your self
 
 ## Reference
 

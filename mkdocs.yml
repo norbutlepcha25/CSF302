@@ -153,23 +153,22 @@ nav:
       - 5.7 Special Sorting Problems - Inversion Index: unit5/topic7.md
       - Summary: unit5/summary.md
 
-  # - Unit 6:
-  #     - Overview: unit6/overview.md
-  #     - 6.1 Dynamic Programming Design Principles: unit6/topic1.md
-  #     - 6.2 Rod Cutting Problem: unit6/topic2.md
-  #     - 6.3 Matrix Chain Multiplication: unit6/topic3.md
-  #     - 6.4 Longest Common Subsequence: unit6/topic4.md
-  #     - Summary: unit6/summary.md
+  - Unit 6:
+      - Overview: unit6/overview.md
+      - 6.1 Dynamic Programming Design Principles: unit6/topic1.md
+      - 6.2 Rod Cutting Problem: unit6/topic2.md
+      - 6.3 Matrix Chain Multiplication: unit6/topic3.md
+      - 6.4 Longest Common Subsequence: unit6/topic4.md
+      - Summary: unit6/summary.md
 
-  # - Unit 7:
-  #     - Overview: unit7/overview.md
-  #     - 7.1 Greedy Algorithm Design Principles: unit7/topic1.md
-  #     - 7.2 Fractional Knapsack Problem: unit7/topic2.md
-  #     - 7.3 Huffman Coding: unit7/topic3.md
-  #     - 7.4 Activity Selection Problems: unit7/topic4.md
-  #     - 7.5 Dijkstra's Algorithm: unit7/topic5.md
-  #     - 7.6 Minimum Spanning Tree (Prim's and Kruskal's Algorithms): unit7/topic6.md
-  #     - Summary: unit7/summary.md
+  - Unit 7:
+      - Overview: unit7/overview.md
+      - 7.1 Greedy Algorithm Design Principles: unit7/topic1.md
+      - 7.2 Fractional Knapsack Problem: unit7/topic2.md
+      - 7.3 Huffman Coding: unit7/topic3.md
+      - 7.4 Activity Selection Problems: unit7/topic4.md
+      - 7.5 Dijkstra's Algorithm: unit7/topic5.md
+      - 7.6 Minimum Spanning Tree (Prim's and Kruskal's Algorithms): unit7/topic6.md
+      # - Summary: unit7/summary.md
 
-  # - Questions: questions.md
-  # - glossary: glossary.md
+  - Questions: questions.md
