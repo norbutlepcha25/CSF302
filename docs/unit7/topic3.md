@@ -221,8 +221,12 @@
 
 !!! example "Building Huffman Tree Example : 3, when Probability is given"
 
-    {{image_block("../img/u7gdy/HUFFMAN.png", "Huffman", "Huffman", "", "", size="large")}}
+    {{image_block("../img/u7gdy/huffman.png", "Huffman", "Huffman", "", "", size="large")}}
     **E = 0.3, B=0.25, A=0.25, C=0.15, D=0.05** (Arrange it in decreasing order)
+
+!!! tip "Tip"
+
+    In Huffman coding, which is used for data compression, the most frequently appearing element is encoded with the least number of bits and vice versa.
 
 ### **Code Implementation**
 
@@ -435,9 +439,3 @@ Minimal compression possible
 - The greedy approach works because of the optimal substructure
 - Real compression systems often use Huffman as one stage in a pipeline
 - For best compression, we need good frequency estimates
-
-Huffman coding beautifully demonstrates how greedy algorithms can solve complex optimization problems efficiently!
-
-```
-
-```
