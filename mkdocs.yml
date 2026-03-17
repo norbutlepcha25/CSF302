@@ -1,5 +1,5 @@
 site_name: CSF302 - Algorithm Design and Analysis
-site_url: https://norbutlepcha25.github.io/CSF302
+site_url: https://cslivecode.github.io/algodesign
 
 use_directory_urls: false
 
@@ -43,7 +43,7 @@ extra_css:
   - https://unpkg.com/katex@0/dist/katex.min.css
 
 copyright: |
-  &copy; 2025 <a href="https://github.com/norbutlepcha25" target="_blank" rel="noopener">Norbu Tshering Lepcha</a>
+  &copy; 2025 <a href="https://github.com/cslivenote" target="_blank" rel="noopener">Norbu Tshering Lepcha</a>
 
 extra:
   generator: false
