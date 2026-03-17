@@ -1,89 +1,225 @@
-## Unit 3: Practice Questions
+## Problem 1: Dinner Table Arrangements
 
-### 1. Iterative method
+You're organizing a dinner party with N friends (1 ≤ N ≤ 20). Each friend has allergies represented as a bitmask. You need to arrange them around a table such that no two adjacent persons share any common allergy.
 
-Here are some common recurrence relations, solve this using iterative method:
+**Input Format:**
 
-1.  $ \quad
-    T(n) = T(n+1) + 1, \quad T(1) = 1 \quad
-    $
+- First line: T (number of test cases)
+- For each test case:
+  - First line: N (number of friends)
+  - Next N lines: Each contains M (number of allergies) followed by M integers representing allergy IDs (1-30)
 
-2.  $ \quad
-    T(n) = T\left(\frac{n}{2} + 1\right) + 1, \quad T(1) = 1
-    $
+**Output Format:**
+For each test case, output "YES" if valid arrangement exists, "NO" otherwise.
 
-3.  $ \quad
-    T(n) = T(n-1) + n, \quad T(1) = 1
-    $
+**Sample Input:**
 
-4.  $ \quad
-    T(n) = 2T\left(\frac{n}{2}\right) + n, \quad T(1) = 1
-    $
+```
+2
+3
+2 1 2
+2 2 3
+1 3
+4
+2 1 2
+1 2
+1 3
+1 4
+```
 
-5.  $ \quad
-    T(n) = T(n-1) + 2, \quad T(1) = 1
-    $
+**Sample Output:**
 
-6.  $ \quad
-    T(n) = T\left(\frac{n}{2}\right) + n, \quad T(1) = 1
-    $
+```
+YES
+NO
+```
 
-7.  $ \quad
-    T(n) = 2T\left(\frac{n}{2}\right) + n^2, \quad T(1) = 1
-    $
+**Constraints:**
 
-### 2. Master Theorem
+- 1 ≤ T ≤ 10
+- 1 ≤ N ≤ 20
+- 1 ≤ M ≤ 10
 
-For each of the following recurrences, determine the asymptotic runtime 𝑇(𝑛).
+---
 
-1. If the recurrence can be solved using the classic Master Theorem, apply it directly and provide the solution.
+## Problem 2: Maximum AND Subarray
 
-2. If the classic Master Theorem does not apply, state this explicitly and then attempt to solve the recurrence using the generalized or extended Master Theorem, where applicable.
+Given an array of N integers (1 ≤ N ≤ 10^5), find the maximum possible value of AND of any subarray of length exactly K.
 
-1)  $T(n) = 3T\left(\tfrac{n}{2}\right) + n^2$
+**Input Format:**
 
-2)  $T(n) = 4T\left(\tfrac{n}{2}\right) + n^2$
+- First line: T (1 ≤ T ≤ 10)
+- For each test case:
+  - First line: N K
+  - Second line: N integers A[i] (0 ≤ A[i] ≤ 10^9)
 
-3)  $T(n) = T\left(\tfrac{n}{2}\right) + 2^n$
+**Output Format:**
+For each test case, output the maximum AND value.
 
-4)  $T(n) = 2^n \, T\left(\tfrac{n}{2}\right) + n ^ n$
+**Sample Input:**
 
-5)  $T(n) = 16T\left(\tfrac{n}{4}\right) + n$
+```
+2
+5 3
+12 8 15 10 7
+4 2
+16 16 16 16
+```
 
-6)  $T(n) = 2T\left(\tfrac{n}{2}\right) + n \log n$
+**Sample Output:**
 
-7)  $T(n) = 2T\left(\tfrac{n}{2}\right) + \tfrac{n}{\log n}$
+```
+8
+16
+```
 
-8)  $T(n) = 2T\left(\tfrac{n}{4}\right) + n^{0.51}$
+**Hint:** Think about checking bits from MSB to LSB.
 
-9)  $T(n) = 0.5T\left(\tfrac{n}{2}\right) + \tfrac{1}{n}$
+## Problem 3: Sliding Window Maximum
 
-10) $T(n) = 16T\left(\tfrac{n}{4}\right) + n!$
+Given an array of N integers and a window size K, find the maximum in each sliding window of size K.
 
-11) $T(n) = \sqrt{2} \, T\left(\tfrac{n}{2}\right) + \log n$
+**Input Format:**
 
-12) $T(n) = 3T\left(\tfrac{n}{2}\right) + n$
+- First line: N K
+- Second line: N space-separated integers A[i] (-10^9 ≤ A[i] ≤ 10^9)
 
-13) $T(n) = 3T\left(\tfrac{n}{3}\right) + \sqrt{n}$
+**Output Format:**
+Print N-K+1 numbers - the maximum of each window.
 
-14) $T(n) = 4T\left(\tfrac{n}{2}\right) + cn$
+**Sample Input:**
 
-15) $T(n) = 3T\left(\tfrac{n}{4}\right) + n \log n$
+```
+8 3
+1 3 -1 -3 5 3 6 7
+```
 
-16) $T(n) = 3T\left(\tfrac{n}{3}\right) + \tfrac{n}{2}$
+**Sample Output:**
 
-17) $T(n) = 6T\left(\tfrac{n}{3}\right) + n^2 \log n$
+```
+3 3 5 5 6 7
+```
 
-18) $T(n) = 4T\left(\tfrac{n}{2}\right) + \tfrac{n}{\log n}$
+## Problem 4: Maximum in Sliding Window with Updates
 
-19) $T(n) = 64T\left(\tfrac{n}{8}\right) - n^2 \log n$
+You have an array of N elements. Process Q queries of two types:
 
-20) $T(n) = 7T\left(\tfrac{n}{3}\right) + n^2$
+- Type 1: Update A[pos] = val
+- Type 2: Query maximum in sliding window of size K ending at index i
 
-21) $T(n) = 4T\left(\tfrac{n}{2}\right) + \log n$
+**Input Format:**
 
-## Unit 4: Practice Questions
+- First line: N K Q
+- Second line: Initial array of N integers
+- Next Q lines: Each query (type parameters)
 
-### Answers
+**Output Format:**
+For each type 2 query, output the maximum.
 
-[Answers](answers.md)
+**Sample Input:**
+
+```
+5 3 4
+1 2 3 4 5
+2 3
+1 2 10
+2 3
+2 5
+```
+
+**Sample Output:**
+
+```
+3
+10
+10
+```
+
+## Problem 5: Network Latency
+
+Given a network of N routers connected by M bidirectional cables with given latencies, find the minimum latency to send a packet from router 1 to router N.
+
+**Input Format:**
+
+- First line: N M (1 ≤ N ≤ 10^5, 1 ≤ M ≤ 2×10^5)
+- Next M lines: u v w (1 ≤ u,v ≤ N, 1 ≤ w ≤ 10^9)
+
+**Output Format:**
+Print the minimum latency, or -1 if no path exists.
+
+**Sample Input:**
+
+```
+4 4
+1 2 5
+2 3 3
+1 3 8
+3 4 2
+```
+
+**Sample Output:**
+
+```
+10
+```
+
+**Path:** 1 → 2 → 3 → 4 (5 + 3 + 2 = 10)
+
+---
+
+In a city, travel time between two intersections depends on the time of day. Given N intersections and M directed roads, each road has a function f(t) = a\*t + b that gives travel time if you start at time t. Find the earliest arrival time at destination N starting from intersection 1 at time 0.
+
+**Input Format:**
+
+- First line: N M
+- Next M lines: u v a b (road from u to v with f(t) = a\*t + b)
+
+**Output Format:**
+Print earliest arrival time at N (rounded to 2 decimal places) or -1 if unreachable.
+
+**Sample Input:**
+
+```
+3 3
+1 2 1 0
+2 3 1 5
+1 3 2 0
+```
+
+**Sample Output:**
+
+```
+10.00
+```
+
+---
+
+## Problem 6: The Shortest Path with Toll Booths
+
+A highway has N toll booths in a line. You start at booth 1 with M coins. At each booth i, you can:
+
+- Pay toll[i] coins and move to next booth (cost: 1 minute)
+- Skip the booth (cost: 2 minutes) but can only skip at most K booths in total
+
+Find minimum time to reach booth N.
+
+**Input Format:**
+
+- First line: N M K
+- Second line: N integers toll[1..N]
+
+**Output Format:**
+Print minimum time or -1 if impossible.
+
+**Sample Input:**
+
+```
+5 10 2
+3 5 2 4 6
+```
+
+**Sample Output:**
+
+```
+6
+```
