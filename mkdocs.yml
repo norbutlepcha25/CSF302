@@ -171,4 +171,5 @@ nav:
   #     - 7.6 Minimum Spanning Tree (Prim's and Kruskal's Algorithms): unit7/topic6.md
   # - Summary: unit7/summary.md
 
-  - Questions: questions.md
+  - Practical 2: questions.md
+  - Practical 3: q2.md
