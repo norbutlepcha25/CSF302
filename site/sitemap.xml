@@ -1,75 +1,271 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://norbutlepcha25.github.io/CSF302/index.html</loc>
-         <lastmod>2025-10-31</lastmod>
+         <loc>https://cslivecode.github.io/algodesign/index.html</loc>
+         <lastmod>2026-03-28</lastmod>
     </url>
     <url>
-         <loc>https://norbutlepcha25.github.io/CSF302/answers.html</loc>
-         <lastmod>2025-10-31</lastmod>
+         <loc>https://cslivecode.github.io/algodesign/answers.html</loc>
+         <lastmod>2026-03-28</lastmod>
     </url>
     <url>
-         <loc>https://norbutlepcha25.github.io/CSF302/glossary.html</loc>
-         <lastmod>2025-10-31</lastmod>
+         <loc>https://cslivecode.github.io/algodesign/practical.html</loc>
+         <lastmod>2026-03-28</lastmod>
     </url>
     <url>
-         <loc>https://norbutlepcha25.github.io/CSF302/questions.html</loc>
-         <lastmod>2025-10-31</lastmod>
+         <loc>https://cslivecode.github.io/algodesign/q2.html</loc>
+         <lastmod>2026-03-28</lastmod>
     </url>
     <url>
-         <loc>https://norbutlepcha25.github.io/CSF302/unit2.html</loc>
-         <lastmod>2025-10-31</lastmod>
+         <loc>https://cslivecode.github.io/algodesign/questions.html</loc>
+         <lastmod>2026-03-28</lastmod>
     </url>
     <url>
-         <loc>https://norbutlepcha25.github.io/CSF302/unit2draft.html</loc>
-         <lastmod>2025-10-31</lastmod>
+         <loc>https://cslivecode.github.io/algodesign/unit1.html</loc>
+         <lastmod>2026-03-28</lastmod>
     </url>
     <url>
-         <loc>https://norbutlepcha25.github.io/CSF302/unit3.html</loc>
-         <lastmod>2025-10-31</lastmod>
+         <loc>https://cslivecode.github.io/algodesign/unit2draft.html</loc>
+         <lastmod>2026-03-28</lastmod>
     </url>
     <url>
-         <loc>https://norbutlepcha25.github.io/CSF302/unit4.html</loc>
-         <lastmod>2025-10-31</lastmod>
+         <loc>https://cslivecode.github.io/algodesign/template/overview.html</loc>
+         <lastmod>2026-03-28</lastmod>
     </url>
     <url>
-         <loc>https://norbutlepcha25.github.io/CSF302/unit5.html</loc>
-         <lastmod>2025-10-31</lastmod>
+         <loc>https://cslivecode.github.io/algodesign/template/summary.html</loc>
+         <lastmod>2026-03-28</lastmod>
     </url>
     <url>
-         <loc>https://norbutlepcha25.github.io/CSF302/unit6.html</loc>
-         <lastmod>2025-10-31</lastmod>
+         <loc>https://cslivecode.github.io/algodesign/template/topic.html</loc>
+         <lastmod>2026-03-28</lastmod>
     </url>
     <url>
-         <loc>https://norbutlepcha25.github.io/CSF302/template/topic.html</loc>
-         <lastmod>2025-10-31</lastmod>
+         <loc>https://cslivecode.github.io/algodesign/unit1/overview.html</loc>
+         <lastmod>2026-03-28</lastmod>
     </url>
     <url>
-         <loc>https://norbutlepcha25.github.io/CSF302/unit6/overview.html</loc>
-         <lastmod>2025-10-31</lastmod>
+         <loc>https://cslivecode.github.io/algodesign/unit1/questions.html</loc>
+         <lastmod>2026-03-28</lastmod>
     </url>
     <url>
-         <loc>https://norbutlepcha25.github.io/CSF302/unit6/summary.html</loc>
-         <lastmod>2025-10-31</lastmod>
+         <loc>https://cslivecode.github.io/algodesign/unit1/summary.html</loc>
+         <lastmod>2026-03-28</lastmod>
     </url>
     <url>
-         <loc>https://norbutlepcha25.github.io/CSF302/unit6/topic1.html</loc>
-         <lastmod>2025-10-31</lastmod>
+         <loc>https://cslivecode.github.io/algodesign/unit1/topic1.html</loc>
+         <lastmod>2026-03-28</lastmod>
     </url>
     <url>
-         <loc>https://norbutlepcha25.github.io/CSF302/unit6/topic2.html</loc>
-         <lastmod>2025-10-31</lastmod>
+         <loc>https://cslivecode.github.io/algodesign/unit1/topic2.html</loc>
+         <lastmod>2026-03-28</lastmod>
     </url>
     <url>
-         <loc>https://norbutlepcha25.github.io/CSF302/unit6/topic3.html</loc>
-         <lastmod>2025-10-31</lastmod>
+         <loc>https://cslivecode.github.io/algodesign/unit1/topic3.html</loc>
+         <lastmod>2026-03-28</lastmod>
     </url>
     <url>
-         <loc>https://norbutlepcha25.github.io/CSF302/unit6/topic4.html</loc>
-         <lastmod>2025-10-31</lastmod>
+         <loc>https://cslivecode.github.io/algodesign/unit1/topic4.html</loc>
+         <lastmod>2026-03-28</lastmod>
     </url>
     <url>
-         <loc>https://norbutlepcha25.github.io/CSF302/unit6/unit1.html</loc>
-         <lastmod>2025-10-31</lastmod>
+         <loc>https://cslivecode.github.io/algodesign/unit1/unit1.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit2/overview.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit2/summary.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit2/topic1.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit2/topic2.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit2/topic3.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit2/topic4.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit2/topic5.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit2/topic6.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit3/overview.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit3/summary.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit3/topic1.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit3/topic2.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit3/topic3.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit3/topic4.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit3/topic5.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit3/topic6.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit4/overview.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit4/summary.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit4/topic1.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit4/topic2.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit4/topic3.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit4/topic4.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit4/topic5.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit4/topic6.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit4/topic7.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit5/overview.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit5/summary.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit5/topic1.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit5/topic2.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit5/topic3.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit5/topic4.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit5/topic5.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit5/topic6.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit5/topic7.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit6/overview.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit6/summary.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit6/topic1.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit6/topic2.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit6/topic3.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit6/topic4.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit6/unit1.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit7/overview.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit7/summary.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit7/topic1.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit7/topic2.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit7/topic3.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit7/topic4.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit7/topic5.html</loc>
+         <lastmod>2026-03-28</lastmod>
+    </url>
+    <url>
+         <loc>https://cslivecode.github.io/algodesign/unit7/topic6.html</loc>
+         <lastmod>2026-03-28</lastmod>
     </url>
 </urlset>
