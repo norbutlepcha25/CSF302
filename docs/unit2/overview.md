@@ -2,4 +2,4 @@
 
 !!! success "Learning Outcome"
 
-     🎯Explain the principles of asymptotic analysis and the role of algorithms in computing.
+     Explain the principles of asymptotic analysis and the role of algorithms in computing.
