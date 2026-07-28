@@ -12,21 +12,21 @@ This module aims to provide a comprehensive understanding of <strong>algorithmic
 
 On completion of the module, students will be able to:
 
-🎯 Define key concepts in number theory, combinatorics, and probability theory as they relate to algorithmic design.
+Define key concepts in number theory, combinatorics, and probability theory as they relate to algorithmic design.
 
-🎯 Explain the principles of asymptotic analysis and the role of algorithms in computing.
+Explain the principles of asymptotic analysis and the role of algorithms in computing.
 
-🎯 Assess the efficiency of different approaches to solving recurrence relations, including the substitution method, recursion-tree method, and master method.
+Assess the efficiency of different approaches to solving recurrence relations, including the substitution method, recursion-tree method, and master method.
 
-🎯 Implement divide-and-conquer algorithms such as Strassen's algorithm for matrix multiplication and the Fast Fourier Transform.
+Implement divide-and-conquer algorithms such as Strassen's algorithm for matrix multiplication and the Fast Fourier Transform.
 
-🎯 Compare and contrast various sorting algorithms, evaluating their time complexity and performance characteristics.
+Compare and contrast various sorting algorithms, evaluating their time complexity and performance characteristics.
 
-🎯 Design dynamic programming solutions for complex problems such as the rod cutting problem and optimal binary search trees.
+Design dynamic programming solutions for complex problems such as the rod cutting problem and optimal binary search trees.
 
-🎯 Develop greedy algorithms for optimization problems, such as the fractional knapsack problem and activity selection.
+Develop greedy algorithms for optimization problems, such as the fractional knapsack problem and activity selection.
 
-🎯 Examine the principles and applications of randomised algorithms in problem-solving. - Critique the effectiveness of different algorithm design paradigms (divide-and-conquer, dynamic programming, greedy) for various problem types.
+Examine the principles and applications of randomised algorithms in problem-solving. - Critique the effectiveness of different algorithm design paradigms (divide-and-conquer, dynamic programming, greedy) for various problem types.
 
 ## Learning and Teaching Approach
 
