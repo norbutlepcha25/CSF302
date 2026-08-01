@@ -2,7 +2,7 @@
 
 Asymptotic Analysis is of utmost imporatance in the field of algorithm analysis. It provides a high-level understanding of an algorithm's efficiency by describing how its resource requirements (time and space) grow as the input size grows towards infinity. Instead of getting bogged down in exact, hardware-dependent running times (e.g., "3.2 nanoseconds"), we focus on the growth rate or order of growth.
 
-> Asymptotic Analysis : Asymptotic analysis of an algorithm studies its efficiency in terms of **input size n** as n→∞. It provides an estimate of time or space complexity using notations bigO. Theta , omega and is independent of hardware or implementation.
+> Asymptotic Analysis : Asymptotic analysis of an algorithm studies its efficiency in terms of **input size n** as n→∞. It provides an estimate of time or space complexity using notations big O, Theta, omega and is independent of hardware or implementation.
 
 Algorithms are a set of finite rules or instructions to be followed in calculations or other problem-solving operations
 
@@ -126,6 +126,4 @@ Sorting in E-commerce: When you click "sort by price" on a website with millions
 
 Social Networks (Friend Suggestions): Analyzing a social graph with billions of users requires algorithms with very low growth rates. A poorly chosen algorithm could take years to run, while an efficient one (e.g., using breadth-first search with O(V + E) complexity) can generate suggestions in real-time.
 
-## Test Your self
 
-## reference
