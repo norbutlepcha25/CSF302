@@ -1,14 +1,4 @@
-# Unit 1 — Mathematics for Competitive Programming
-
-!!! abstract "Unit Overview"
-    This unit covers the mathematical toolkit that appears constantly in programming
-    contests: **number theory** (primes, GCD/LCM, modular arithmetic), **combinatorics**
-    (Fibonacci, binomial coefficients, Catalan numbers), the **cycle-finding problem**
-    (Floyd's algorithm), and the **basics of game theory** (N/P positions, Nim,
-    Sprague–Grundy). Every section pairs theory with contest-ready C++ implementations
-    and complexity analysis.
-
----
+# Unit 1 — Mathematical Foundation
 
 ## 1.1 Number Theory
 
@@ -25,7 +15,7 @@ An integer $n > 1$ that is not prime is **composite**. The number $1$ is neither
 
 Key facts used in contests:
 
-- **Fundamental Theorem of Arithmetic:** every integer $n > 1$ has a *unique*
+- **Fundamental Theorem of Arithmetic:** every integer $n > 1$ has a _unique_
   factorization $n = p_1^{e_1} p_2^{e_2} \cdots p_k^{e_k}$ (up to ordering).
 - **Density:** by the Prime Number Theorem, $\pi(n) \approx \dfrac{n}{\ln n}$.
   There are about $78{,}498$ primes below $10^6$ and $50{,}847{,}534$ below $10^9$.
@@ -70,22 +60,22 @@ bool isPrime(long long n) {
 }
 ```
 
-| Version | Candidates tested | Complexity | Practical limit (1 s) |
-|---|---|---|---|
-| Naive | all $d < n$ | $O(n)$ | $n \approx 10^8$ (single test) |
-| Stop at $\sqrt n$ | $d \le \sqrt n$ | $O(\sqrt n)$ | $n \approx 10^{14}$ |
-| Odd only | $\tfrac{1}{2}\sqrt n$ | $O(\sqrt n)$ | $\approx 2\times$ faster |
-| $6k \pm 1$ | $\tfrac{1}{3}\sqrt n$ | $O(\sqrt n)$ | $\approx 3\times$ faster |
+| Version           | Candidates tested     | Complexity   | Practical limit (1 s)          |
+| ----------------- | --------------------- | ------------ | ------------------------------ |
+| Naive             | all $d < n$           | $O(n)$       | $n \approx 10^8$ (single test) |
+| Stop at $\sqrt n$ | $d \le \sqrt n$       | $O(\sqrt n)$ | $n \approx 10^{14}$            |
+| Odd only          | $\tfrac{1}{2}\sqrt n$ | $O(\sqrt n)$ | $\approx 2\times$ faster       |
+| $6k \pm 1$        | $\tfrac{1}{3}\sqrt n$ | $O(\sqrt n)$ | $\approx 3\times$ faster       |
 
 !!! tip "When to use which"
-    Trial division is ideal for **a few queries on large numbers** (up to
-    $\sim 10^{14}$). For **many queries on numbers up to $\sim 10^7$**, precompute a
-    sieve instead. For a handful of *very* large numbers ($> 10^{16}$), the
-    deterministic Miller–Rabin test is the contest-standard tool.
+Trial division is ideal for **a few queries on large numbers** (up to
+$\sim 10^{14}$). For **many queries on numbers up to $\sim 10^7$**, precompute a
+sieve instead. For a handful of _very_ large numbers ($> 10^{16}$), the
+deterministic Miller–Rabin test is the contest-standard tool.
 
 #### Sieve of Eratosthenes — $O(n \log \log n)$
 
-Generates *all* primes up to $n$ by iteratively crossing out multiples of each prime.
+Generates _all_ primes up to $n$ by iteratively crossing out multiples of each prime.
 
 ```cpp
 const int N = 10'000'000;
@@ -216,18 +206,18 @@ long long lcm(long long a, long long b) {
 ```
 
 !!! warning "Overflow pitfall"
-    Computing `a * b / gcd(a, b)` can overflow `long long` even when the final LCM
-    fits. Always divide before multiplying.
+Computing `a * b / gcd(a, b)` can overflow `long long` even when the final LCM
+fits. Always divide before multiplying.
 
 #### Properties worth memorizing
 
-| Property | Statement |
-|---|---|
-| Associativity | $\gcd(a, b, c) = \gcd(\gcd(a,b), c)$ — extends to arrays |
-| Distributive | $\gcd(ka, kb) = k \gcd(a, b)$ |
-| Coprimality | $a, b$ coprime $\iff \gcd(a,b) = 1$ |
+| Property          | Statement                                                                    |
+| ----------------- | ---------------------------------------------------------------------------- |
+| Associativity     | $\gcd(a, b, c) = \gcd(\gcd(a,b), c)$ — extends to arrays                     |
+| Distributive      | $\gcd(ka, kb) = k \gcd(a, b)$                                                |
+| Coprimality       | $a, b$ coprime $\iff \gcd(a,b) = 1$                                          |
 | Via factorization | $\gcd$: take **min** exponents; $\operatorname{lcm}$: take **max** exponents |
-| Bézout | $\exists\, x, y \in \mathbb{Z}: ax + by = \gcd(a,b)$ |
+| Bézout            | $\exists\, x, y \in \mathbb{Z}: ax + by = \gcd(a,b)$                         |
 
 Prime-exponent view example: $a = 2^3 \cdot 3^1,\ b = 2^1 \cdot 3^2$
 $\Rightarrow \gcd = 2^1 3^1 = 6$, $\operatorname{lcm} = 2^3 3^2 = 72$.
@@ -254,11 +244,9 @@ $$
 \end{aligned}
 $$
 
-!!! warning "Two classic bugs"
-    1. **Negative remainders:** in C++, `(-7) % 3 == -1`. Normalize with
-       `((x % m) + m) % m`.
-    2. **Division does *not* distribute:** $(a/b) \bmod m \ne (a \bmod m)/(b \bmod m)$.
-       Division requires a **modular inverse** (below).
+!!! warning "Two classic bugs" 1. **Negative remainders:** in C++, `(-7) % 3 == -1`. Normalize with
+`((x % m) + m) % m`. 2. **Division does _not_ distribute:** $(a/b) \bmod m \ne (a \bmod m)/(b \bmod m)$.
+Division requires a **modular inverse** (below).
 
 #### Fast modular exponentiation — $O(\log e)$
 
@@ -352,13 +340,13 @@ divisors.
 
 **2. Choose the right primality tool by constraints.**
 
-| Constraint pattern | Tool |
-|---|---|
-| Single $n \le 10^{14}$ | $O(\sqrt n)$ trial division ($6k\pm1$) |
-| $Q \le 10^6$ queries, $n \le 10^7$ | Sieve + $O(1)$ lookup |
-| Factorize $Q$ numbers $\le 10^7$ | SPF sieve, $O(\log n)$ each |
-| Primes in $[L, R]$, $R \le 10^{12}$ | Segmented sieve |
-| $n$ up to $10^{18}$ | Deterministic Miller–Rabin |
+| Constraint pattern                  | Tool                                   |
+| ----------------------------------- | -------------------------------------- |
+| Single $n \le 10^{14}$              | $O(\sqrt n)$ trial division ($6k\pm1$) |
+| $Q \le 10^6$ queries, $n \le 10^7$  | Sieve + $O(1)$ lookup                  |
+| Factorize $Q$ numbers $\le 10^7$    | SPF sieve, $O(\log n)$ each            |
+| Primes in $[L, R]$, $R \le 10^{12}$ | Segmented sieve                        |
+| $n$ up to $10^{18}$                 | Deterministic Miller–Rabin             |
 
 **3. Everything big is done mod $10^9+7$.** Factorials, powers, DP counts —
 precompute factorials and inverse factorials once, then answer $\binom{n}{r}$ queries
@@ -375,12 +363,7 @@ Wilson's theorem ($(p-1)! \equiv -1 \pmod p$), CRT (merging congruences), and
 Legendre's formula (exponent of prime $p$ in $n!$ is $\sum_{i\ge1} \lfloor n/p^i \rfloor$
 — e.g., trailing zeros of $n!$).
 
-!!! example "Representative problems"
-    - *UVa 10394 — Twin Primes* (sieve)
-    - *Codeforces 230B — T-primes* (numbers with exactly 3 divisors = squares of primes)
-    - *SPOJ PRIME1* (segmented sieve)
-    - *UVa 10104 — Euclid Problem* (extended Euclid, output $x, y, g$)
-    - Any "count ways … mod $10^9+7$" problem (modular arithmetic + inverses)
+!!! example "Representative problems" - _UVa 10394 — Twin Primes_ (sieve) - _Codeforces 230B — T-primes_ (numbers with exactly 3 divisors = squares of primes) - _SPOJ PRIME1_ (segmented sieve) - _UVa 10104 — Euclid Problem_ (extended Euclid, output $x, y, g$) - Any "count ways … mod $10^9+7$" problem (modular arithmetic + inverses)
 
 ---
 
@@ -402,12 +385,12 @@ giving $0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, \dots$
 
 **Computation strategies:**
 
-| Method | Complexity | Notes |
-|---|---|---|
-| Naive recursion | $O(\phi^n)$ — exponential | never in contests |
-| Bottom-up DP / iteration | $O(n)$ | fine for $n \le 10^7$ |
-| **Matrix exponentiation** | $O(\log n)$ | for $n$ up to $10^{18}$ (mod $m$) |
-| Fast doubling | $O(\log n)$ | same power, less code |
+| Method                    | Complexity                | Notes                             |
+| ------------------------- | ------------------------- | --------------------------------- |
+| Naive recursion           | $O(\phi^n)$ — exponential | never in contests                 |
+| Bottom-up DP / iteration  | $O(n)$                    | fine for $n \le 10^7$             |
+| **Matrix exponentiation** | $O(\log n)$               | for $n$ up to $10^{18}$ (mod $m$) |
+| Fast doubling             | $O(\log n)$               | same power, less code             |
 
 ```cpp
 // Iterative, O(n)
@@ -542,29 +525,29 @@ long long catalan(int n) {
 }
 ```
 
-**What Catalan counts** — the pattern to recognize is *"balanced / non-crossing /
-never-go-below-zero"* structures:
+**What Catalan counts** — the pattern to recognize is _"balanced / non-crossing /
+never-go-below-zero"_ structures:
 
-| Structure | Count |
-|---|---|
-| Balanced strings of $n$ '(' and $n$ ')' | $C_n$ |
-| Distinct **BSTs** (binary search trees) on $n$ keys | $C_n$ |
-| Full binary trees with $n+1$ leaves | $C_n$ |
-| Triangulations of a convex $(n+2)$-gon | $C_n$ |
+| Structure                                                                        | Count |
+| -------------------------------------------------------------------------------- | ----- |
+| Balanced strings of $n$ '(' and $n$ ')'                                          | $C_n$ |
+| Distinct **BSTs** (binary search trees) on $n$ keys                              | $C_n$ |
+| Full binary trees with $n+1$ leaves                                              | $C_n$ |
+| Triangulations of a convex $(n+2)$-gon                                           | $C_n$ |
 | Monotonic lattice paths $(0,0) \to (n,n)$ not crossing the diagonal (Dyck paths) | $C_n$ |
-| Ways to fully parenthesize $n+1$ factors | $C_n$ |
-| Non-crossing handshakes of $2n$ people around a table | $C_n$ |
+| Ways to fully parenthesize $n+1$ factors                                         | $C_n$ |
+| Non-crossing handshakes of $2n$ people around a table                            | $C_n$ |
 
 **Why the formula works (ballot/reflection argument, sketch):** of the
-$\binom{2n}{n}$ unrestricted paths from $(0,0)$ to $(n,n)$, each *bad* path (one that
+$\binom{2n}{n}$ unrestricted paths from $(0,0)$ to $(n,n)$, each _bad_ path (one that
 crosses the diagonal) reflects bijectively to a path ending at $(n-1, n+1)$, of which
 there are $\binom{2n}{n+1}$. Hence
 $C_n = \binom{2n}{n} - \binom{2n}{n+1} = \frac{1}{n+1}\binom{2n}{n}$.
 
 !!! example "Contest cue"
-    If a counting problem answer begins $1, 2, 5, 14, 42, \dots$ for small cases —
-    it is almost certainly Catalan. Compute small cases by brute force first, then
-    match against OEIS-famous sequences (Fibonacci, Catalan, powers of two).
+If a counting problem answer begins $1, 2, 5, 14, 42, \dots$ for small cases —
+it is almost certainly Catalan. Compute small cases by brute force first, then
+match against OEIS-famous sequences (Fibonacci, Catalan, powers of two).
 
 ---
 
@@ -580,7 +563,7 @@ x_0,\; x_1 = f(x_0),\; x_2 = f(x_1),\; \dots
 $$
 
 must eventually repeat (pigeonhole principle). Its shape is the Greek letter **ρ
-(rho)**: a *tail* of length $\mu$ followed by a *cycle* of length $\lambda$:
+(rho)**: a _tail_ of length $\mu$ followed by a _cycle_ of length $\lambda$:
 
 $$
 \underbrace{x_0, x_1, \dots, x_{\mu-1}}_{\text{tail, length } \mu},\;
@@ -638,7 +621,7 @@ worth knowing by name.)
 
 ### Where it shows up
 
-- **Linked-list cycle detection** (LeetCode 141/142 — *find the duplicate number* is
+- **Linked-list cycle detection** (LeetCode 141/142 — _find the duplicate number_ is
   literally Phase 2).
 - **Pseudorandom sequences:** period of an LCG $x_{i+1} = (a x_i + b) \bmod m$.
 - **Pollard's rho factorization** — the famous $O(n^{1/4})$ integer factoring
@@ -649,9 +632,9 @@ worth knowing by name.)
   many Codeforces problems ask for cycle entry/length per node.
 
 !!! example "Worked micro-example"
-    $f(x) = (x^2 + 1) \bmod 10$, $x_0 = 3$ gives
-    $3 \to 0 \to 1 \to 2 \to 5 \to 6 \to 7 \to 0 \to \dots$
-    Tail $= \{3\}$ so $\mu = 1$; cycle $= (0,1,2,5,6,7)$ so $\lambda = 6$.
+$f(x) = (x^2 + 1) \bmod 10$, $x_0 = 3$ gives
+$3 \to 0 \to 1 \to 2 \to 5 \to 6 \to 7 \to 0 \to \dots$
+Tail $= \{3\}$ so $\mu = 1$; cycle $= (0,1,2,5,6,7)$ so $\lambda = 6$.
 
 ---
 
@@ -659,7 +642,7 @@ worth knowing by name.)
 
 Contest game theory concerns **two-player, perfect-information, impartial games**:
 both players see everything, moves available depend only on the position (not on
-*who* moves), and — under the **normal play convention** — the player who cannot
+_who_ moves), and — under the **normal play convention** — the player who cannot
 move **loses**. Both players play optimally.
 
 ### Winning and losing positions (N / P positions)
@@ -677,11 +660,11 @@ Your strategy as the winner: always move to a P-position, handing your opponent 
 lost game.
 
 !!! example "Take-away game (1, 2, or 3 stones)"
-    A pile of $n$ stones; a move removes 1–3 stones; taking the last stone wins.
-    Working backwards: $n=0$ is P; $n = 1,2,3$ are N (move to 0);
-    $n = 4$ is P (all moves land on N); pattern:
-    **P-positions are exactly $n \equiv 0 \pmod 4$.**
-    Winning strategy: always leave a multiple of 4.
+A pile of $n$ stones; a move removes 1–3 stones; taking the last stone wins.
+Working backwards: $n=0$ is P; $n = 1,2,3$ are N (move to 0);
+$n = 4$ is P (all moves land on N); pattern:
+**P-positions are exactly $n \equiv 0 \pmod 4$.**
+Winning strategy: always leave a multiple of 4.
 
 ```cpp
 // Generic win/lose DP: O(states × moves)
@@ -707,7 +690,7 @@ $$
 
 where $\oplus$ is bitwise XOR (the **nim-sum**).
 
-*Why it works:* from a zero-XOR position every move breaks the balance (XOR becomes
+_Why it works:_ from a zero-XOR position every move breaks the balance (XOR becomes
 nonzero); from a nonzero-XOR position there is always a move restoring XOR $= 0$ —
 reduce the pile containing the highest set bit of the nim-sum $s$ from $a_i$ to
 $a_i \oplus s$.
@@ -721,9 +704,9 @@ bool firstPlayerWinsNim(const vector<long long>& a) {
 ```
 
 !!! example "Nim (3, 4, 5)"
-    $3 \oplus 4 \oplus 5 = 2 \ne 0$ — first player wins. The winning move: change
-    the pile of 3 to $3 \oplus 2 = 1$, i.e., take 2 stones from it, leaving
-    $(1, 4, 5)$ with nim-sum $0$.
+$3 \oplus 4 \oplus 5 = 2 \ne 0$ — first player wins. The winning move: change
+the pile of 3 to $3 \oplus 2 = 1$, i.e., take 2 stones from it, leaving
+$(1, 4, 5)$ with nim-sum $0$.
 
 ### Sprague–Grundy theory (the unifying theorem)
 
@@ -765,31 +748,28 @@ int grundy(int n, const vector<int>& M, vector<int>& g) {
 3. Prove or trust the pattern; answer huge inputs with the closed form.
 4. If the game splits into independent parts, XOR the Grundy values.
 
-**Named games worth recognizing:** Nim and Misère Nim (last stone *loses* — same
+**Named games worth recognizing:** Nim and Misère Nim (last stone _loses_ — same
 strategy except when all piles are size 1), subtraction games, Wythoff's game
 (two piles, take from one or equally from both — P-positions follow the golden
 ratio), and Green Hackenbush.
 
-!!! example "Representative problems"
-    - *UVa 10165 — Stone Game* (pure Nim)
-    - *Codeforces — Game of Stones / divide-and-Grundy variants*
-    - *SPOJ MMMGAME / TRANSMIT* (Sprague–Grundy on composite games)
+!!! example "Representative problems" - _UVa 10165 — Stone Game_ (pure Nim) - _Codeforces — Game of Stones / divide-and-Grundy variants_ - _SPOJ MMMGAME / TRANSMIT_ (Sprague–Grundy on composite games)
 
 ---
 
 ## Quick Revision Matrix
 
-| Topic | Key result | Complexity | Snippet |
-|---|---|---|---|
-| Primality (single $n$) | $6k \pm 1$ trial division | $O(\sqrt n)$ | `isPrime` |
-| Primes up to $N$ | Sieve of Eratosthenes | $O(N \log\log N)$ | `sieve` |
-| Factorize many | SPF sieve | $O(\log n)$/query | `spfSieve` |
-| GCD / LCM | Euclid; `a/g*b` | $O(\log \min)$ | `gcd` |
-| $b^e \bmod m$ | Binary exponentiation | $O(\log e)$ | `power` |
-| $a^{-1} \bmod m$ | Fermat ($m$ prime) / extgcd | $O(\log m)$ | `modInverse` |
-| $F_n$, huge $n$ | Matrix power / fast doubling | $O(\log n)$ | — |
-| $\binom{n}{r} \bmod p$ | Factorial + inverse factorial tables | $O(1)$/query | `nCr` |
-| Catalan $C_n$ | $\frac{1}{n+1}\binom{2n}{n}$ | $O(1)$/query | `catalan` |
-| Cycle $(\mu, \lambda)$ | Floyd tortoise–hare | $O(\mu+\lambda)$, $O(1)$ mem | `floydCycle` |
-| Impartial games | mex / Grundy, XOR of components | DP over states | `grundy` |
-| Nim | P-position $\iff$ nim-sum $=0$ | $O(k)$ | — |
+| Topic                  | Key result                           | Complexity                   | Snippet      |
+| ---------------------- | ------------------------------------ | ---------------------------- | ------------ |
+| Primality (single $n$) | $6k \pm 1$ trial division            | $O(\sqrt n)$                 | `isPrime`    |
+| Primes up to $N$       | Sieve of Eratosthenes                | $O(N \log\log N)$            | `sieve`      |
+| Factorize many         | SPF sieve                            | $O(\log n)$/query            | `spfSieve`   |
+| GCD / LCM              | Euclid; `a/g*b`                      | $O(\log \min)$               | `gcd`        |
+| $b^e \bmod m$          | Binary exponentiation                | $O(\log e)$                  | `power`      |
+| $a^{-1} \bmod m$       | Fermat ($m$ prime) / extgcd          | $O(\log m)$                  | `modInverse` |
+| $F_n$, huge $n$        | Matrix power / fast doubling         | $O(\log n)$                  | —            |
+| $\binom{n}{r} \bmod p$ | Factorial + inverse factorial tables | $O(1)$/query                 | `nCr`        |
+| Catalan $C_n$          | $\frac{1}{n+1}\binom{2n}{n}$         | $O(1)$/query                 | `catalan`    |
+| Cycle $(\mu, \lambda)$ | Floyd tortoise–hare                  | $O(\mu+\lambda)$, $O(1)$ mem | `floydCycle` |
+| Impartial games        | mex / Grundy, XOR of components      | DP over states               | `grundy`     |
+| Nim                    | P-position $\iff$ nim-sum $=0$       | $O(k)$                       | —            |
