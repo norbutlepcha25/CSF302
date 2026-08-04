@@ -3,5 +3,5 @@
 !!! success "Learning Outcome"
 
      {% for lo in unit3 %}
-     🎯 {{ lo }}
+     {{ lo }}
      {% endfor %}
