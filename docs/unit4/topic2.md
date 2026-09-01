@@ -38,7 +38,7 @@ From a standard matrix multiplication, for every element in the resultant matrix
 
 The time complexicity of Standard Matrix multiplication is $\Theta (n^3)$
 
-### 4.2.2 Divide and conqure method for Matrix Multiplication
+#### 4.2.2 Divide and conqure method for Matrix Multiplication
 
 when we use a divide-and-conquer algorithm to compute the matrix product C = A.B, we **_assume that n is an exact power of 2_** in each of the nxn matrices. We make this assumption because in each divide step, we will divide nxn matrices into four n/2 x n/2 matrices, and by assuming that n is an exact power of 2, we are guaranteed that as long as $n \ge 2$, the dimension n=2 is an integer.
 
@@ -128,6 +128,301 @@ T(n) = 8T\left(\frac{n}{2}\right) + O(n^2)
 (same as classical matrix multiplication).
 
 ---
+
+To multiply two \(4\times4\) matrices using the **Divide and Conquer** method, the algorithm treats each \(4\times4\) matrix as a \(2\times2\) grid, where every element of this larger grid is itself a \(2\times2\) submatrix.
+
+#### Step 1: Partitioning the \(4\times4\) Matrices
+
+Consider two \(4\times4\) matrices, \(A\) and \(B\).
+
+We divide each matrix horizontally and vertically through the middle, producing four \(2\times2\) submatrices.
+
+##### Matrix \(A\)
+
+$$
+A=
+\left[
+\begin{array}{cc|cc}
+a_{11}&a_{12}&a_{13}&a_{14}\\
+a_{21}&a_{22}&a_{23}&a_{24}\\
+\hline
+a_{31}&a_{32}&a_{33}&a_{34}\\
+a_{41}&a_{42}&a_{43}&a_{44}
+\end{array}
+\right]
+\quad\longrightarrow\quad
+\begin{bmatrix}
+A_{11}&A_{12}\\
+A_{21}&A_{22}
+\end{bmatrix}
+$$
+
+where each \(A_{ij}\) is a \(2\times2\) matrix.
+
+##### Matrix \(B\)
+
+$$
+B=
+\left[
+\begin{array}{cc|cc}
+b_{11}&b_{12}&b_{13}&b_{14}\\
+b_{21}&b_{22}&b_{23}&b_{24}\\
+\hline
+b_{31}&b_{32}&b_{33}&b_{34}\\
+b_{41}&b_{42}&b_{43}&b_{44}
+\end{array}
+\right]
+\quad\longrightarrow\quad
+\begin{bmatrix}
+B_{11}&B_{12}\\
+B_{21}&B_{22}
+\end{bmatrix}
+$$
+
+Thus:
+
+* \(A_{11}\) = top-left \(2\times2\) block
+* \(A_{12}\) = top-right \(2\times2\) block
+* \(A_{21}\) = bottom-left \(2\times2\) block
+* \(A_{22}\) = bottom-right \(2\times2\) block
+
+The same notation applies to matrix \(B\).
+
+
+#### Step 2: The 8 Block Multiplications
+
+Let
+
+$$
+C=A\times B
+$$
+
+and partition the result in the same way:
+
+$$
+C=
+\begin{bmatrix}
+C_{11}&C_{12}\\
+C_{21}&C_{22}
+\end{bmatrix}
+$$
+
+Each \(2\times2\) block of \(C\) is obtained using **two block multiplications followed by an addition**.
+
+### \(C_{11}\): Top-Left Quadrant
+
+$$
+C_{11}
+=
+(A_{11}\times B_{11})
++
+(A_{12}\times B_{21})
+$$
+
+This requires:
+
+1. \(A_{11}\times B_{11}\)
+2. \(A_{12}\times B_{21}\)
+
+---
+
+### \(C_{12}\): Top-Right Quadrant
+
+$$
+C_{12}
+=
+(A_{11}\times B_{12})
++
+(A_{12}\times B_{22})
+$$
+
+This requires:
+
+3. \(A_{11}\times B_{12}\)
+4. \(A_{12}\times B_{22}\)
+
+---
+
+### \(C_{21}\): Bottom-Left Quadrant
+
+$$
+C_{21}
+=
+(A_{21}\times B_{11})
++
+(A_{22}\times B_{21})
+$$
+
+This requires:
+
+5. \(A_{21}\times B_{11}\)
+6. \(A_{22}\times B_{21}\)
+
+---
+
+### \(C_{22}\): Bottom-Right Quadrant
+
+$$
+C_{22}
+=
+(A_{21}\times B_{12})
++
+(A_{22}\times B_{22})
+$$
+
+This requires:
+
+7. \(A_{21}\times B_{12}\)
+8. \(A_{22}\times B_{22}\)
+
+Therefore, at the first level of recursion, we have:
+
+$$
+\boxed{8\text{ block multiplications}}
+$$
+
+---
+
+## Step 3: Recursion
+
+The algorithm now applies the **same Divide and Conquer strategy recursively** to each of these \(2\times2\) block multiplications.
+
+For example, consider:
+
+$$
+A_{11}\times B_{11}
+$$
+
+Both \(A_{11}\) and \(B_{11}\) are \(2\times2\) matrices.
+
+We divide them again into \(1\times1\) blocks:
+
+$$
+A_{11}
+=
+\begin{bmatrix}
+a_{11}&a_{12}\\
+a_{21}&a_{22}
+\end{bmatrix},
+\qquad
+B_{11}
+=
+\begin{bmatrix}
+b_{11}&b_{12}\\
+b_{21}&b_{22}
+\end{bmatrix}
+$$
+
+The same process produces **8 scalar multiplications**:
+
+$$
+\begin{aligned}
+c_{11}&=a_{11}b_{11}+a_{12}b_{21}\\
+c_{12}&=a_{11}b_{12}+a_{12}b_{22}\\
+c_{21}&=a_{21}b_{11}+a_{22}b_{21}\\
+c_{22}&=a_{21}b_{12}+a_{22}b_{22}
+\end{aligned}
+$$
+
+Thus, one \(2\times2\) block multiplication requires:
+
+$$
+\boxed{8\text{ scalar multiplications}}
+$$
+
+Since the first level produced **8 such block multiplications**, the total number of scalar multiplications is:
+
+$$
+8\times8=\boxed{64}
+$$
+
+---
+
+## Recursion Tree
+
+The process can be visualized as:
+
+```text
+                 4 × 4 Matrix Multiplication
+                           |
+                Divide into 2 × 2 blocks
+                           |
+                8 block multiplications
+                           |
+          ┌────────────────┼────────────────┐
+          ↓                ↓                ↓
+       2 × 2            2 × 2            2 × 2   ...
+      multiply          multiply          multiply
+          |
+       Divide again
+          |
+     8 scalar multiplications
+          |
+       1 × 1 base case
+```
+
+Therefore, the recursion produces:
+
+$$
+\boxed{8^2=64}
+$$
+
+base-level scalar multiplications.
+
+---
+
+## General Pattern
+
+For an \(n\times n\) matrix, where \(n\) is a power of \(2\), the recurrence is:
+
+$$
+T(n)=8T\left(\frac n2\right)+\Theta(n^2)
+$$
+
+The base case is:
+
+$$
+T(1)=\Theta(1)
+$$
+
+Using the Master Theorem:
+
+$$
+a=8,\qquad b=2
+$$
+
+and
+
+$$
+n^{\log_b a}
+=
+n^{\log_2 8}
+=
+n^3
+$$
+
+Therefore:
+
+$$
+\boxed{T(n)=\Theta(n^3)}
+$$
+
+For \(n=4\), the recursion depth is:
+
+$$
+\log_2 4=2
+$$
+
+and the number of scalar multiplication operations is:
+
+$$
+\boxed{8^2=64}
+$$
+
+**Key idea:** Divide and Conquer does not reduce the number of scalar multiplications compared with the conventional matrix multiplication algorithm. Its importance here is that the problem is expressed recursively as smaller matrix multiplication problems, which leads naturally to the recurrence \(T(n)=8T(n/2)+\Theta(n^2)\).
+
+
+
 
 ### 4.2.3 Strassen’s Algorithm
 
