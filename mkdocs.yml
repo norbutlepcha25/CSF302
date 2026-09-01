@@ -1,14 +1,23 @@
-site_name: CSF303
+site_name: CSF302
 site_url: https://github.com/norbutlepcha25/CSF302
 
 use_directory_urls: false
+
+# CHANGED: uncomment once every file listed in `nav` exists. Strict mode turns
+# "file referenced in nav but not found" into a build failure instead of a
+# warning you scroll past.
+# strict: true
 
 theme:
   name: material
   features:
     - navigation.tabs
     - navigation.sections
-    - toc.integrate
+    # REMOVED: toc.integrate
+    #   It merges the page TOC into the LEFT sidebar and removes the right-hand
+    #   one. Without it the TOC moves to the right column: left=nav,
+    #   middle=content, right=page TOC. Put it back if you prefer the old
+    #   layout — nothing else depends on it.
     - navigation.top
     - search.suggest
     - search.highlight
@@ -16,6 +25,8 @@ theme:
     - content.code.copy
     - content.tooltips
     - content.footnote.tooltips
+    # OPTIONAL: adds an "Edit this page" pencil. Needs repo_url + edit_uri below.
+    # - content.action.edit
 
   language: en
   palette:
@@ -38,6 +49,11 @@ theme:
   icon:
     logo: material/code-json
 
+# OPTIONAL: lets students open an issue or a PR against a page directly.
+# repo_url: https://github.com/norbutlepcha25/CSF302
+# repo_name: norbutlepcha25/CSF302
+# edit_uri: edit/main/docs/
+
 extra_css:
   - stylesheets/color.css
   - https://unpkg.com/katex@0/dist/katex.min.css
@@ -50,6 +66,13 @@ extra:
   base_url: /CSF302
 
 markdown_extensions:
+  # ADDED: MkDocs enables `toc` implicitly, but with no options. Configuring it
+  # gives every heading a ¶ anchor, so you can link straight to a section
+  # instead of "scroll down a bit". toc_depth 2-3 keeps the right-hand TOC to
+  # sections and steps, not sub-steps.
+  - toc:
+      permalink: true
+      toc_depth: "2-3"
   - def_list
   - footnotes
   - pymdownx.highlight:
@@ -90,6 +113,13 @@ extra_javascript:
 plugins:
   - search
   - glightbox
+  # The macros plugin reads {{ ... }} in every page as Jinja2. That breaks any
+  # page showing literal double-curly syntax (e.g. Go templates, other
+  # templating examples). Two ways to protect a page — pick ONE:
+  #   1. wrap the affected code blocks in {% raw %} / {% endraw %}
+  #   2. put `render_macros: false` in the page's YAML front matter
+  # Do not use both on one page: with macros disabled, {% raw %} tags stop
+  # being stripped and show up literally in the rendered output.
   - macros:
       module_name: main
       include_dir: macros
@@ -98,6 +128,15 @@ plugins:
         - macros/glossary.yml
         - macros/learning_outcomes.yml
 
+  # KEEP, but pin it. mkdocs-minify-plugin pulls in jsmin and csscompressor,
+  # which are unmaintained source-only packages that can fail to build on a
+  # fresh install. Freeze the whole toolchain in requirements.txt and install
+  # with `pip install -r requirements.txt`:
+  #     mkdocs-material==9.7.6
+  #     mkdocs-macros-plugin==1.5.0
+  #     mkdocs-glightbox==0.5.2
+  #     mkdocs-minify-plugin==0.8.0
+  #     pymdown-extensions==10.21.2
   - minify:
       minify_html: true
 
@@ -112,15 +151,15 @@ nav:
   #     - 1.4 Basics of Game Theory: unit1/topic4.md
   #     - Summary: unit1/summary.md
 
-  # - Unit 2:
-  #     - Overview: unit2/overview.md
-  #     - 2.1 Asymptotic Analysis: unit2/topic1.md
-  #     - 2.2 Model of Computation (Word-RAM): unit2/topic2.md
-  #     - 2.3 Role of Algorithms in Computing: unit2/topic3.md
-  #     - 2.4 Analysing and Designing Algorithms: unit2/topic4.md
-  #     - 2.5 O-notation, Ω-notation, and Θ-notation: unit2/topic5.md
-  #     - 2.6 Standard Notation & Common Functions: unit2/topic6.md
-  #     - Summary: unit2/summary.md
+  - Unit 2:
+      - Overview: unit2/overview.md
+      - 2.1 Asymptotic Analysis: unit2/topic1.md
+      - 2.2 Model of Computation (Word-RAM): unit2/topic2.md
+      # - 2.3 Role of Algorithms in Computing: unit2/topic3.md
+      # - 2.4 Analysing and Designing Algorithms: unit2/topic4.md
+      # - 2.5 O-notation, Ω-notation, and Θ-notation: unit2/topic5.md
+      # - 2.6 Standard Notation & Common Functions: unit2/topic6.md
+      # - Summary: unit2/summary.md
 
   - Unit 3:
       - Overview: unit3/overview.md
@@ -131,16 +170,16 @@ nav:
       - 3.5 Solving Recurrences (Master Method): unit3/topic5.md
       - 3.6 Merge Sort Analysis: unit3/topic6.md
       - Summary: unit3/summary.md
-  # - Unit 4:
-  #     - Overview: unit4/overview.md
-  #     - 4.1 Divide & Conquer Algorithm Design: unit4/topic1.md
-  #     - 4.2 Strassen's Algorithm for Matrix Multiplication: unit4/topic2.md
-  #     - 4.3 Integer Multiplication: unit4/topic3.md
-  #     - 4.4 Convolution & Fast Fourier Transform (FFT): unit4/topic4.md
-  #     - 4.5 Binary Search and Ternary Search: unit4/topic5.md
-  #     - 4.6 Efficient Modular Power (Exponentiation): unit4/topic6.md
-  #     - 4.7 Efficient Matrix Modular Power (Exponentiation): unit4/topic7.md
-  #     - Summary: unit4/summary.md
+  - Unit 4:
+      - Overview: unit4/overview.md
+      - 4.1 Divide & Conquer Algorithm Design: unit4/t1.md
+      - 4.2 Strassen's Algorithm for Matrix Multiplication: unit4/topic2.md
+      - 4.3 Integer Multiplication: unit4/topic3.md
+      - 4.4 Convolution & Fast Fourier Transform (FFT): unit4/topic4.md
+      - 4.5 Binary Search and Ternary Search: unit4/topic5.md
+      - 4.6 Efficient Modular Power (Exponentiation): unit4/topic6.md
+      - 4.7 Efficient Matrix Modular Power (Exponentiation): unit4/topic7.md
+      - Summary: unit4/summary.md
 
   # - Unit 5:
   #     - Overview: unit5/overview.md
