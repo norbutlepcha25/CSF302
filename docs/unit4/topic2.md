@@ -342,24 +342,13 @@ $$
 
 The process can be visualized as:
 
-```text
-                 4 × 4 Matrix Multiplication
-                           |
-                Divide into 2 × 2 blocks
-                           |
-                8 block multiplications
-                           |
-          ┌────────────────┼────────────────┐
-          ↓                ↓                ↓
-       2 × 2            2 × 2            2 × 2   ...
-      multiply          multiply          multiply
-          |
-       Divide again
-          |
-     8 scalar multiplications
-          |
-       1 × 1 base case
-```
+<figure markdown="span">
+    ![RBS](../img/unit4DivideandConquer/matrixDnC.png){width="100%"}
+    <figcaption>Example for 4x4 Matrix multiplication using divide and Conquer</figcaption>
+    <p align='right' style="font-size:0.8em"><i>Image Source : AI generated(Google Gemini)</i></p>
+</figure>
+
+
 
 Therefore, the recursion produces:
 

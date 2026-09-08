@@ -175,11 +175,12 @@ nav:
       - 4.1 Divide & Conquer Algorithm Design: unit4/t1.md
       - 4.2 Strassen's Algorithm for Matrix Multiplication: unit4/topic2.md
       - 4.3 Integer Multiplication: unit4/topic3.md
-      # - 4.4 Convolution & Fast Fourier Transform (FFT): unit4/topic4.md
-      # - 4.5 Binary Search and Ternary Search: unit4/topic5.md
-      # - 4.6 Efficient Modular Power (Exponentiation): unit4/topic6.md
-      # - 4.7 Efficient Matrix Modular Power (Exponentiation): unit4/topic7.md
-      # - Summary: unit4/summary.md
+      - 4.4 Convolution & Fast Fourier Transform (FFT): unit4/topic4.md
+      - 4.5 Binary Search and Ternary Search: unit4/topic5.md
+      - 4.6 Efficient Modular Power (Exponentiation): unit4/topic6.md
+      - 4.7 Efficient Matrix Modular Power (Exponentiation): unit4/topic7.md
+      - statress: unit4/strasen.md
+
 
   # - Unit 5:
   #     - Overview: unit5/overview.md
@@ -214,5 +215,5 @@ nav:
       - Lab 1: lab/lab1.md
       - Lab 2: lab/lab-02.md
 
-  # - Practical 2: questions.md
-  # - Practical 3: q2.md
+  - Practice Questions: questions.md
+
