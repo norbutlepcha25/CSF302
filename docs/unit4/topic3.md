@@ -1,74 +1,54 @@
 # Integer Multiplication
 
-Integer multiplication is one of the fundamental operations in computer science and mathematics. While multiplying small numbers is not complex, multiplying large integers efficiently is critical in applications such as:
+## Definition
+
+**Informally.** Integer multiplication is the problem of computing the product of two whole numbers that are too large to fit in a machine register, so that the product must be built up digit by digit from the digits of the operands.
+
+**Precisely.** Let $B \ge 2$ be a fixed radix. An integer $x \ge 0$ is represented as a sequence of digits
+$$
+x = \sum_{i=0}^{n-1} x_i B^i, \qquad 0 \le x_i < B .
+$$
+Given two such representations, of $n$ and $m$ digits, compute the digit representation of $x \cdot y$, which has $n + m$ or $n + m - 1$ digits.
+
+| Aspect | Content |
+| --- | --- |
+| Input | Digit sequences of two non-negative integers $x$ (length $n$) and $y$ (length $m$) in radix $B$ |
+| Output | The digit sequence of $x \cdot y$ in radix $B$ |
+| Cost model | Number of **digit operations** (bit operations when $B = 2$), not number of "multiplications of numbers" |
+| Where it fits | The canonical worked example of divide and conquer, and the entry point to the algebraic technique of *evaluation and interpolation* |
+
+!!! warning "The size parameter is the number of digits, not the value"
+
+    Throughout these notes $n$ is the **length of the input**, i.e. roughly $\log_B x$. An algorithm that is $\Theta(n^2)$ is quadratic in the *number of digits* and therefore only polylogarithmic in the *value* of the number. Confusing these two is the single most common error when reasoning about arithmetic complexity — for example, trial division for primality is $O(\sqrt{v})$ in the value $v$, which is $O(2^{n/2})$ in the input length, i.e. exponential.
+
+---
 
 ## Motivation and Problem Context
 
 ### Why the problem exists at all
-On a 64-bit CPU, `a * b` for two `uint64_t` values is a single instruction. So why is there an algorithms problem here?
 
-Because a great deal of computing operates on integers far larger than a machine word:
+On a 64-bit CPU, `a * b` for two `uint64_t` values is a single instruction. So why is there an algorithms problem here at all?
 
-- **Public-key cryptography.** RSA uses moduli of 2048–4096 bits. Every encryption, decryption, and signature is a modular exponentiation, which is thousands of multiplications of 2048-bit numbers. Elliptic-curve and post-quantum schemes are similar in spirit.
-- **Computer algebra systems.** Exact rational arithmetic, Gröbner bases, integer factorisation, and polynomial arithmetic over $\mathbb{Z}$ all multiply integers with thousands to millions of digits.
+Because a great deal of real computing operates on integers far larger than a machine word:
+
+- **Public-key cryptography.** RSA uses moduli of 2048–4096 bits. Every encryption, decryption, and signature is a modular exponentiation, which unfolds into thousands of multiplications of 2048-bit numbers. Elliptic-curve and post-quantum schemes are similar in spirit.
+- **Computer algebra systems.** Exact rational arithmetic, Gröbner basis computation, integer factorisation, and polynomial arithmetic over $\mathbb{Z}$ all multiply integers with thousands to millions of digits.
 - **High-precision numerics.** Computing $\pi$ to $10^{14}$ digits, or evaluating special functions to arbitrary precision, is dominated by large-integer multiplication.
 - **Cryptanalysis and number theory.** The number field sieve, primality certificates, and BBP-type computations are all bounded by multiplication cost.
 
-In these settings, the *asymptotic* cost of multiplication is the cost of the application.
+In these settings, the *asymptotic* cost of multiplication is the cost of the application: a constant-factor improvement is welcome, but an improvement in the exponent changes what is computationally feasible at all.
 
-### Example 
-Suppose you must multiply two 10 000-digit decimal numbers. The method taught in primary school multiplies every digit of $x$ by every digit of $y$: $10^8$ digit multiplications. At, generously, $10^9$ digit operations per second, that is a tenth of a second — for **one** multiplication. An RSA-style computation performing thousands of these becomes minutes.
+### A concrete sense of scale
+
+Suppose two 10 000-digit decimal numbers must be multiplied. The method taught in primary school multiplies every digit of $x$ against every digit of $y$: that is $10^8$ digit multiplications. At a generous $10^9$ digit operations per second, this is a tenth of a second — for **one** multiplication. An RSA-style computation performing thousands of multiplications of this size turns into minutes, and a computer-algebra computation performing millions of them turns into an intractable computation. The exponent, not merely the constant, is what is at stake in this topic.
 
 Now ask the question that drives the whole topic:
 
-> Is the "every digit against every digit" work actually *necessary*, or is it an artefact of the method?
+> Is the "every digit against every digit" work actually *necessary*, or is it an artefact of the schoolbook method?
 
-For 3 000 years the answer was assumed to be "necessary". In 1960 Karatsuba showed it is not, refuting a conjecture of Kolmogorov that $\Omega(n^2)$ was a lower bound. That refutation is one of the founding results of algorithm analysis.
+For roughly 3 000 years — from Babylonian tablets through every school curriculum since — the implicit answer was "necessary." In 1960, Anatoly Karatsuba showed it is not, refuting a conjecture (attributed to Kolmogorov) that $\Omega(n^2)$ digit operations were an inescapable lower bound for multiplication. As the story is usually told, Karatsuba — then a 23-year-old student attending Kolmogorov's seminar on the complexity of arithmetic — found the sub-quadratic algorithm within about a week of the conjecture being posed as an open problem. Anecdote aside, the mathematical fact is not in dispute: it was the first proof that the "obvious" algorithm for a basic computational problem is not optimal, and it launched the line of research that runs through Toom–Cook, Schönhage–Strassen, and ultimately Harvey–van der Hoeven, covered under *Beyond Karatsuba* below.
 
-<figure markdown="span">
-    ![RBS](../img/unit4DivideandConquer/evolutionofMultiplication.png){width="80%"}
-    <figcaption>Evoluion of integer Multiplication complexity</figcaption>
-    <p align='right' style="font-size:0.8em"><i>Image Source: AI generate(google Gemini)</i></p>
-</figure>
-
-### 2. Major Recent Algorithms
-
-**(a) Schoolbook Multiplication**
-
-- Traditional method taught in schools.
-- Complexity: **O(n²)**.
-- Still used for very small n.
-
-**(b) Karatsuba Multiplication (1960)**
-
-- Divide-and-conquer, split numbers into 2 halves.
-- Complexity: **O(n^1.585)**.
-- Breakthrough: first sub-quadratic algorithm.
-
-**(c) Toom–Cook Multiplication (1963)**
-
-- Generalization of Karatsuba: split into more than 2 parts.
-- Example: **Toom-3** gives **O(n^1.465)**.
-- Used in libraries (GMP) for medium-sized numbers.
-
-**(d) Schönhage–Strassen Algorithm (1971)**
-
-- Uses **Fast Fourier Transform (FFT)** in modular arithmetic.
-- Complexity: **O(n log n log log n)**.
-- Practical for very large integers.
-- Standard in big integer libraries for decades.
-
-**(e) Fürer’s Algorithm (2007)**
-
-- Improved Schönhage–Strassen with refined complex FFT usage.
-- Complexity: **O(n log n · 2^O(log\* n))**.
-- Very close to O(n log n) in practice.
-
-**(f) Harvey–van der Hoeven Algorithm (2019)**
-
-- First algorithm with **true O(n log n)** time complexity.
-- Solved a long-standing open problem in computational complexity.
-- Still mostly theoretical but groundbreaking.
+---
 
 ## Problem Formulation
 
@@ -99,185 +79,10 @@ Edge cases:
 
 !!! note "Two cost models, deliberately kept apart"
 
-    - **Bit complexity** (used here): every digit operation is counted. This is the honest model for big integers.
-    - **Word-RAM / unit-cost model:** arithmetic on numbers that fit in a word is $O(1)$. This is the right model when values are bounded by a polynomial in the input size, as in sorting or graph algorithms.
+    - **Bit complexity** (used throughout these notes): every digit operation is counted. This is the honest model for big integers.
+    - **Word-RAM / unit-cost model:** arithmetic on numbers that fit in a machine word is $O(1)$. This is the right model when values are bounded by a polynomial in the input size, as in sorting or graph algorithms.
 
-    Using the unit-cost model for cryptographic-size integers would make RSA look free, which it is not.
-
-### 4.3.1 Naive Approch to Integer multiplication
-
-The Naive approch of integer multiplication involves multiplying digit by digit, carrying over and adding partial products to arrive at the final answer. If the two numbers have `n` digits each, you perform `n * n` single-digit multiplications.
-
-Example: $456 \times 123 $
-
-Solution : $(456 \times 1)+(456 \times 2)+(456 \times 3) = 56,088$
-
-Example 2:
-
-Multiply 123 × 45 (in base 10):
-
-- 123 × 5 = 615
-- 123 × 40 = 4920
-- Sum = 5535
-
-This corresponds to digit-by-digit partial products and shifts.
-
-Time complexity = $O(n^2)$
-
-![alt text](image.png)
-
-**_Pseudocode_**
-
-```
-function naiveMultiply(A[0..n-1], B[0..n-1]):  // digits little-endian (least significant first)
-    // result array length up to 2n
-    R = array of zeros length 2n
-    for i from 0 to n-1:
-        carry = 0
-        for j from 0 to n-1:
-            temp = R[i + j] + A[i] * B[j] + carry
-            R[i + j] = temp mod BASE
-            carry = floor(temp / BASE)
-        R[i + n] += carry
-    return normalize(R)  // remove leading zeros
-```
-
-### 4.3.2 Karatsuba Algorithm for integer multiplication
-
-Karatsuba’s algorithm reduces the number of multiplications by using divide and conquer. Split each `n`-digit number into two halves (high and low):
-
-Let $m = floor(\frac{n}{2})$. Write
-
-$ X = X_1 \times 10^m + X_0 $
-
-$Y = Y_1 \times 10^m + Y_0$
-
-The straightforward expansion gives four products:
-
-$$
-\boxed{X \times Y = (X_1 \cdot Y_1) \cdot 10^{2m} + (X_1 \cdot Y_0 + X_0 \cdot Y_1) \cdot 10^m + X_0 \cdot Y_0}
-$$
-
-Naively, that needs 4 multiplications of size \~n/2. Karatsuba avoids computing $X_1*Y_0$ and $X_0*Y_1$ separately by computing:
-
-\[
-\begin{align*}
-P_1 &= X_1 \cdot Y_1 \\
-P_2 &= X_0 \cdot Y_0 \\
-P_3 &= (X_1 + X_0)(Y_1 + Y_0) - P_1 - P_2 \quad \text{(equals $X_1Y_0 + X_0Y_1$)} \\
-\end{align*}
-\]
-
-$$\boxed{X \cdot Y = P_1 \cdot 10^{2m} + P_3\cdot 10^m + P_2}$$
-
-Thus only **3** multiplications of half-size numbers are needed.
-
-```
-function karatsubaMultiply(X, Y):
-    m = floor(n / 2)
-    X1, X0 = split(X, m)
-    Y1, Y0 = split(Y, m)
-
-    P1 = karatsubaMultiply(X1, Y1)
-    P2 = karatsubaMultiply(X0, Y0)
-    P3 = karatsubaMultiply(X1 + X0, Y1 + Y0)
-
-    cross = P3 - P1 - P2
-    return P1 * 10^(2m) + cross * 10^m + P2
-```
-
-Example:
-Multiply $X = 1234$, $Y = 5678$ in base 10:
-
-1.  Split with $m = 2$ (two-digit halves):
-
-    - $X_1 = 12$, $X_0 = 34$ ; $Y_1 = 56$, $Y_0 = 78$
-
-2.  Compute three products (recursively or directly):
-
-    - $P_1 = 12 * 56 = 672$
-    - $P_2 = 34 * 78 = 2652$
-    - $P_3 = (12 + 34) * (56 + 78) = 46 * 134 = 6164$
-
-3.  $cross = P_3 - P_1 - P_2 = 6164 - 672 - 2652 = 2840$
-4.  Recombine:
-
-    - $P_1 * 10^{2m} = 672 * 10^4 = 6,720,000$
-    - $cross * 10^m = 2840 * 10^2 = 284,000$
-    - $P_2 = 2,652$
-    - Sum = $6,720,000 + 284,000 + 2,652 = 7,006,652$
-
-Check: $1234 * 5678 = 7,006,652$
-
-Karatsuba recurrence:
-
-$$
-T(n) = 3 T(n/2) + O(n)
-$$
-
-Apply the Master Theorem :
-
-- $a = 3$, $b = 2$ → exponent $log_b(a) = log_2 3  ≈ 1.585$.
-- Therefore: $T(n) = Θ(n^{log_2 3}) ≈ Θ(n^{1.585})$.
-
-This is asymptotically faster than $Θ(n^2)$ for large $n$.
-
-**Comparison & When to Use Which **
-
-| Aspect                    |         Naïve (schoolbook) |                                           Karatsuba |
-| ------------------------- | -------------------------: | --------------------------------------------------: |
-| Asymptotic time           |                   $Θ(n^2)$ |                     $Θ(n^{log_2 3}) ≈ Θ(n^{1.585})$ |
-| Best for                  | Small to moderate integers |                                      Large integers |
-| Implementation complexity |                     Simple | Moderate (careful splitting, carries, thresholding) |
-
-**Rule of thumb:** For very large integers (hundreds to thousands of machine-word limbs), Karatsuba gives measurable speedups. For small sizes, the simple naive algorithm is often faster.
-
----
-
-#### 3. Complexity Comparison
-
-| Algorithm                  | Year | Complexity                  |
-| -------------------------- | ---- | --------------------------- |
-| Schoolbook (Naïve)         | –    | O(n²)                       |
-| Karatsuba                  | 1960 | O(n^1.585)                  |
-| Toom–Cook (Toom-3, Toom-k) | 1963 | O(n^1.465), improves with k |
-| Schönhage–Strassen         | 1971 | O(n log n log log n)        |
-| Fürer                      | 2007 | O(n log n · 2^O(log\* n))   |
-| Harvey–van der Hoeven      | 2019 | O(n log n)                  |
-
-```mermaid
-        graph LR
-            A["Schoolbook O(n^2)"] --> B["Karatsuba O(n^1.585)"]
-            B --> C["Toom-Cook O(n^1.465)"]
-            C --> D["Schoenhage-Strassen O(n log n log log n)"]
-            D --> E["Furer O(n log n * log* n)"]
-            E --> F["Harvey-van der Hoeven O(n log n)"]
-```
-
-# Integer Multiplication
-
-## Definition
-
-**Informally.** Integer multiplication is the problem of computing the product of two whole numbers that are too large to fit in a machine register, so that the product must be built up digit by digit from the digits of the operands.
-
-**Precisely.** Let $B \ge 2$ be a fixed radix. An integer $x \ge 0$ is represented as a sequence of digits
-$$
-x = \sum_{i=0}^{n-1} x_i B^i, \qquad 0 \le x_i < B .
-$$
-Given two such representations, of $n$ and $m$ digits, compute the digit representation of $x \cdot y$, which has $n + m$ or $n + m - 1$ digits.
-
-| Aspect | Content |
-| --- | --- |
-| Input | Digit sequences of two non-negative integers $x$ (length $n$) and $y$ (length $m$) in radix $B$ |
-| Output | The digit sequence of $x \cdot y$ in radix $B$ |
-| Cost model | Number of **digit operations** (bit operations when $B = 2$), not number of "multiplications of numbers" |
-| Where it fits | The canonical worked example of divide and conquer, and the entry point to the algebraic technique of *evaluation and interpolation* |
-
-!!! warning "The size parameter is the number of digits, not the value"
-
-    Throughout these notes $n$ is the **length of the input**, i.e. roughly $\log_B x$. An algorithm that is $\Theta(n^2)$ is quadratic in the *number of digits* and therefore only polylogarithmic in the *value* of the number. Confusing these two is the single most common error when reasoning about arithmetic complexity — for example, trial division for primality is $O(\sqrt{v})$ in the value $v$, which is $O(2^{n/2})$ in the input length, i.e. exponential.
-
-
+    Using the unit-cost model for cryptographic-size integers would make RSA look free, which it is not — this is exactly the confusion flagged in the warning under *Definition*.
 
 ---
 
@@ -384,6 +189,16 @@ ALGORITHM SchoolbookMultiply(X, Y, B)
     t \le (B-1) + (B-1)^2 + (B-1) = B^2 - 1 .
     $$
     So $t$ always fits in two digits, and the new carry is again at most $B-1$. This is why the standard implementation with a single accumulator of twice the digit width is correct — and why choosing $B = 2^{64}$ on a 64-bit machine requires either a 128-bit type or hardware `mulhi`.
+
+### The binary case: shift-and-add
+
+Setting $B = 2$ specialises the schoolbook algorithm into the shift-and-add procedure implemented directly by hardware multipliers. Each digit $x_i$ is now a single bit, so the partial product $x_i \cdot y$ is either $0$ or $y$ itself, and multiplying by $B^i$ is a shift left by $i$ bits. The loop above therefore degenerates to: *for every set bit of $x$, add a left-shifted copy of $y$ to the running total*. It is the same algorithm as the general-radix version above, just at the smallest possible radix, and it is exactly what appears inside an ALU's integer multiply unit.
+
+<figure markdown="span">
+    ![Binary shift-and-add multiplication](../img/unit4DivideandConquer/binaryShiftAndAddMultiplication.png){width="100%"}
+    <figcaption>How a computer multiplies 456 x 123 using the binary shift-and-add approach: decimal-to-binary conversion, partial products, and final addition.</figcaption>
+    <p align='right' style="font-size:0.8em"><i>Image Source: AI generated (Google Gemini)</i></p>
+</figure>
 
 ### Step-by-step execution
 
@@ -927,6 +742,25 @@ bit operations on a multitape Turing machine — matching the bound conjectured 
 !!! note "Exact thresholds are machine-specific"
 
     Libraries such as GMP *tune* these crossovers per architecture at build time rather than hard-coding them, because they depend on cache sizes, multiplier latency, and memory bandwidth. Treat the ranges above as orders of magnitude, not constants to memorise.
+
+### Visualising the progression
+
+The six algorithms above form a single historical line, each one shrinking the exponent (or, in the last two cases, reaching $n \log n$) by squeezing more structure out of the underlying convolution:
+
+```mermaid
+graph LR
+    A["Schoolbook Θ(n^2)"] --> B["Karatsuba Θ(n^1.585)"]
+    B --> C["Toom-Cook Θ(n^1.465)"]
+    C --> D["Schönhage-Strassen Θ(n log n log log n)"]
+    D --> E["Fürer  n log n · 2^O(log* n)"]
+    E --> F["Harvey-van der Hoeven O(n log n)"]
+```
+
+<figure markdown="span">
+    ![Evolution of integer multiplication complexity](../img/unit4DivideandConquer/evolutionofMultiplication.png){width="80%"}
+    <figcaption>Evolution of integer multiplication complexity, from the schoolbook algorithm through Karatsuba, Toom–Cook, Schönhage–Strassen, and the theoretical near-linear algorithms.</figcaption>
+    <p align='right' style="font-size:0.8em"><i>Image Source: AI generated (Google Gemini)</i></p>
+</figure>
 
 ---
 
