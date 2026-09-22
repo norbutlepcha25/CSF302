@@ -1,30 +1,10 @@
-# Midterm Practice — Autumn Semester 2026
-
-!!! info "Exam Information"
-
-    - **College:** College of Science and Technology, Phuentsholing, Bhutan
-    - **Module:** Algorithm Analysis and Design (CSF302)
-    - **Class:** B.E Third Year (SWE), Sem-I
-    - **Time:** 1 Hour
-    - **Max Marks:** 15
-    - **Instruction:** Attempt all the questions.
-
-!!! tip "How to use this page"
-
-    Every non-MCQ question below hides its full worked solution inside a
-    collapsible **Solution** block. Work the question out on paper first,
-    then click to reveal the solution and check your steps against the
-    official marking breakdown.
-
----
+# Midterm Autumn Semester 2026
 
 ## Question 1 — Multiple Choice
 
-**[5 x 0.5 = 2.5 marks]**
-
 **1.1** The recurrence $T(n) = 3T\left(\dfrac{n}{3}\right) + \sqrt{n}$ solves to:
 
-- (a) $\Theta(n)$
+- ==(a) $\Theta(n)$==
 - (b) $\Theta(n \log n)$
 - (c) $\Theta(n^2)$
 - (d) $\Theta(\log n)$
@@ -33,12 +13,12 @@
 
 - (a) $T(n) = 2T\left(\dfrac{n}{2}\right) + n$
 - (b) $T(n) = 9T\left(\dfrac{n}{3}\right) + n$
-- (c) $T(n) = 2T(n - 1) + n$
+- (c) ==$T(n) = 2T(n - 1) + n$==
 - (d) $T(n) = 7T(n/2) + n^2$
 
 **1.3** How many leaves does the recursion tree for $T(n) = 3T\left(\dfrac{n}{4}\right) + n^2$ have?
 
-- (a) $n^{\log_4 3}$
+- ==(a) $n^{\log_4 3}$==
 - (b) $n^{\log_3 4}$
 - (c) $3n$
 - (d) $n^2$
@@ -46,14 +26,14 @@
 **1.4** In a recursion tree whose level costs form a decreasing geometric series, the asymptotic bound is set by:
 
 - (a) The leaves
-- (b) The root
+- ==(b) The root==
 - (c) The height of the tree
 - (d) The total number of nodes
 
 **1.5** Which of the following lists the time complexities in increasing order of growth rate?
 
 - (a) $O(n) < O(\log n) < O(n\log n) < O(n^2)$
-- (b) $O(\log n) < O(n) < O(n\log n) < O(n^2)$
+- ==(b) $O(\log n) < O(n) < O(n\log n) < O(n^2)$==
 - (c) $O(\log n) < O(n\log n) < O(n) < O(n^2)$
 - (d) $O(1) < O(n) < O(\log n) < O(n^2)$
 
@@ -85,6 +65,30 @@
     - Level 1: $\left(\dfrac{n}{3}\right)^2 + \left(\dfrac{2n}{3}\right)^2 = \dfrac{n^2}{9} + \dfrac{4n^2}{9} = \dfrac{5}{9}n^2$
     - Level 2: $\left(\dfrac{5}{9}\right)^2 n^2$
     - Level $i$: $\text{cost}(i) = \left(\dfrac{5}{9}\right)^i n^2$ — a **decreasing geometric series** with ratio $r = \dfrac{5}{9} < 1$.
+
+    <div class="center-mermaid">
+
+    ```mermaid
+    flowchart TD
+        A["n&sup2;<br/>size n"] --> B1["(n/3)&sup2;<br/>size n/3"]
+        A --> B2["(2n/3)&sup2;<br/>size 2n/3"]
+
+        B1 --> C1["(n/9)&sup2;<br/>size n/9"]
+        B1 --> C2["(2n/9)&sup2;<br/>size 2n/9"]
+        B2 --> C3["(2n/9)&sup2;<br/>size 2n/9"]
+        B2 --> C4["(4n/9)&sup2;<br/>size 4n/9"]
+
+        C1 --> D1["..."]
+        C2 --> D2["..."]
+        C3 --> D3["..."]
+        C4 --> D4["..."]
+
+        D1 --> E1["T(1)=1<br/>shortest path<br/>height log&#8323; n"]
+        D4 --> E4["T(1)=1<br/>longest path<br/>height log&#8321;.&#8324;&#8325; n"]
+    ```
+    </div>
+
+    Every left branch shrinks by $\tfrac{1}{3}$ and every right branch shrinks by $\tfrac{2}{3}$, so the tree is unbalanced: the leftmost path reaches a leaf after $\log_3 n$ levels while the rightmost path takes $\log_{3/2} n$ levels — this asymmetry is exactly what Step 2 quantifies below.
 
     **Step 2 — Height**
 
@@ -301,14 +305,3 @@ void function(int n) {
     - $a$, $b$ and watershed $n^{\log_2 2} = n$ identified — 0.5
     - Ruling out Case 1 and Case 3 ($\log n$ is not polynomial) — 1.0
     - Final answer $T(n) = \Theta(n\log^2 n)$ — 0.5
-
----
-
-## Marks Summary
-
-| Question | Marks |
-|----------|-------|
-| Q1 (MCQ, 5 x 0.5) | 2.5 |
-| Q2 (4 x 2) | 8.0 |
-| Q3 | 4.5 |
-| **Total** | **15** |

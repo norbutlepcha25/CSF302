@@ -214,8 +214,9 @@ nav:
   - Lab:
       - Lab 1: lab/lab1.md
       - Lab 2: lab/lab-02.md
+      - Lab 3: lab/lab-03.md
 
   - Practice Questions: questions.md
 
-  - Midterm Practice (AS2026): unit3/midterm-as2026.md
+  # - Midterm Practice (AS2026): unit3/midterm-as2026.md
 
