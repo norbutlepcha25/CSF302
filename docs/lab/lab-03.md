@@ -54,6 +54,5 @@ Write a menu driven program to search for a key in a sorted array of `n` integer
 
 **Deliverables:**  
 1. Source code files for all programs (e.g., `matrix_mult.py`, `strassen.py`, `karatsuba.py`, `search.py`)  
-2. Step/frequency count tables for all experiments  
-3. Graphs showing time complexity comparisons as and when asked in the question  
-4. Brief analysis/conclusion (write it as a comment)
+2. Step/frequency count tables for all experiments   
+3. Brief analysis/conclusion (write it as a comment)

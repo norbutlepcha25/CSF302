@@ -193,13 +193,13 @@ nav:
   #     - 5.7 Special Sorting Problems - Inversion Index: unit5/topic7.md
   #     - Summary: unit5/summary.md
 
-  # - Unit 6:
-  #     - Overview: unit6/overview.md
-  #     - 6.1 Dynamic Programming Design Principles: unit6/topic1.md
-  #     - 6.2 Rod Cutting Problem: unit6/topic2.md
-  #     - 6.3 Matrix Chain Multiplication: unit6/topic3.md
-  #     - 6.4 Longest Common Subsequence: unit6/topic4.md
-  #     - Summary: unit6/summary.md
+  - Unit 6:
+      - Overview: unit6/overview.md
+      - 6.1 Dynamic Programming Design Principles: unit6/topic1.md
+      - 6.2 Rod Cutting Problem: unit6/topic2.md
+      - 6.3 Matrix Chain Multiplication: unit6/topic3.md
+      - 6.4 Longest Common Subsequence: unit6/topic4.md
+      - Summary: unit6/summary.md
 
   # - Unit 7:
   #     - Overview: unit7/overview.md
@@ -215,6 +215,7 @@ nav:
       - Lab 1: lab/lab1.md
       - Lab 2: lab/lab-02.md
       - Lab 3: lab/lab-03.md
+      - Lab 4: lab/lab-04.md
 
   - Practice Questions: questions.md
 
