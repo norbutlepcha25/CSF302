@@ -5,7 +5,8 @@ use_directory_urls: false
 
 # Pages kept in the repo but not published. Remove a line to release it.
 exclude_docs: |
-  assignments/
+  assignments/assignment3.md
+  assignments/assignment4.md
 
 # CHANGED: uncomment once every file listed in `nav` exists. Strict mode turns
 # "file referenced in nav but not found" into a build failure instead of a
@@ -197,25 +198,25 @@ nav:
       - 5.7 Counting Inversions: unit5/topic7.md
       - Summary: unit5/summary.md
 
-  - Unit 6:
-      - Overview: unit6/overview.md
-      - 6.1 Dynamic Programming Design Principles: unit6/topic1.md
-      - 6.2 Rod Cutting: unit6/topic2.md
-      - 6.3 Matrix Chain Multiplication: unit6/topic3.md
-      - 6.4 Longest Common Subsequence: unit6/topic4.md
-      - 6.5 Optimal Binary Search Trees: unit6/topic5.md
-      - Summary: unit6/summary.md
+  # - Unit 6:
+  #     - Overview: unit6/overview.md
+  #     - 6.1 Dynamic Programming Design Principles: unit6/topic1.md
+  #     - 6.2 Rod Cutting: unit6/topic2.md
+  #     - 6.3 Matrix Chain Multiplication: unit6/topic3.md
+  #     - 6.4 Longest Common Subsequence: unit6/topic4.md
+  #     - 6.5 Optimal Binary Search Trees: unit6/topic5.md
+  #     - Summary: unit6/summary.md
 
-  - Unit 7:
-      - Overview: unit7/overview.md
-      - 7.1 Greedy Algorithm Design Principles: unit7/topic1.md
-      - 7.2 Fractional Knapsack: unit7/topic2.md
-      - 7.3 Huffman Coding: unit7/topic3.md
-      - 7.4 Activity Selection: unit7/topic4.md
-      - 7.5 Dijkstra's Algorithm: unit7/topic5.md
-      - 7.6 Minimum Spanning Trees (Prim and Kruskal): unit7/topic6.md
-      - 7.7 Randomized Algorithms: unit7/topic7.md
-      - Summary: unit7/summary.md
+  # - Unit 7:
+  #     - Overview: unit7/overview.md
+  #     - 7.1 Greedy Algorithm Design Principles: unit7/topic1.md
+  #     - 7.2 Fractional Knapsack: unit7/topic2.md
+  #     - 7.3 Huffman Coding: unit7/topic3.md
+  #     - 7.4 Activity Selection: unit7/topic4.md
+  #     - 7.5 Dijkstra's Algorithm: unit7/topic5.md
+  #     - 7.6 Minimum Spanning Trees (Prim and Kruskal): unit7/topic6.md
+  #     - 7.7 Randomized Algorithms: unit7/topic7.md
+  #     - Summary: unit7/summary.md
 
   - Lab:
       - Overview: lab/overview.md
@@ -227,9 +228,9 @@ nav:
       - Lab 6: lab/lab-06.md
       - Lab 7: lab/lab-07.md
 
-  # Hidden until release: uncomment this block AND remove `assignments/` from exclude_docs.
-  # - Assignments:
-  #     - Assignment 2 (Units 2-4): assignments/assignment2.md
+  # Release an assignment: uncomment its line AND remove it from exclude_docs.
+  - Assignments:
+      - Assignment 2 (Units 2-4): assignments/assignment2.md
   #     - Assignment 3 (Unit 5): assignments/assignment3.md
   #     - Assignment 4 (Units 6-7): assignments/assignment4.md
 
