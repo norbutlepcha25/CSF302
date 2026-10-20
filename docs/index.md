@@ -1,6 +1,39 @@
-# Module Descriptor
+# CSF302 Design and Analysis of Algorithms
 
-## General Objectives:
+!!! abstract "How to use these notes"
+
+    - Each unit starts with an **Overview** (learning outcome, prerequisites, topic map) and ends with a **Summary** (cheat sheet, exam points, mixed practice).
+    - Each topic page follows the same flow: problem → intuition → baseline → design → pseudocode → worked example → correctness → complexity → Python → pitfalls → practice.
+    - `Important` boxes mark exam-critical points and classic mistakes. Self-check answers are collapsed; attempt each question before expanding it.
+    - Labs and assignments are under **Lab**. Read the lab overview first for setup and the benchmarking method.
+
+## Course Roadmap
+
+```mermaid
+flowchart LR
+    U1[Unit 1<br/>Mathematical Foundations] --> U2[Unit 2<br/>Asymptotic Analysis]
+    U2 --> U3[Unit 3<br/>Recurrences]
+    U3 --> U4[Unit 4<br/>Divide and Conquer]
+    U4 --> U5[Unit 5<br/>Sorting]
+    U3 --> U6[Unit 6<br/>Dynamic Programming]
+    U6 --> U7[Unit 7<br/>Greedy and Randomized]
+    U1 -. probability .-> U5
+    U1 -. probability .-> U7
+```
+
+| Unit | Core question | Start here |
+|---|---|---|
+| 1 | Which mathematical tools do algorithms rely on? | [Overview](unit1/overview.md) |
+| 2 | How do we measure and compare algorithm efficiency? | [Overview](unit2/overview.md) |
+| 3 | How do we solve the recurrences recursive algorithms produce? | [Overview](unit3/overview.md) |
+| 4 | When does splitting a problem make it asymptotically cheaper? | [Overview](unit4/overview.md) |
+| 5 | How fast can we sort, and which sort fits which situation? | [Overview](unit5/overview.md) |
+| 6 | How do we reuse overlapping subproblems for optimization? | [Overview](unit6/overview.md) |
+| 7 | When is a locally best choice globally optimal, and when does randomness help? | [Overview](unit7/overview.md) |
+
+## Module Descriptor
+
+### General Objectives
 
 <p align="justify">
 
@@ -8,27 +41,21 @@ This module aims to provide a comprehensive understanding of <strong>algorithmic
 
 </p>
 
-## Learning outcomes:
+### Learning Outcomes
 
 On completion of the module, students will be able to:
 
-Define key concepts in number theory, combinatorics, and probability theory as they relate to algorithmic design.
+1. Define key concepts in number theory, combinatorics, and probability theory as they relate to algorithmic design.
+2. Explain the principles of asymptotic analysis and the role of algorithms in computing.
+3. Assess the efficiency of different approaches to solving recurrence relations, including the substitution method, recursion-tree method, and master method.
+4. Implement divide-and-conquer algorithms such as Strassen's algorithm for matrix multiplication and the Fast Fourier Transform.
+5. Compare and contrast various sorting algorithms, evaluating their time complexity and performance characteristics.
+6. Design dynamic programming solutions for complex problems such as the rod cutting problem and optimal binary search trees.
+7. Develop greedy algorithms for optimization problems, such as the fractional knapsack problem and activity selection.
+8. Examine the principles and applications of randomised algorithms in problem-solving.
+9. Critique the effectiveness of different algorithm design paradigms (divide-and-conquer, dynamic programming, greedy) for various problem types.
 
-Explain the principles of asymptotic analysis and the role of algorithms in computing.
-
-Assess the efficiency of different approaches to solving recurrence relations, including the substitution method, recursion-tree method, and master method.
-
-Implement divide-and-conquer algorithms such as Strassen's algorithm for matrix multiplication and the Fast Fourier Transform.
-
-Compare and contrast various sorting algorithms, evaluating their time complexity and performance characteristics.
-
-Design dynamic programming solutions for complex problems such as the rod cutting problem and optimal binary search trees.
-
-Develop greedy algorithms for optimization problems, such as the fractional knapsack problem and activity selection.
-
-Examine the principles and applications of randomised algorithms in problem-solving. - Critique the effectiveness of different algorithm design paradigms (divide-and-conquer, dynamic programming, greedy) for various problem types.
-
-## Learning and Teaching Approach
+### Learning and Teaching Approach
 
 <table>
   <tr>
@@ -69,7 +96,7 @@ Examine the principles and applications of randomised algorithms in problem-solv
   </tr>
 </table>
 
-## Assessment Approach:
+### Assessment Approach
 
 The assessment approach of the following continuous
 assessments (CA) comprises CA theory - 40%, and CA Practical - 60%, The
@@ -89,17 +116,13 @@ of the syllabus content.
 **D. Programming Assignments (60%)** Students are required to complete
 four programming assignments throughout the semester. Each assignment
 will build upon the concepts covered in the lectures and practical
-sessions.\
-Each assignment shall be assessed out of 15 marks as follows:\
+sessions.
 
-- **5 marks:** Analysis and problem-solving skills\
-- **5 marks:** Application of concepts\
-- **3 marks:** Presentation and explanation of solutions\
+Each assignment shall be assessed out of 15 marks as follows:
+
+- **5 marks:** Analysis and problem-solving skills
+- **5 marks:** Application of concepts
+- **3 marks:** Presentation and explanation of solutions
 - **2 marks:** Timely submission and correctness
 
-Pre-requisites: CSF101 Programming Methodology
-
-<!-- {{ youtube_embed("https://www.youtube.com/watch?v=dQw4w9WgXcQ", title="Never Gonna Give You Up") }}
-{{ youtube_embed("dQw4w9WgXcQ", title="Wider Video", width="90%") }}
-{{ youtube_embed("https://www.youtube.com/watch?v=dQw4w9WgXcQ", align="left", width="100%", title="Left aligned") }}
-{{ youtube_embed("https://www.youtube.com/watch?v=IZbN_nmxAGk&list=RDIZbN_nmxAGk&start_radio=1", width="700px", title="Fixed width example") }} -->
+**Pre-requisites:** CSF101 Programming Methodology

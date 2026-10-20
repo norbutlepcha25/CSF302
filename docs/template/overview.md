@@ -1,7 +1,15 @@
-## Learning Outcomes
+# Unit Title
 
 !!! success "Learning Outcome"
 
      {% for lo in unit1 %}
-     🎯 {{ lo }}
+     - {{ lo }}
      {% endfor %}
+
+## Why This Unit Matters
+
+## Prerequisites
+
+## Topic Map
+
+## How to Study This Unit

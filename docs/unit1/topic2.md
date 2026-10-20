@@ -1,513 +1,498 @@
-# Number Theory, Combinatorics, and Algorithmic Foundations
+# Combinatorics
 
-## 1.1 Number Theory
+!!! abstract "At a glance"
 
-Number theory underlies a large fraction of competitive-programming and algorithmic problems — from hashing and cryptography to combinatorial counting under a modulus. This section builds the toolbox: primality testing, prime generation, divisibility (GCD/LCM), and modular arithmetic, culminating in the Extended Euclidean Algorithm.
+    - **Problem space:** counting the objects an algorithm might have to examine (subsets, orderings, paths, assignments) without listing them.
+    - **Key ideas:** sum and product rules, bijections, binomial coefficients, pigeonhole, inclusion–exclusion, and counting recurrences (Fibonacci, Catalan).
+    - **Core complexities:** $\binom{n}{r} \bmod p$ in $O(1)$ per query after $O(n)$ precomputation; Pascal's triangle $O(n^2)$; inclusion–exclusion over $k$ sets $O(2^k)$.
+    - **Where it is used:** estimating brute-force cost ($2^n$ subsets, $n!$ orderings), lower-bound proofs (sorting needs $\log_2 n!$ comparisons), probability of collisions, DP state counting, and "count the ways modulo $10^9+7$" problems.
 
-### 1.1.1 Prime Numbers, Optimized Trial Division, Modified Sieve
+## Motivation and Problem Context
 
-A prime number is a natural number greater than 1 that has exactly two positive divisors: 1 and itself. Primality testing and prime generation are foundational sub-routines: factorisation, Euler's totient function, and many combinatorial formulas depend on them.
+Before writing any algorithm, an engineer should be able to answer: **how many candidate solutions are there?** A route planner choosing an order for 15 delivery stops faces $15! \approx 1.3 \times 10^{12}$ orderings — trying them all is hopeless. A feature-flag system with 30 independent flags has $2^{30} \approx 10^9$ configurations — exhaustive testing is impossible, so you need pairwise or sampling strategies. A password policy of 8 characters from 62 symbols allows $62^8 \approx 2.2 \times 10^{14}$ passwords — that number decides whether brute-force attacks are feasible.
 
-#### A. Naive and Optimized Trial Division
+Combinatorics turns these questions into formulas. In this course it plays three roles:
 
-The direct definition suggests testing every integer from 2 to n − 1 as a possible divisor — an O(n) test. This can be improved sharply using two observations:
+1. **Cost estimation** — the size of the search space is the running time of brute force.
+2. **Proof tool** — pigeonhole and counting arguments prove lower bounds and the existence of collisions and cycles.
+3. **Computation** — many problems ask *for* a count, which must be computed exactly or modulo a prime.
 
-- If n has a divisor d > √n, it must also have a corresponding divisor n / d < √n. So it suffices to check divisors only up to √n.
-- Every prime greater than 3 has the form 6k ± 1. Hence, after ruling out divisibility by 2 and 3, we only need to test candidates of the form 6k − 1 and 6k + 1.
+## Problem Formulation
 
-**Optimized trial division — O(√n) per query**
+A counting problem specifies a finite set $S$ of objects described by rules, and asks for $|S|$ (often modulo a prime $p$). The input is usually a few integers ($n$, $k$, constraints), so enumerating $S$ — which may have exponentially many elements — is the baseline we want to avoid.
 
-```cpp
-bool isPrime(long long n) {
-    if (n < 2) return false;
-    if (n == 2 || n == 3) return true;
-    if (n % 2 == 0 || n % 3 == 0) return false;
-    for (long long i = 5; i * i <= n; i += 6) {
-        if (n % i == 0 || n % (i + 2) == 0) return false;
-    }
-    return true;
-}
+| Question | Formal answer |
+| --- | --- |
+| Ordered selections of $r$ from $n$, no repetition | $P(n, r) = n!/(n-r)!$ |
+| Unordered selections of $r$ from $n$, no repetition | $\binom{n}{r} = \dfrac{n!}{r!(n-r)!}$ |
+| Ordered selections with repetition | $n^r$ |
+| Unordered selections with repetition (multisets) | $\binom{n + r - 1}{r}$ |
+| Arrangements of a multiset with counts $k_1, \dots, k_m$ | $\dfrac{n!}{k_1! \cdots k_m!}$ |
+
+**Assumption:** "objects" are distinguishable unless stated otherwise. Misreading this (distinguishable vs identical, ordered vs unordered) is the most common source of wrong counts.
+
+## Intuition
+
+Counting is **structured decomposition**. Break a complicated object into a sequence of independent choices (multiply), or split the set into disjoint cases (add). When that is hard, find a **bijection** to something easy to count, or count the complement, or overcount and correct (inclusion–exclusion). Mental model: *describe one object as a sequence of decisions; the count is the number of distinct decision sequences, provided each object corresponds to exactly one sequence.*
+
+## Definitions and Basic Principles
+
+| Principle | Statement | Example |
+| --- | --- | --- |
+| Sum rule | If $S = A \cup B$ with $A \cap B = \emptyset$, then $\lvert S \rvert = \lvert A \rvert + \lvert B \rvert$ | Choose a dessert from 3 cakes **or** 4 ice creams: 7 |
+| Product rule | If an object is built by a choice with $a$ options followed by an independent choice with $b$ options: $ab$ | 3 shirts **and** 4 trousers: 12 outfits |
+| Bijection rule | If there is a one-to-one correspondence $A \leftrightarrow B$, then $\lvert A \rvert = \lvert B \rvert$ | Subsets of $\{1..n\}$ $\leftrightarrow$ $n$-bit strings, so $2^n$ |
+| Complement rule | $\lvert \overline{A} \rvert = \lvert U \rvert - \lvert A \rvert$ | Bit strings of length 8 with at least one 1: $2^8 - 1$ |
+| Division rule | If every object is counted exactly $k$ times, divide by $k$ | Circular seatings of $n$ people: $n!/n = (n-1)!$ |
+
+$n!$ (factorial) counts orderings of $n$ distinct items; $0! = 1$ because there is exactly one way to arrange nothing.
+
+!!! warning "Important: ordered vs unordered, distinct vs identical"
+
+    Before applying any formula, decide two things: (1) does order matter? (2) are the items/boxes distinguishable? Choosing a committee of 3 from 10 is $\binom{10}{3} = 120$; choosing a president, secretary and treasurer is $P(10,3) = 720$. Most wrong exam answers use the right formula for the wrong question.
+
+## Key Results
+
+### Binomial coefficients
+
+$\binom{n}{k}$ counts $k$-element subsets of an $n$-element set.
+
+**Pascal's rule.** $\binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}$, with $\binom{n}{0} = \binom{n}{n} = 1$.
+*Combinatorial proof.* Fix element $n$. A $k$-subset either contains it (choose the other $k-1$ from $n-1$) or does not (choose all $k$ from $n-1$). The cases are disjoint, so add. $\square$
+
+This is exactly a **dynamic programming recurrence** with overlapping subproblems ([Unit 6.1](../unit6/topic1.md)): computing it recursively without memoization is exponential, while the table is $O(n^2)$.
+
+**Binomial theorem.** $(x + y)^n = \sum_{k=0}^{n} \binom{n}{k} x^k y^{n-k}$. Each of the $n$ factors contributes either $x$ or $y$; terms with exactly $k$ copies of $x$ correspond to $k$-subsets of factors.
+
+| Identity | Meaning / use |
+| --- | --- |
+| $\binom{n}{k} = \binom{n}{n-k}$ | Choosing what to include = choosing what to exclude; compute with the smaller $k$ |
+| $\sum_{k=0}^{n} \binom{n}{k} = 2^n$ | Total number of subsets ($x = y = 1$ in the binomial theorem) |
+| $\sum_{k=0}^{n} (-1)^k \binom{n}{k} = 0$ for $n \ge 1$ | Even-size and odd-size subsets are equinumerous; the engine of inclusion–exclusion |
+| $\sum_{i=r}^{n} \binom{i}{r} = \binom{n+1}{r+1}$ | Hockey stick; e.g. counting triples $i < j < k$ by the largest element |
+| $\binom{n}{k} = \frac{n}{k}\binom{n-1}{k-1}$ | Gives an $O(k)$ multiplicative formula |
+| $\binom{n}{k} \le \left(\frac{en}{k}\right)^k$ | Upper bound used in complexity estimates |
+
+**Stars and bars.** The number of solutions of $x_1 + \dots + x_k = n$ in non-negative integers is $\binom{n + k - 1}{k - 1}$.
+*Proof.* Encode a solution as a row of $n$ stars and $k - 1$ bars (bars separate the groups). Every arrangement of $n + k - 1$ symbols with $k-1$ bars is exactly one solution: choose the bar positions. For positive integers ($x_i \ge 1$), substitute $y_i = x_i - 1$ to get $\binom{n-1}{k-1}$.
+
+### Computing $\binom{n}{r}$ exactly and modulo a prime
+
+| Method | Precompute | Query | Works when |
+| --- | --- | --- | --- |
+| Pascal's table | $O(n^2)$ time and space | $O(1)$ | $n \le$ a few thousand; any modulus (only additions) |
+| Multiplicative formula with big integers | — | $O(r)$ big-integer ops | Exact values, moderate $n$ (`math.comb`) |
+| Factorials + inverse factorials mod $p$ | $O(n)$ | $O(1)$ | $p$ prime and $n < p$ (typical: $n \le 10^6$, $p = 10^9+7$) |
+| Lucas' theorem | $O(p)$ or none | $O(\log_p n)$ small binomials | $p$ is a **small** prime, $n$ huge |
+
+**Factorial method.** $\binom{n}{r} \equiv n! \cdot (r!)^{-1} \cdot ((n-r)!)^{-1} \pmod p$. The inverses exist because $p$ is prime and $p \nmid k!$ for $k < p$ ([Topic 1.1](topic1.md)). Compute all inverse factorials with **one** modular exponentiation using $\big((i-1)!\big)^{-1} = (i!)^{-1} \cdot i$.
+
+**Lucas' theorem.** For prime $p$, write $n$ and $r$ in base $p$: $n = (n_t \dots n_0)_p$, $r = (r_t \dots r_0)_p$. Then $\binom{n}{r} \equiv \prod_i \binom{n_i}{r_i} \pmod p$, with $\binom{n_i}{r_i} = 0$ when $r_i > n_i$.
+
+!!! warning "Important: the factorial method needs $n < p$"
+
+    If $n \ge p$ then $n!$ contains the factor $p$, so $n! \equiv 0 \pmod p$ and its "inverse" does not exist. With $p = 10^9+7$ and $n \le 10^6$ this never happens, but with a small prime (e.g. $p = 13$) you must use Lucas' theorem.
+
+### Pigeonhole principle
+
+**Statement.** If $n$ objects are placed into $m$ boxes and $n > m$, some box contains at least two objects. **Generalized:** some box contains at least $\lceil n/m \rceil$ objects.
+*Proof.* If every box had at most $\lceil n/m \rceil - 1 < n/m$ objects, the total would be less than $n$. $\square$
+
+Pigeonhole is an **existence** tool: it says a collision must happen without saying where. Algorithmic consequences:
+
+- **Hash collisions are unavoidable.** Mapping a universe of size $|U| > m$ into $m$ buckets forces some bucket to receive at least $\lceil |U|/m \rceil$ keys; an adversary who knows $h$ can put all keys there. This is why worst-case hashing is $O(n)$ and why randomized (universal) hashing is used ([Topic 1.3](topic3.md)).
+- **No lossless compressor shrinks every file.** There are $2^n$ files of length $n$ but only $2^n - 1$ shorter bit strings.
+- **Iterated functions on a finite set must cycle.** The sequence $x_0, f(x_0), f(f(x_0)), \dots$ with $f: S \to S$ and $|S| = m$ repeats a value within $m + 1$ terms. This is the basis of cycle detection below.
+- **Remainders repeat.** Among any $m + 1$ integers, two have the same remainder modulo $m$; among prefix sums $s_0, \dots, s_m$ of $m$ integers, two agree modulo $m$, so some contiguous block has sum divisible by $m$.
+
+### Inclusion–exclusion
+
+For finite sets $A_1, \dots, A_k$:
+
+$$
+\Big|\bigcup_{i=1}^{k} A_i\Big| = \sum_{i} |A_i| - \sum_{i<j} |A_i \cap A_j| + \sum_{i<j<l} |A_i \cap A_j \cap A_l| - \cdots + (-1)^{k+1} |A_1 \cap \cdots \cap A_k| .
+$$
+
+*Proof.* Take an element lying in exactly $t \ge 1$ of the sets. It is counted $\binom{t}{1} - \binom{t}{2} + \binom{t}{3} - \cdots = 1 - \sum_{j=0}^{t}(-1)^j\binom{t}{j} = 1 - 0 = 1$ time, using the alternating-sum identity. Elements in no set are counted 0 times. $\square$
+
+Typical use: count objects that avoid **all** of several "bad" properties: $|\text{good}| = |U| - |\bigcup A_i|$. The sum has $2^k - 1$ terms, so it is practical when $k$ is small (about $k \le 20$) and each intersection is easy to count.
+
+### Counting recurrences: Fibonacci and Catalan
+
+**Fibonacci.** $F_0 = 0$, $F_1 = 1$, $F_n = F_{n-1} + F_{n-2}$. Many counts satisfy this recurrence because the last decision has two options of sizes 1 and 2:
+
+- ways to climb $n$ stairs using steps of 1 or 2: $F_{n+1}$;
+- tilings of a $2 \times n$ strip by dominoes: $F_{n+1}$;
+- binary strings of length $n$ with no two consecutive 1s: $F_{n+2}$.
+
+Growth: $F_n = (\phi^n - \psi^n)/\sqrt5$ with $\phi = \frac{1+\sqrt5}{2} \approx 1.618$ (Binet), so $F_n = \Theta(\phi^n)$. $F_{92}$ is the largest Fibonacci number that fits in a signed 64-bit integer and $F_{93}$ the largest that fits in an unsigned one. Other facts worth recognizing: $\gcd(F_m, F_n) = F_{\gcd(m,n)}$; $F_n \bmod m$ is periodic (the Pisano period, e.g. 60 for $m = 10$); every positive integer is a unique sum of non-consecutive Fibonacci numbers (Zeckendorf). Computing $F_n$ for $n$ up to $10^{18}$ uses matrix exponentiation, covered in [Unit 4.7](../unit4/topic7.md).
+
+**Catalan numbers.**
+
+$$
+C_n = \frac{1}{n+1}\binom{2n}{n}, \qquad C_0 = 1,\quad C_{n+1} = \sum_{i=0}^{n} C_i\, C_{n-i}
+$$
+
+Sequence: $1, 1, 2, 5, 14, 42, 132, 429, 1430, 4862, \dots$ The recurrence comes from splitting at the first "return to balance": a balanced string is `(` $A$ `)` $B$ with $A$, $B$ balanced.
+
+| Structure | Count |
+| --- | --- |
+| Balanced strings of $n$ pairs of parentheses | $C_n$ |
+| Binary search trees on $n$ distinct keys (tree shapes) | $C_n$ |
+| Full binary trees with $n + 1$ leaves | $C_n$ |
+| Triangulations of a convex $(n+2)$-gon | $C_n$ |
+| Monotone lattice paths $(0,0) \to (n,n)$ never above the diagonal | $C_n$ |
+| Ways to fully parenthesize a product of $n + 1$ factors | $C_n$ |
+| Non-crossing handshakes among $2n$ people around a table | $C_n$ |
+
+*Reflection proof of the closed form.* There are $\binom{2n}{n}$ monotone paths from $(0,0)$ to $(n,n)$. A bad path touches the line $y = x + 1$; reflect its portion after the first touch across that line. This is a bijection between bad paths and **all** paths to $(n-1, n+1)$, of which there are $\binom{2n}{n+1}$. Hence $C_n = \binom{2n}{n} - \binom{2n}{n+1} = \frac{1}{n+1}\binom{2n}{n}$.
+
+The parenthesization row matters for [Matrix Chain Multiplication (Unit 6.3)](../unit6/topic3.md): the number of ways to parenthesize a chain of $n$ matrices is $C_{n-1} = \Omega(4^n / n^{3/2})$, which is why brute force fails and DP is needed.
+
+## Counting for Complexity Analysis
+
+The most important algorithmic use of combinatorics in this course: **the size of the search space is the cost of brute force**.
+
+| Search space | Size | Brute force | Practical limit ($\approx 10^8$ simple ops/s) |
+| --- | --- | --- | --- |
+| Pairs $i < j$ | $\binom{n}{2} = \Theta(n^2)$ | Double loop | $n \approx 10^4$ |
+| Triples | $\binom{n}{3} = \Theta(n^3)$ | Triple loop | $n \approx 500$ |
+| All subsets | $2^n$ | Bitmask enumeration, $O(2^n \cdot n)$ | $n \approx 20$–$25$ |
+| Subsets of size $k$ | $\binom{n}{k}$ | Combinations | $\binom{40}{5} \approx 6.6 \times 10^5$ is fine, $\binom{40}{20} \approx 1.4 \times 10^{11}$ is not |
+| All orderings | $n!$ | Permutations, $O(n! \cdot n)$ | $n \approx 10$–$11$ |
+| Binary strings / assignments of $n$ variables | $2^n$ | | $n \approx 25$ |
+| Functions $[n] \to [k]$ (colourings) | $k^n$ | | $3^n$: $n \approx 15$ |
+
+**Stirling's approximation** $n! \approx \sqrt{2\pi n}\,(n/e)^n$ gives $\log_2 n! = n \log_2 n - n\log_2 e + O(\log n) = \Theta(n \log n)$. This is the heart of the **comparison-sorting lower bound** ([Unit 5.2](../unit5/topic2.md)): a decision tree must have at least $n!$ leaves, so its height is at least $\log_2 n! = \Omega(n \log n)$.
+
+Counting also bounds DP: the running time of a memoized algorithm is (number of distinct states) $\times$ (work per state). For example, LCS on strings of lengths $m$ and $n$ has $(m+1)(n+1)$ states ([Unit 6.4](../unit6/topic4.md)), while the naive recursion explores up to $\binom{m+n}{n}$ paths.
+
+!!! warning "Important: $2^n$ vs $n!$"
+
+    $n!$ grows much faster than $2^n$: $2^{20} \approx 10^6$ but $20! \approx 2.4 \times 10^{18}$. "Try every subset" and "try every ordering" are very different budgets. Problems with $n \le 20$ usually intend $O(2^n \cdot n)$ bitmask DP; $n \le 10$ hints at $O(n!)$.
+
+## Method: Solving a Counting Problem
+
+1. **Restate** the objects precisely: ordered or unordered? repetition allowed? distinguishable items and boxes?
+2. **Brute-force small cases** (by hand or with `itertools`) to get the first few answers.
+3. **Decompose**: product rule over independent decisions, sum rule over disjoint cases, or a recurrence over the "last decision".
+4. If constraints are of the form "none of these bad events", use **complement + inclusion–exclusion**.
+5. If the small answers match a known sequence ($1, 2, 5, 14, 42$; $1, 1, 2, 3, 5, 8$), suspect Catalan or Fibonacci and look for the matching decomposition.
+6. **Verify** the formula against the brute force for all small inputs before trusting it.
+7. **Compute** it: exact big integers, Pascal's table, or factorials modulo $p$, depending on size.
+
+## Worked Examples
+
+!!! example "Example 1 (basic): product rule and its trap"
+
+    How many 4-digit PINs have **no repeated digit**? Choices: $10 \cdot 9 \cdot 8 \cdot 7 = 5040 = P(10, 4)$. How many have **at least one** repeated digit? Complement: $10^4 - 5040 = 4960$. Counting "at least one repeat" directly by cases is error-prone; the complement is one subtraction.
+
+!!! example "Example 2 (basic): committees and stars and bars"
+
+    - A 5-card poker hand from 52 cards: order irrelevant, so $\binom{52}{5} = 2{,}598{,}960$.
+    - Distributing 7 identical tasks among 3 servers (some servers may get none): $\binom{7 + 2}{2} = 36$.
+    - Same, but every server gets at least one: $\binom{6}{2} = 15$.
+
+!!! example "Example 3 (intermediate): inclusion–exclusion, numbers coprime to 30"
+
+    Count $x \in [1, 100]$ divisible by none of $2, 3, 5$. Let $A_p$ = multiples of $p$.
+
+    | Term | Value |
+    | --- | --- |
+    | $\lvert A_2 \rvert + \lvert A_3 \rvert + \lvert A_5 \rvert$ | $50 + 33 + 20 = 103$ |
+    | $\lvert A_6 \rvert + \lvert A_{10} \rvert + \lvert A_{15} \rvert$ | $16 + 10 + 6 = 32$ |
+    | $\lvert A_{30} \rvert$ | $3$ |
+    | $\lvert A_2 \cup A_3 \cup A_5 \rvert$ | $103 - 32 + 3 = 74$ |
+
+    Answer: $100 - 74 = 26$. (Sanity check: $\varphi(30)/30 \cdot 100 = \tfrac{8}{30} \cdot 100 \approx 26.7$.)
+
+!!! example "Example 4 (intermediate): derangements"
+
+    In how many orderings of $n$ items is **no** item in its original position? Let $A_i$ = permutations fixing item $i$; $|A_{i_1} \cap \cdots \cap A_{i_j}| = (n - j)!$. Inclusion–exclusion gives
+
+    $$
+    D_n = \sum_{j=0}^{n} (-1)^j \binom{n}{j} (n-j)! = n! \sum_{j=0}^{n} \frac{(-1)^j}{j!} \approx \frac{n!}{e}.
+    $$
+
+    Values: $D_0..D_7 = 1, 0, 1, 2, 9, 44, 265, 1854$. So a random permutation is a derangement with probability about $1/e \approx 0.368$ — a result reused in [Topic 1.3](topic3.md).
+
+!!! example "Example 5 (advanced): pigeonhole and cycle detection"
+
+    The sequence $x_{i+1} = f(x_i)$ on a finite set is eventually periodic: a **tail** of length $\mu$ followed by a **cycle** of length $\lambda$ (the shape of the letter $\rho$). For $f(x) = (x^2 + 1) \bmod 10$ and $x_0 = 3$: $3 \to 0 \to 1 \to 2 \to 5 \to 6 \to 7 \to 0 \to \cdots$, so $\mu = 1$ and $\lambda = 6$.
+
+    A hash set finds $\mu, \lambda$ in $O(\mu + \lambda)$ time but also $O(\mu + \lambda)$ memory. **Floyd's tortoise and hare** uses $O(1)$ memory:
+
+    1. *Meet.* Tortoise moves 1 step, hare 2 steps per tick. Once both are in the cycle, the gap shrinks by 1 (mod $\lambda$) per tick, so they meet; at the meeting time $i$, $2i \equiv i \pmod \lambda$, so $\lambda \mid i$.
+    2. *Find $\mu$.* Reset the tortoise to $x_0$; move both 1 step per tick. After $\mu$ steps the tortoise is at $x_\mu$ and the hare is at position $i + \mu \equiv \mu \pmod \lambda$ in the cycle, also $x_\mu$. They first meet at the cycle entry.
+    3. *Find $\lambda$.* Walk once around the cycle from $x_\mu$, counting steps.
+
+    Applications: linked-list cycle detection (LeetCode 141/142, and 287 "Find the Duplicate Number"), the period of a pseudorandom generator, and Pollard's rho factorization (Floyd or Brent on $x \mapsto x^2 + c \bmod n$).
+
+## Python Implementation
+
+```python
+import math
+
+MOD = 10**9 + 7
+
+
+def pascal_table(n, mod=None):
+    """C[i][j] for 0 <= j <= i <= n, using only additions."""
+    C = [[0] * (n + 1) for _ in range(n + 1)]
+    for i in range(n + 1):
+        C[i][0] = 1
+        for j in range(1, i + 1):
+            C[i][j] = C[i - 1][j - 1] + C[i - 1][j]
+            if mod is not None:
+                C[i][j] %= mod
+    return C
+
+
+class Binomial:
+    """O(n) precomputation, O(1) queries of nCr modulo a prime p > max_n."""
+
+    def __init__(self, max_n, p=MOD):
+        self.p = p
+        self.fact = [1] * (max_n + 1)
+        for i in range(1, max_n + 1):
+            self.fact[i] = self.fact[i - 1] * i % p
+        self.inv_fact = [1] * (max_n + 1)
+        self.inv_fact[max_n] = pow(self.fact[max_n], p - 2, p)   # one Fermat inverse
+        for i in range(max_n, 0, -1):
+            self.inv_fact[i - 1] = self.inv_fact[i] * i % p
+
+    def ncr(self, n, r):
+        if r < 0 or r > n:
+            return 0
+        return self.fact[n] * self.inv_fact[r] % self.p * self.inv_fact[n - r] % self.p
+
+
+def lucas(n, r, p):
+    """nCr mod a small prime p, for arbitrarily large n."""
+    result = 1
+    while n > 0 or r > 0:
+        ni, ri = n % p, r % p
+        if ri > ni:
+            return 0
+        result = result * math.comb(ni, ri) % p
+        n //= p
+        r //= p
+    return result
+
+
+def count_not_divisible(n, primes):
+    """How many x in [1, n] are divisible by none of the given primes."""
+    k = len(primes)
+    divisible_by_some = 0
+    for mask in range(1, 1 << k):                # every non-empty subset of primes
+        product = 1
+        for i in range(k):
+            if mask >> i & 1:
+                product *= primes[i]
+        term = n // product
+        if bin(mask).count("1") % 2 == 1:
+            divisible_by_some += term
+        else:
+            divisible_by_some -= term
+    return n - divisible_by_some
+
+
+def derangements(n):
+    return sum((-1) ** j * math.comb(n, j) * math.factorial(n - j) for j in range(n + 1))
+
+
+def catalan(n):
+    return math.comb(2 * n, n) // (n + 1)
+
+
+def floyd_cycle(f, x0):
+    """Return (mu, lam): tail length and cycle length of x0, f(x0), f(f(x0)), ..."""
+    tortoise, hare = f(x0), f(f(x0))
+    while tortoise != hare:                      # phase 1: meet inside the cycle
+        tortoise, hare = f(tortoise), f(f(hare))
+    mu, tortoise = 0, x0
+    while tortoise != hare:                      # phase 2: find the cycle entry
+        tortoise, hare = f(tortoise), f(hare)
+        mu += 1
+    lam, hare = 1, f(tortoise)
+    while tortoise != hare:                      # phase 3: walk once around
+        hare = f(hare)
+        lam += 1
+    return mu, lam
 ```
 
-This is the right tool when you need to test a handful of large numbers (e.g. n up to 10^18) and a full sieve would not fit in memory.
-
-#### B. Sieve of Eratosthenes
-
-When many numbers up to some bound N must be classified as prime or composite, precomputing is far cheaper than testing each one individually. The Sieve of Eratosthenes marks composites by striking out multiples of each prime, starting from p² (smaller multiples of p were already struck out by smaller primes).
-
-**Sieve of Eratosthenes — O(N log log N) time, O(N) space**
-
-```cpp
-vector<bool> sieve(int n) {
-    vector<bool> isComposite(n + 1, false);
-    for (int i = 2; (long long)i * i <= n; i++) {
-        if (!isComposite[i]) {
-            for (int j = i * i; j <= n; j += i)
-                isComposite[j] = true;
-        }
-    }
-    return isComposite;   // isComposite[i] == false  =>  i is prime  (i >= 2)
-}
-```
+**Walkthrough of the non-obvious lines**
+
+- `Binomial.__init__` computes a single modular inverse, `fact[max_n]^(p-2)`, then walks downward using $((i-1)!)^{-1} = (i!)^{-1} \cdot i$. This turns $n$ exponentiations into one.
+- `ncr` returns 0 for $r < 0$ or $r > n$; callers in DP code often pass such values at boundaries.
+- `lucas` uses `math.comb` on digits smaller than $p$, which is exact; for repeated queries precompute a small Pascal table modulo $p$ instead.
+- `count_not_divisible` enumerates subsets with a bitmask; the parity of the popcount decides the sign. The cost is $O(2^k \cdot k)$.
+- `catalan` uses exact integer division: $(n+1) \mid \binom{2n}{n}$ always holds, so `//` is safe here (it is **not** safe on residues modulo $p$).
+- `floyd_cycle` mirrors the three phases of Example 5.
+
+All functions were verified against brute-force enumeration with `itertools` (Pascal and factorial methods vs `math.comb` for all $n \le 60$; Lucas for random $n \le 5000$; inclusion–exclusion and derangements vs direct counting; Catalan vs counting balanced strings; Floyd vs a hash-map simulation on random functions).
+
+## Edge Cases and Pitfalls
+
+| Case / pitfall | What goes wrong | Fix |
+| --- | --- | --- |
+| $\binom{n}{r}$ with $r > n$ or $r < 0$ | Index errors or negative factorial indices | Return 0 explicitly |
+| $n \ge p$ in the factorial method | $n! \equiv 0 \pmod p$, inverse undefined, silently wrong answers | Use Lucas' theorem (small $p$) |
+| Integer division of residues | `fact[n] // (fact[r] * fact[n-r])` after reducing mod $p$ is meaningless | Multiply by modular inverses |
+| Computing $n!$ exactly then dividing (C++/Java) | $21!$ already overflows 64-bit | Pascal table, or multiplicative formula dividing as you go, or modular arithmetic |
+| Double counting | Counting "choose leader then team" and "choose team then leader" as different when they are not | Check that each object corresponds to exactly one decision sequence; divide by the overcount factor |
+| Inclusion–exclusion with large $k$ | $2^k$ terms explode | Restrict to distinct prime factors (at most 15 for numbers $\le 10^{18}$) or find structure |
+| Overflow in products of primes in inclusion–exclusion | Product exceeds $n$ and overflows in C++ | Stop early when the product exceeds $n$ (its term is 0) |
+| Fibonacci in 64-bit | $F_{93}$ overflows signed `long long`, $F_{94}$ overflows unsigned | Work modulo $p$ or use big integers |
+| Empty cases | $\binom{0}{0} = 1$, $0! = 1$, $D_0 = 1$, $C_0 = 1$ | Treat empty selection as one valid object |
+
+## Common Misconceptions
+
+| Wrong belief | Correct mental model |
+| --- | --- |
+| "Combinations and permutations differ only in a formula." | They answer different questions; decide whether order matters **before** choosing a formula. $P(n,r) = r!\binom{n}{r}$. |
+| "Pigeonhole tells me which box has the collision." | It is non-constructive: it guarantees existence only. Finding the collision is an algorithmic problem (hashing, cycle detection). |
+| "Inclusion–exclusion is only for 2 or 3 sets." | It works for any $k$ sets; with bitmasks it is a $2^k$ loop. |
+| "$2^n$ and $n!$ are both just 'exponential'." | $n! = 2^{\Theta(n \log n)}$ grows strictly faster; $n \le 20$ is fine for $2^n$ and hopeless for $n!$. |
+| "Pascal's rule is just a formula." | It is a recurrence with overlapping subproblems — the textbook example motivating DP. |
+| "A count modulo $p$ can be reduced and then divided." | Division needs inverses modulo a prime; reduce, then multiply by inverses. |
 
-#### C. Modified Sieves
+## Alternatives and Trade-offs
 
-Two common modifications extend the basic sieve to handle larger ranges or richer queries:
+| Goal | Option | Cost | Use when | Avoid when |
+| --- | --- | --- | --- | --- |
+| Many $\binom{n}{r}$ queries, $n \le 10^6$ | Factorials + inverse factorials mod $p$ | $O(n)$ + $O(1)$/query | Prime modulus $p > n$ | Composite or small modulus |
+| $\binom{n}{r}$ with any modulus, small $n$ | Pascal table | $O(n^2)$ | $n \le 5000$, non-prime modulus | $n$ large (memory) |
+| Exact single $\binom{n}{r}$ | `math.comb` / multiplicative formula | $O(r)$ big-int ops | Exact answer needed | Many queries modulo $p$ |
+| $\binom{n}{r} \bmod p$, $n$ huge, $p$ small | Lucas | $O(\log_p n)$ | $p \le 10^5$-ish prime | Large $p$ (digits are the whole number) |
+| Count objects avoiding $k$ properties | Inclusion–exclusion | $O(2^k)$ | $k \le 20$ | Large $k$ without structure |
+| Count via a recurrence | DP over the recurrence | states $\times$ transitions | No closed form or closed form hard to compute | Closed form exists and is cheap |
+| Count by brute force | Enumerate with `itertools` | size of the space | Small cases, testing oracles | Real inputs |
 
-**Linear (Euler) Sieve** — guarantees every composite is marked exactly once, giving true O(N) time. It also produces each number's smallest prime factor (SPF), enabling O(log n) factorisation afterwards.
-
-```cpp
-vector<int> spf;              // spf[i] = smallest prime factor of i
-vector<int> primes;
-
-void linearSieve(int n) {
-    spf.assign(n + 1, 0);
-    for (int i = 2; i <= n; i++) {
-        if (spf[i] == 0) {            // i is prime
-            spf[i] = i;
-            primes.push_back(i);
-        }
-        for (int p : primes) {
-            if (p > spf[i] || (long long)i * p > n) break;
-            spf[i * p] = p;
-        }
-    }
-}
-```
+## In Practice
 
-**Segmented Sieve** — used when the range [L, R] is large (e.g. R up to 10^12) but R − L is small (e.g. ≤ 10^6). Precompute primes up to √R with a normal sieve, then use only those primes to strike out composites directly within [L, R].
+- **Python**: `math.comb`, `math.perm`, `math.factorial` (exact big integers); `itertools.combinations`, `permutations`, `product` enumerate lazily — perfect as test oracles.
+- **Software testing**: exhaustive testing of $k$ parameters with $v$ values needs $v^k$ cases. Combinatorial testing tools generate *covering arrays* so that every pair (or triple) of parameter values appears at least once, using far fewer tests — a direct application of counting.
+- **Security**: password-space and key-space size ($62^8$, $2^{128}$) are product-rule counts; they determine whether exhaustive search is feasible.
+- **Distributed systems / hashing**: pigeonhole guarantees collisions; designers reason about *how many* (expected collisions, birthday bound in [Topic 1.3](topic3.md)) rather than hoping for none.
+- **ML and statistics**: the number of feature subsets ($2^d$) explains why exhaustive feature selection is replaced by greedy or regularized methods; binomial coefficients appear in binomial distributions and combinatorial kernels.
+- **Compilers / query optimizers**: the number of join orders for $n$ relations grows like $n!$ (and bushy trees like $C_{n-1} \cdot n!$), so database optimizers use DP over subsets (System R style) or heuristics instead of enumeration.
 
-```cpp
-vector<bool> segmentedSieve(long long L, long long R) {
-    int limit = (int)sqrt((double)R) + 1;
-    vector<bool> baseComposite = sieve(limit);      // primes up to sqrt(R)
-    vector<bool> isComposite(R - L + 1, false);
-
-    for (int i = 2; i <= limit; i++) {
-        if (!baseComposite[i]) {
-            long long start = max((long long)i * i, ((L + i - 1) / i) * i);
-            for (long long j = start; j <= R; j += i)
-                isComposite[j - L] = true;
-        }
-    }
-    return isComposite;   // isComposite[x - L] == false  =>  x is prime
-}
-```
-
-**Complexity summary**
-
-| Method                | Preprocessing    | Per-query cost              | Best used when                        |
-| --------------------- | ---------------- | --------------------------- | ------------------------------------- |
-| Trial division        | —                | O(√n)                       | Testing a few large, isolated numbers |
-| Sieve of Eratosthenes | O(N log log N)   | O(1)                        | Many queries, N ≤ ~10^7               |
-| Linear / Euler sieve  | O(N)             | O(1), O(log n) to factorise | Need SPF / fast factorisation         |
-| Segmented sieve       | O(√R log log √R) | O((R−L) log log R)          | Large R, small window (R − L)         |
-
----
-
-### 1.1.2 Greatest Common Divisor & Least Common Divisor
-
-The greatest common divisor gcd(a, b) is the largest integer dividing both a and b. The Euclidean Algorithm computes it using the identity gcd(a, b) = gcd(b, a mod b), terminating when the second argument reaches 0.
-
-!!! tip "Why it works"
-If d divides both a and b, then d also divides a mod b = a − ⌊a/b⌋·b. Conversely any common divisor of b and a mod b also divides a. Hence gcd(a, b) = gcd(b, a mod b) exactly — no information is lost at each step.
-
-**Euclidean Algorithm — O(log(min(a, b)))**
-
-```cpp
-long long gcd(long long a, long long b) {
-    while (b) {
-        a %= b;
-        swap(a, b);
-    }
-    return a;
-}
-
-long long lcm(long long a, long long b) {
-    return a / gcd(a, b) * b;    // divide first to avoid overflow
-}
-```
-
-The O(log(min(a,b))) bound follows from the fact that consecutive Fibonacci numbers form the worst case: each step of the algorithm reduces the pair size by at least the golden-ratio factor, so the number of steps grows logarithmically with the input — Lamé's theorem formalises this and gives the connection to Fibonacci numbers seen again in section 1.2.1.
+## Interview and Competitive Programming
 
-The LCM formula lcm(a, b) = a·b / gcd(a, b) follows directly from unique prime factorisation: for each prime p, gcd takes the minimum exponent across a and b, while lcm takes the maximum, and min(x,y) + max(x,y) = x + y.
+**Recognition cues**
 
-**Binary GCD (Stein's Algorithm)** — an alternative that avoids division, using only subtraction and bit shifts; useful on hardware where division is expensive relative to shifts. It has the same asymptotic complexity but a smaller constant factor in some settings.
+| If you see... | Think... |
+| --- | --- |
+| "Number of ways ... modulo $10^9+7$" with $n \le 10^6$ | Precomputed factorials and inverse factorials |
+| "Distribute $n$ identical items into $k$ boxes" | Stars and bars |
+| "Grid paths moving only right/down" | $\binom{r + c}{r}$; obstacles $\to$ DP or inclusion–exclusion over obstacles |
+| "Count integers in $[1, N]$ not divisible by any of ..." | Inclusion–exclusion with bitmask over the divisors |
+| "Balanced", "non-crossing", "never below zero", answers $1, 2, 5, 14$ | Catalan |
+| "Each step depends on previous one or two" | Fibonacci-like recurrence; huge $n$ $\to$ matrix power |
+| "Prove some two elements share a property" | Pigeonhole |
+| "Linked list cycle", "duplicate in array of $n+1$ values in $[1, n]$" | Floyd's tortoise and hare |
 
----
+**Constraints to complexity**
 
-### 1.1.3 Modular Arithmetic, Extended Euclidean Algorithm
+| $n$ | Feasible brute force |
+| --- | --- |
+| $\le 10$ | $O(n!)$ permutations |
+| $\le 20$ | $O(2^n \cdot n)$ subsets |
+| $\le 40$ | Meet in the middle: $O(2^{n/2})$ |
+| $\le 500$ | $O(n^3)$ |
+| $\le 10^5$–$10^6$ | $O(n \log n)$ or $O(n)$ with precomputed factorials |
 
-Competitive programming problems routinely ask for an answer "modulo 10^9 + 7" because the true answer would otherwise overflow standard integer types. Modular arithmetic lets us carry out the entire computation using only remainders.
+**Common traps:** forgetting that the answer must be reduced at every multiplication; using `long long` factorials beyond $20!$; counting ordered pairs when the problem asks for unordered ones (divide by 2, or iterate $i < j$).
 
-#### A. Basic Rules
+## Using AI Assistants Critically
 
-- (a + b) mod m = ((a mod m) + (b mod m)) mod m
-- (a − b) mod m = ((a mod m) − (b mod m) + m) mod m — add m to keep the result non-negative
-- (a × b) mod m = ((a mod m) × (b mod m)) mod m
-- Division is **not** distributed the same way — (a / b) mod m requires the modular inverse of b (see below).
+- LLMs frequently confuse "with repetition" and "without repetition", or ordered and unordered selection. Restate the problem precisely in your prompt and check the formula on a tiny case by hand.
+- Generated `nCr` code often divides residues with `/` or `//`. Search for any division after a `% MOD`.
+- Generated inverse-factorial loops are often off by one (`inv_fact[i] = inv_fact[i + 1] * (i + 1)` vs `* i`). Test `ncr(n, r) == math.comb(n, r) % MOD` for all $n \le 50$.
+- Assistants sometimes claim a closed form that matches the first three or four terms but not later ones. Always compare against `itertools` brute force for $n$ up to 8–10.
+- For inclusion–exclusion code, check the sign (odd-size subsets add, even-size subtract when computing the union) and the empty-set term.
+- When an AI states "the number of states is polynomial so the DP is fast", count the states yourself; bitmask DPs have $2^n$ states.
 
-**Fast (binary) exponentiation — O(log e)**
+## Practice
 
-```cpp
-long long power(long long base, long long exp, long long mod) {
-    long long result = 1;
-    base %= mod;
-    while (exp > 0) {
-        if (exp & 1) result = (result * base) % mod;
-        base = (base * base) % mod;
-        exp >>= 1;
-    }
-    return result;
-}
-```
+**Beginner**
 
-#### B. The Extended Euclidean Algorithm
+1. *Licence plates.* Input: integers $L$ (letters) and $D$ (digits), $L, D \le 10$. Output: number of plates with $L$ letters followed by $D$ digits, with and without repetition. Difficulty: easy.
+2. *Handshakes.* Input: $n \le 10^9$. Output: number of handshakes when every pair of $n$ people shakes hands once. Difficulty: easy.
+3. *Pascal row.* Input: $n \le 60$. Output: row $n$ of Pascal's triangle, exactly. Difficulty: easy.
 
-The Extended Euclidean Algorithm augments the standard Euclidean algorithm to also find integers x, y satisfying Bézout's identity:
+**Intermediate**
 
-```
-a·x + b·y = gcd(a, b)
-```
+1. *Binomial queries.* Input: $Q \le 10^5$ queries $(n, r)$ with $0 \le r \le n \le 10^6$. Output: $\binom{n}{r} \bmod (10^9+7)$ for each. Difficulty: medium.
+2. *Coprime count.* Input: $n \le 10^{12}$ and $N \le 10^{18}$. Output: number of $x \in [1, N]$ with $\gcd(x, n) = 1$. Difficulty: medium.
+3. *Equal-sum block.* Input: $m \le 10^5$ integers. Output: a non-empty contiguous block whose sum is divisible by $m$ (prove one always exists). Difficulty: medium.
 
-It is derived by unwinding the recursion: if gcd(b, a mod b) = b·x₁ + (a mod b)·y₁, substitute a mod b = a − ⌊a/b⌋·b to express the same gcd as a combination of a and b directly.
+**Advanced**
 
-**Extended Euclidean Algorithm**
+1. *Grid paths with obstacles.* Input: an $H \times W$ grid ($H, W \le 10^5$) and $K \le 2000$ blocked cells. Output: number of right/down paths from top-left to bottom-right avoiding them, modulo $10^9+7$. Difficulty: hard.
+2. *Huge binomial.* Input: $n, r \le 10^{18}$ and a prime $p \le 10^5$. Output: $\binom{n}{r} \bmod p$. Difficulty: medium–hard.
+3. *Counting BST shapes.* Input: $n \le 10^6$. Output: number of distinct BSTs on keys $1..n$ modulo $10^9+7$, and a proof that your formula is correct. Difficulty: medium–hard.
 
-```cpp
-long long extgcd(long long a, long long b, long long &x, long long &y) {
-    if (b == 0) {
-        x = 1; y = 0;
-        return a;                    // gcd(a, 0) = a
-    }
-    long long x1, y1;
-    long long g = extgcd(b, a % b, x1, y1);
-    x = y1;
-    y = x1 - (a / b) * y1;
-    return g;
-}
-```
+**Interview / CP**
 
-**Modular inverse via Extended Euclid** — a modular inverse of a, written a⁻¹ (mod m), is a value x such that a·x ≡ 1 (mod m). It exists exactly when gcd(a, m) = 1. Setting b = m above, x from a·x + m·y = 1 is that inverse.
+1. *Unique Paths* (LeetCode 62). Input: $m, n \le 100$. Output: number of right/down paths in an $m \times n$ grid. Difficulty: medium.
+2. *Linked List Cycle II* (LeetCode 142). Input: head of a singly linked list. Output: the node where the cycle begins, or null, using $O(1)$ extra memory. Difficulty: medium.
+3. *Distribute candies.* Input: $n \le 10^6$ identical candies, $k \le 10^6$ children, each child at most $c$ candies. Output: number of distributions modulo $10^9+7$. Difficulty: hard.
 
-```cpp
-long long modInverse(long long a, long long m) {
-    long long x, y;
-    long long g = extgcd(a, m, x, y);
-    if (g != 1) return -1;            // inverse does not exist
-    return ((x % m) + m) % m;
-}
-```
+## Self-Check Questions
 
-**Modular inverse via Fermat's Little Theorem** — when m is prime, a^(m−1) ≡ 1 (mod m) for any a not divisible by m, so a⁻¹ ≡ a^(m−2) (mod m). This only needs fast exponentiation, but requires m to be prime (e.g. the common modulus 10^9 + 7).
+??? question "Q1. How many 8-bit strings contain exactly three 1s? How many contain at least one 1?"
 
-```cpp
-long long modInverseFermat(long long a, long long m /* m is prime */) {
-    return power(a, m - 2, m);
-}
-```
+    Exactly three: choose their positions, $\binom{8}{3} = 56$. At least one: complement of the all-zero string, $2^8 - 1 = 255$.
 
-!!! note "Chinese Remainder Theorem (CRT)"
-When you need x mod (m₁·m₂) given x mod m₁ and x mod m₂ with gcd(m₁, m₂) = 1, CRT reconstructs a unique solution mod m₁·m₂. It is built directly from the Extended Euclidean Algorithm and appears whenever a modulus is composite or the answer is required modulo a product of primes.
+??? question "Q2. Give a combinatorial proof that $\sum_k \binom{n}{k} = 2^n$."
 
----
+    Both sides count subsets of an $n$-set. The right side builds a subset by deciding include/exclude for each element (product rule). The left side groups subsets by size $k$ (sum rule over disjoint cases).
 
-### 1.1.4 Number Theory in Programming Competitions
+??? question "Q3. Why must any hash function from 64-bit keys to $2^{20}$ buckets have a bucket containing at least $2^{44}$ possible keys? What does this imply for worst-case hashing?"
 
-A short field guide to how these tools tend to appear in problems:
+    Generalized pigeonhole: $\lceil 2^{64}/2^{20} \rceil = 2^{44}$. An adversary who knows $h$ can choose all inserted keys from that bucket, making operations $\Theta(n)$. Defences: randomized (universal or keyed) hash functions, so the adversary cannot predict collisions.
 
-- "Count something mod 10^9 + 7" → precompute factorials and inverse factorials once with fast exponentiation, then answer each nCr query in O(1).
-- "Sum of divisors / number of divisors" → factorise using a precomputed smallest-prime-factor table, then apply the standard divisor-count and divisor-sum formulas from the prime factorisation.
-- "Two numbers are compatible if gcd(a, b) = 1" (coprimality) → often solved by counting through Euler's totient function φ(n), itself computed via a sieve variant.
-- "Solve for integer solutions of a·x + b·y = c" → linear Diophantine equation; solvable iff gcd(a, b) divides c, using the Extended Euclidean Algorithm to find one solution and then parametrising all others.
-- "Answer must be found modulo a composite number" → factor the modulus and combine results with the Chinese Remainder Theorem.
+??? question "Q4. A teammate computes $\binom{n}{r} \bmod 13$ for $n \le 10^6$ with factorials and Fermat inverses. When does this fail and what should be used?"
 
-!!! warning "Common pitfalls"
-Forgetting that the `%` operator in C++/Java can return a negative result for negative operands (always normalise with `((x % m) + m) % m`); multiplying two ~10^9 values without first casting to a 64-bit type, causing silent overflow; and assuming a modular inverse exists without checking gcd(a, m) = 1.
+    For $n \ge 13$, $n!$ contains the factor 13, so $n! \equiv 0$ and the inverse factorials do not exist; the code returns 0 or garbage. Use Lucas' theorem (or Pascal's triangle modulo 13).
 
----
+??? question "Q5. A problem has $n \le 18$ items and asks for the best ordering. Is $O(n!)$ feasible? What should you consider instead?"
 
-## 1.2 Combinatorics
+    $18! \approx 6.4 \times 10^{15}$: infeasible. $O(2^n \cdot n^2) \approx 8.5 \times 10^7$ is feasible, which suggests bitmask DP over subsets (as in the Held–Karp TSP algorithm), where the state is "set of items placed so far, last item".
 
-Combinatorics supplies the counting machinery behind probability, DP state counting, and closed-form answers. This section covers two families that recur constantly: Fibonacci-type linear recurrences and the counting numbers built from binomial coefficients.
+??? question "Q6. Use inclusion–exclusion to count integers in $[1, 60]$ divisible by 4 or 6."
 
-### 1.2.1 Fibonacci Numbers, Binomial Coefficients
+    $\lfloor 60/4 \rfloor + \lfloor 60/6 \rfloor - \lfloor 60/\operatorname{lcm}(4,6) \rfloor = 15 + 10 - 5 = 20$. Note the intersection uses the **lcm** (12), not the product (24).
 
-#### A. Fibonacci Numbers
+??? question "Q7. Why is the comparison-sorting lower bound $\Omega(n \log n)$? Which counting fact does it rely on?"
 
-Defined by F(0) = 0, F(1) = 1, F(n) = F(n−1) + F(n−2). Direct recursion is exponential; a bottom-up DP already gives O(n). For very large n (e.g. n up to 10^18, answer mod p), matrix exponentiation reduces this to O(log n) using the identity:
+    A comparison sort's decision tree must distinguish all $n!$ input orderings, so it needs at least $n!$ leaves and height $\ge \log_2 n!$. By Stirling, $\log_2 n! = \Theta(n \log n)$. See [Unit 5.2](../unit5/topic2.md).
 
-```
-[F(n+1) F(n); F(n) F(n-1)] = [1 1; 1 0]ⁿ
-```
+??? question "Q8. In Floyd's algorithm, why does resetting one pointer to $x_0$ and moving both one step at a time find the cycle entry?"
 
-**Fibonacci via matrix exponentiation — O(log n)**
+    At the first meeting time $i$, $\lambda \mid i$. After $\mu$ more single steps, the reset pointer is at $x_\mu$, and the other is at index $i + \mu$, which is in the cycle and congruent to $\mu$ modulo $\lambda$, so also at $x_\mu$. Before $\mu$ steps the reset pointer is still on the tail, where the other pointer never is, so the first meeting is exactly the entry.
 
-```cpp
-struct Mat { long long a, b, c, d; };
+## Complexity Summary
 
-Mat mul(const Mat &m1, const Mat &m2, long long mod) {
-    return {
-        (m1.a * m2.a + m1.b * m2.c) % mod,
-        (m1.a * m2.b + m1.b * m2.d) % mod,
-        (m1.c * m2.a + m1.d * m2.c) % mod,
-        (m1.c * m2.b + m1.d * m2.d) % mod
-    };
-}
+| Task | Time | Space |
+| --- | --- | --- |
+| Pascal's table up to $n$ | $O(n^2)$ | $O(n^2)$ (or $O(n)$ per row) |
+| Factorial + inverse-factorial precomputation | $O(n + \log p)$ | $O(n)$ |
+| $\binom{n}{r} \bmod p$ query after precomputation | $O(1)$ | — |
+| Lucas' theorem | $O(\log_p n)$ digit binomials | $O(1)$ (or $O(p)$ tables) |
+| Inclusion–exclusion over $k$ sets | $O(2^k \cdot k)$ | $O(1)$ |
+| Catalan $C_n \bmod p$ | $O(1)$ after factorials | $O(n)$ |
+| Floyd cycle detection | $O(\mu + \lambda)$ | $O(1)$ |
+| Enumerate subsets / permutations | $O(2^n n)$ / $O(n!\, n)$ | $O(n)$ |
 
-long long fibonacci(long long n, long long mod) {
-    if (n == 0) return 0;
-    Mat result = {1, 0, 0, 1};        // identity matrix
-    Mat base    = {1, 1, 1, 0};
-    n--;
-    while (n > 0) {
-        if (n & 1) result = mul(result, base, mod);
-        base = mul(base, base, mod);
-        n >>= 1;
-    }
-    return result.a;
-}
-```
+## Key Takeaways
 
-#### B. Binomial Coefficients
-
-nCr, read "n choose r", counts the number of ways to choose an unordered subset of r items from n. It satisfies Pascal's identity nCr = (n−1)C(r−1) + (n−1)Cr, giving Pascal's Triangle, and the closed form:
-
-```
-nCr = n! / (r! · (n − r)!)
-```
-
-For competitive programming, the standard pattern is to precompute factorials and their modular inverses once (using fast exponentiation, section 1.1.3), then answer each query in O(1):
-
-**Precomputed nCr mod p — O(N) build, O(1) per query**
-
-```cpp
-const int MAXN = 200005;
-const long long MOD = 1e9 + 7;
-long long fact[MAXN], invFact[MAXN];
-
-void precompute() {
-    fact[0] = 1;
-    for (int i = 1; i < MAXN; i++) fact[i] = fact[i - 1] * i % MOD;
-    invFact[MAXN - 1] = power(fact[MAXN - 1], MOD - 2, MOD);
-    for (int i = MAXN - 2; i >= 0; i--)
-        invFact[i] = invFact[i + 1] * (i + 1) % MOD;
-}
-
-long long nCr(int n, int r) {
-    if (r < 0 || r > n) return 0;
-    return fact[n] * invFact[r] % MOD * invFact[n - r] % MOD;
-}
-```
-
-!!! note "Lucas' Theorem"
-When n and r can be astronomically large but the modulus p is a small prime, nCr mod p can be computed digit-by-digit in base p, combining small nCr values via Lucas' Theorem — useful when N is too large for the precomputed-factorial table above.
-
----
-
-### 1.2.2 Catalan Numbers
-
-The n-th Catalan number Cₙ counts an unusually wide range of combinatorial structures that all turn out to be equinumerous:
-
-- The number of ways to correctly match n pairs of balanced parentheses.
-- The number of distinct binary search trees (equivalently, distinct binary tree shapes) with n nodes.
-- The number of ways to triangulate a convex polygon with n + 2 sides.
-- The number of monotonic lattice paths from (0,0) to (n,n) that never cross above the diagonal (Dyck paths).
-
-Catalan numbers satisfy the recurrence
-
-```
-C₀ = 1,      Cₙ₊₁ = Σ (Cᵢ · Cₙ₋ᵢ)  for i = 0..n
-```
-
-and the closed form built directly from binomial coefficients:
-
-```
-Cₙ = (2n)Cn / (n + 1)
-```
-
-**Catalan number mod p, using precomputed nCr**
-
-```cpp
-long long catalan(int n) {
-    long long c = nCr(2 * n, n);
-    long long invNPlus1 = power(n + 1, MOD - 2, MOD);
-    return c * invNPlus1 % MOD;
-}
-```
-
----
-
-## 1.3 Cycle-Finding Problem, Floyd's Algorithm
-
-Given a sequence x₀, x₁ = f(x₀), x₂ = f(x₁), … generated by repeatedly applying a function f over a finite domain, the sequence must eventually repeat a value and enter a cycle — there are only finitely many possible values. The cycle-finding problem asks for two numbers describing this structure:
-
-- **μ (mu)** — the length of the "tail" before the cycle begins (the first index at which a value repeats an earlier one).
-- **λ (lambda)** — the length of the cycle itself.
-
-This model applies directly to detecting a cycle in a linked list (f = "next pointer"), detecting the period of a pseudorandom number generator, and as the core sub-routine of Pollard's rho integer-factorisation algorithm.
-
-### A. Naive Approach
-
-Store every visited value in a hash set and stop as soon as a repeat is seen. This correctly finds μ and λ in O(μ + λ) time, but uses O(μ + λ) auxiliary space — potentially prohibitive when the domain is huge or memory is tightly bounded (as in embedded or interview settings).
-
-### B. Floyd's Tortoise and Hare Algorithm
-
-Floyd's algorithm finds the same μ and λ using only O(1) extra memory, by racing two pointers at different speeds:
-
-- The tortoise moves one step at a time: `tortoise ← f(tortoise)`.
-- The hare moves two steps at a time: `hare ← f(f(hare))`.
-- If there is a cycle, the hare — being faster — eventually "laps" the tortoise and they meet somewhere inside the cycle.
-
-!!! tip "Why they must meet"
-Once both pointers are inside the cycle, the distance between hare and tortoise decreases by exactly 1 (mod λ) every step, since the hare gains one extra step on the tortoise each iteration. A decreasing-mod-λ quantity must eventually hit 0, so the pointers are guaranteed to coincide within at most λ further steps.
-
-Once a meeting point is found, two further phases recover μ and λ:
-
-1. Reset one pointer to x₀ and keep the other at the meeting point; advance both one step at a time — they meet again exactly at the start of the cycle, after μ steps. This works because of the modular-distance argument above.
-2. From that meeting point, advance one pointer around the cycle, counting steps until it returns to the same position — this count is λ.
-
-**Floyd's Cycle Detection — O(μ + λ) time, O(1) space**
-
-```cpp
-pair<long long, long long> floydCycle(function<long long(long long)> f, long long x0) {
-    // Phase 1: find a meeting point inside the cycle
-    long long tortoise = f(x0);
-    long long hare = f(f(x0));
-    while (tortoise != hare) {
-        tortoise = f(tortoise);
-        hare = f(f(hare));
-    }
-
-    // Phase 2: find mu, the start of the cycle
-    long long mu = 0;
-    tortoise = x0;
-    while (tortoise != hare) {
-        tortoise = f(tortoise);
-        hare = f(hare);
-        mu++;
-    }
-
-    // Phase 3: find lambda, the cycle length
-    long long lambda = 1;
-    hare = f(tortoise);
-    while (tortoise != hare) {
-        hare = f(hare);
-        lambda++;
-    }
-
-    return {mu, lambda};
-}
-```
-
-!!! note "Brent's Algorithm"
-A refinement of the same idea that avoids calling f twice per iteration in the search phase by advancing the hare in doubling-length blocks. It typically performs fewer function evaluations in practice while remaining O(μ + λ) time and O(1) space — worth mentioning as the practical alternative used inside many library implementations.
-
----
-
-## 1.4 Basics of Game Theory
-
-Combinatorial game theory studies two-player games with perfect information (both players see the full state) and no element of chance, where players alternate moves and the game ends in a finite number of moves. Under the normal play convention, the player unable to move loses.
-
-### A. Winning and Losing Positions
-
-- A **P-position** ("Previous player wins") is a losing position for the player about to move — every move from it leads to an N-position.
-- An **N-position** ("Next player wins") is a winning position for the player about to move — at least one move from it leads to a P-position.
-- A terminal position with no available moves is, by definition, a P-position (the player to move has already lost).
-
-!!! note "Core recursive rule"
-A position is a P-position if and only if every move from it leads to an N-position. A position is an N-position if and only if at least one move from it leads to a P-position. This single recursive rule, evaluated from terminal positions backward, classifies every position in any finite impartial game.
-
-### B. The Game of Nim
-
-Nim is the canonical impartial game: several piles of stones; on each turn a player removes any positive number of stones from exactly one pile; the player who removes the last stone wins (normal play). Remarkably, the winner is determined purely by a bitwise computation:
-
-```
-Position is a P-position  ⇔  pile₁ ⊕ pile₂ ⊕ … ⊕ pileₖ = 0
-```
-
-where ⊕ denotes bitwise XOR. If the XOR (called the Nim-sum) is non-zero, the position is an N-position, and a winning move always exists that reduces some pile so as to zero out the XOR.
-
-**Nim: determine the winner and a winning move**
-
-```cpp
-bool firstPlayerWins(vector<int> &piles) {
-    int nimSum = 0;
-    for (int pile : piles) nimSum ^= pile;
-    return nimSum != 0;
-}
-
-// If nimSum != 0, a winning move exists: find a pile where
-// (pile ^ nimSum) < pile, and reduce that pile to (pile ^ nimSum).
-```
-
-### C. The Sprague–Grundy Theorem
-
-The Sprague–Grundy theorem generalises Nim's XOR trick to any impartial game (or sum of several independent impartial games played simultaneously). Every position of an impartial game is assigned a Grundy number (also called a nimber) g(position), defined recursively using the minimum excludant (mex) — the smallest non-negative integer not present in a given set:
-
-```
-g(position) = mex { g(next) : next is reachable in one move }
-```
-
-- g(position) = 0 exactly when the position is a P-position — this matches the earlier recursive rule.
-- For a sum of independent games played together (a move affects exactly one component game per turn), the Grundy number of the whole is the XOR of the Grundy numbers of the parts — exactly generalising Nim, where each pile's Grundy number equals its own size.
-
-**Computing Grundy numbers by memoised search**
-
-```cpp
-unordered_map<int, int> memo;
-
-int grundy(int state) {
-    if (memo.count(state)) return memo[state];
-    set<int> reachable;
-    for (int next : movesFrom(state))          // problem-specific move generator
-        reachable.insert(grundy(next));
-
-    int mex = 0;
-    while (reachable.count(mex)) mex++;        // smallest non-negative integer not seen
-    return memo[state] = mex;
-}
-
-bool isWinningPosition(vector<int> &components) {
-    int total = 0;
-    for (int c : components) total ^= grundy(c);
-    return total != 0;                          // non-zero => N-position, mover wins
-}
-```
-
-### D. Worked Example
-
-Consider Nim with piles (3, 4, 5). The Nim-sum is 3 ⊕ 4 ⊕ 5 = 2, which is non-zero, so the position is an N-position: the player to move wins. A winning move exists on the pile where (pile ⊕ 2) < pile — here pile = 3 gives 3 ⊕ 2 = 1 < 3, so reducing the first pile from 3 to 1 stones leaves (1, 4, 5) with Nim-sum 0, a P-position handed to the opponent.
-
----
-
-## Unit Summary
-
-| Topic                        | Core algorithm(s)                                                              | Typical complexity                        |
-| ---------------------------- | ------------------------------------------------------------------------------ | ----------------------------------------- |
-| Primality / prime generation | Optimized trial division; Sieve of Eratosthenes; Linear sieve; Segmented sieve | O(√n) query; O(N log log N) or O(N) build |
-| GCD / LCM                    | Euclidean Algorithm                                                            | O(log(min(a,b)))                          |
-| Modular arithmetic           | Fast exponentiation; Extended Euclidean Algorithm; Fermat's Little Theorem     | O(log e) / O(log m)                       |
-| Fibonacci numbers            | Matrix exponentiation                                                          | O(log n)                                  |
-| Binomial coefficients        | Precomputed factorials + modular inverse                                       | O(N) build, O(1) query                    |
-| Catalan numbers              | Closed form via nCr                                                            | O(1) given precomputed nCr                |
-| Cycle finding                | Floyd's Tortoise and Hare (or Brent's algorithm)                               | O(μ + λ) time, O(1) space                 |
-| Combinatorial games          | P/N-position analysis; Sprague–Grundy theorem                                  | Problem-dependent state space             |
-
-## Suggested Practice
-
-The following problem types are good practice targets on judges such as Codeforces and SPOJ (search each judge by topic tag rather than by name, since exact problem sets vary by term):
-
-- **Primality / sieve:** precompute primes up to 10^6–10^7 and answer many range or factorisation queries.
-- **GCD/LCM and modular arithmetic:** problems requiring an answer modulo 10^9 + 7 that involve division (forcing use of a modular inverse).
-- **Extended Euclidean Algorithm:** linear Diophantine equation problems, and modular inverse computation where the modulus is not prime.
-- **Combinatorics:** counting problems solvable with precomputed nCr, and problems whose recurrence matches the Catalan pattern (balanced sequences, tree counting).
-- **Cycle finding:** "find the period" or "detect a repeated state" problems, including simple pseudo-random sequence or functional-graph tasks.
-- **Game theory:** small impartial games (Nim variants, subtraction games) where students derive the Grundy numbers by hand before coding the memoised search.
-
-## References
-
-- Cormen, Leiserson, Rivest, Stein — _Introduction to Algorithms_ (CLRS), chapters on number-theoretic algorithms.
-- Antti Laaksonen — _Competitive Programmer's Handbook_, chapters on number theory, combinatorics, and game theory.
-- Halim & Halim — _Competitive Programming_ (4th ed.), relevant chapters on mathematics for contests.
-- Knuth — _The Art of Computer Programming, Vol. 2: Seminumerical Algorithms_ (for cycle detection and number theory background).
+- Decide order and distinguishability first; then the product, sum, bijection and complement rules handle most counts.
+- Pascal's rule is a DP recurrence; factorials with inverse factorials give $O(1)$ binomials modulo a prime $p > n$; use Lucas when $p$ is small.
+- Pigeonhole proves that collisions and cycles must exist — it explains unavoidable hash collisions and eventual periodicity.
+- Inclusion–exclusion counts "avoid all bad properties" in $2^k$ terms; intersections of divisibility conditions use the lcm.
+- The size of the search space is the cost of brute force: $2^n$ fits $n \le 20$, $n!$ fits $n \le 10$.
+- $\log_2 n! = \Theta(n \log n)$ is the counting fact behind the sorting lower bound.
+- Fibonacci and Catalan numbers are the two counting recurrences you must recognize on sight.

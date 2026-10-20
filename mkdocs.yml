@@ -3,6 +3,10 @@ site_url: https://github.com/norbutlepcha25/CSF302
 
 use_directory_urls: false
 
+# Pages kept in the repo but not published. Remove a line to release it.
+exclude_docs: |
+  assignments/
+
 # CHANGED: uncomment once every file listed in `nav` exists. Strict mode turns
 # "file referenced in nav but not found" into a build failure instead of a
 # warning you scroll past.
@@ -143,81 +147,92 @@ plugins:
 nav:
   - Home: index.md
 
-  # - Unit 1:
-  #     - Overview: unit1/overview.md
-  #     - 1.1 Number Theory: unit1/topic1.md
-  #     - 1.2 Combinatorics: unit1/topic2.md
-  #     - 1.3 Combinatorics: unit1/topic3.md
-  #     - 1.4 Basics of Game Theory: unit1/topic4.md
-  #     - Summary: unit1/summary.md
+  - Unit 1:
+      - Overview: unit1/overview.md
+      - 1.1 Number Theory for Algorithms: unit1/topic1.md
+      - 1.2 Combinatorics: unit1/topic2.md
+      - 1.3 Probability for Algorithm Analysis: unit1/topic3.md
+      - 1.4 Basics of Game Theory: unit1/topic4.md
+      - Summary: unit1/summary.md
 
   - Unit 2:
       - Overview: unit2/overview.md
       - 2.1 Asymptotic Analysis: unit2/topic1.md
       - 2.2 Model of Computation (Word-RAM): unit2/topic2.md
-      # - 2.3 Role of Algorithms in Computing: unit2/topic3.md
-      # - 2.4 Analysing and Designing Algorithms: unit2/topic4.md
-      # - 2.5 O-notation, Ω-notation, and Θ-notation: unit2/topic5.md
-      # - 2.6 Standard Notation & Common Functions: unit2/topic6.md
-      # - Summary: unit2/summary.md
+      - 2.3 Role of Algorithms in Computing: unit2/topic3.md
+      - 2.4 Analysing and Designing Algorithms: unit2/topic4.md
+      - 2.5 O, Ω and Θ Notation: unit2/topic5.md
+      - 2.6 Standard Notation and Common Functions: unit2/topic6.md
+      - Summary: unit2/summary.md
 
   - Unit 3:
       - Overview: unit3/overview.md
-      - 3.1 Recurrences & Master Theorem (Analysis): unit3/topic1.md
-      - 3.2 Iterative Method: unit3/topic2.md
-      - 3.3 Recursion Trees: unit3/topic3.md
-      - 3.4 Solving Recurrences (Substitution Method): unit3/topic4.md
-      - 3.5 Solving Recurrences (Master Method): unit3/topic5.md
+      - 3.1 Recurrence Relations: unit3/topic1.md
+      - 3.2 Iteration Method: unit3/topic2.md
+      - 3.3 Recursion Tree Method: unit3/topic3.md
+      - 3.4 Substitution Method: unit3/topic4.md
+      - 3.5 Master Method: unit3/topic5.md
       - 3.6 Merge Sort Analysis: unit3/topic6.md
       - Summary: unit3/summary.md
+
   - Unit 4:
       - Overview: unit4/overview.md
-      - 4.1 Divide & Conquer Algorithm Design: unit4/t1.md
-      - 4.2 Strassen's Algorithm for Matrix Multiplication: unit4/topic2.md
-      - 4.3 Integer Multiplication: unit4/topic3.md
-      - 4.4 Convolution & Fast Fourier Transform (FFT): unit4/topic4.md
-      - 4.5 Binary Search and Ternary Search: unit4/topic5.md
-      - 4.6 Efficient Modular Power (Exponentiation): unit4/topic6.md
-      - 4.7 Efficient Matrix Modular Power (Exponentiation): unit4/topic7.md
-      - statress: unit4/strasen.md
+      - 4.1 Divide and Conquer Design: unit4/topic1.md
+      - 4.2 Strassen's Matrix Multiplication: unit4/topic2.md
+      - 4.3 Integer Multiplication (Karatsuba): unit4/topic3.md
+      - 4.4 Convolution and FFT: unit4/topic4.md
+      - 4.5 Binary and Ternary Search: unit4/topic5.md
+      - 4.6 Fast Modular Exponentiation: unit4/topic6.md
+      - 4.7 Matrix Modular Exponentiation: unit4/topic7.md
+      - Summary: unit4/summary.md
 
-
-  # - Unit 5:
-  #     - Overview: unit5/overview.md
-  #     - 5.1 Comparison-based Sorting Analysis: unit5/topic1.md
-  #     - 5.2 Lower Bound for Sortings: unit5/topic2.md
-  #     - 5.3 Quicksort Analysis and Performance: unit5/topic3.md
-  #     - 5.4 Randomised Quicksort and Analysis: unit5/topic4.md
-  #     - 5.5 Linear-Time Sorting( Counting Sort): unit5/topic5.md
-  #     - 5.6 Linear-Time Sorting( Radix Sort): unit5/topic6.md
-  #     - 5.7 Special Sorting Problems - Inversion Index: unit5/topic7.md
-  #     - Summary: unit5/summary.md
+  - Unit 5:
+      - Overview: unit5/overview.md
+      - 5.1 Comparison-based Sorting: unit5/topic1.md
+      - 5.2 Lower Bound for Comparison Sorting: unit5/topic2.md
+      - 5.3 Quicksort Analysis: unit5/topic3.md
+      - 5.4 Randomised Quicksort: unit5/topic4.md
+      - 5.5 Counting Sort: unit5/topic5.md
+      - 5.6 Radix Sort: unit5/topic6.md
+      - 5.7 Counting Inversions: unit5/topic7.md
+      - Summary: unit5/summary.md
 
   - Unit 6:
       - Overview: unit6/overview.md
       - 6.1 Dynamic Programming Design Principles: unit6/topic1.md
-      - 6.2 Rod Cutting Problem: unit6/topic2.md
+      - 6.2 Rod Cutting: unit6/topic2.md
       - 6.3 Matrix Chain Multiplication: unit6/topic3.md
       - 6.4 Longest Common Subsequence: unit6/topic4.md
+      - 6.5 Optimal Binary Search Trees: unit6/topic5.md
       - Summary: unit6/summary.md
 
-  # - Unit 7:
-  #     - Overview: unit7/overview.md
-  #     - 7.1 Greedy Algorithm Design Principles: unit7/topic1.md
-  #     - 7.2 Fractional Knapsack Problem: unit7/topic2.md
-  #     - 7.3 Huffman Coding: unit7/topic3.md
-  #     - 7.4 Activity Selection Problems: unit7/topic4.md
-  #     - 7.5 Dijkstra's Algorithm: unit7/topic5.md
-  #     - 7.6 Minimum Spanning Tree (Prim's and Kruskal's Algorithms): unit7/topic6.md
-  # - Summary: unit7/summary.md
+  - Unit 7:
+      - Overview: unit7/overview.md
+      - 7.1 Greedy Algorithm Design Principles: unit7/topic1.md
+      - 7.2 Fractional Knapsack: unit7/topic2.md
+      - 7.3 Huffman Coding: unit7/topic3.md
+      - 7.4 Activity Selection: unit7/topic4.md
+      - 7.5 Dijkstra's Algorithm: unit7/topic5.md
+      - 7.6 Minimum Spanning Trees (Prim and Kruskal): unit7/topic6.md
+      - 7.7 Randomized Algorithms: unit7/topic7.md
+      - Summary: unit7/summary.md
 
   - Lab:
+      - Overview: lab/overview.md
       - Lab 1: lab/lab1.md
       - Lab 2: lab/lab-02.md
       - Lab 3: lab/lab-03.md
       - Lab 4: lab/lab-04.md
+      - Lab 5: lab/lab-05.md
+      - Lab 6: lab/lab-06.md
+      - Lab 7: lab/lab-07.md
+
+  # Hidden until release: uncomment this block AND remove `assignments/` from exclude_docs.
+  # - Assignments:
+  #     - Assignment 2 (Units 2-4): assignments/assignment2.md
+  #     - Assignment 3 (Unit 5): assignments/assignment3.md
+  #     - Assignment 4 (Units 6-7): assignments/assignment4.md
 
   - Practice Questions: questions.md
 
   # - Midterm Practice (AS2026): unit3/midterm-as2026.md
-
