@@ -4,9 +4,6 @@ site_url: https://github.com/norbutlepcha25/CSF302
 use_directory_urls: false
 
 # Pages kept in the repo but not published. Remove a line to release it.
-exclude_docs: |
-  assignments/assignment3.md
-  assignments/assignment4.md
 
 # CHANGED: uncomment once every file listed in `nav` exists. Strict mode turns
 # "file referenced in nav but not found" into a build failure instead of a
